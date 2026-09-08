@@ -1,0 +1,58 @@
+name: Calidad
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11.16.0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - uses: astral-sh/setup-uv@v7
+        with:
+          python-version: '3.12'
+          enable-cache: true
+
+      - name: Instalar cliente
+        run: pnpm install --frozen-lockfile
+
+      - name: Instalar API
+        working-directory: apps/api
+        run: uv sync --all-groups --frozen
+
+      - name: Calidad de API
+        working-directory: apps/api
+        run: |
+          uv run ruff check .
+          uv run ruff format --check .
+          uv run mypy src
+          uv run pytest
+          DATABASE_URL=sqlite+aiosqlite:///./migration-check.db uv run alembic upgrade head
+
+      - name: Contrato OpenAPI
+        run: |
+          cd apps/api
+          uv run fastapi run src/google_autocompleta/main.py --host 127.0.0.1 --port 8000 &
+          cd ../..
+          for attempt in {1..20}; do curl -fsS http://127.0.0.1:8000/health && break; sleep 1; done
+          pnpm --dir apps/client api:types
+          git diff --exit-code -- apps/client/src/api/schema.d.ts
+
+      - name: Calidad y exportación Expo
+        run: |
+          pnpm --dir apps/client lint
+          pnpm --dir apps/client typecheck
+          pnpm --dir apps/client test
+          pnpm --dir apps/client build:web
+

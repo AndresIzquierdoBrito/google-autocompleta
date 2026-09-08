@@ -1,0 +1,18 @@
+{
+  "name": "google-autocompleta",
+  "version": "1.0.0",
+  "private": true,
+  "packageManager": "pnpm@11.16.0",
+  "scripts": {
+    "client": "pnpm --dir apps/client start",
+    "web": "pnpm --dir apps/client web",
+    "client:lint": "pnpm --dir apps/client lint",
+    "client:typecheck": "pnpm --dir apps/client typecheck",
+    "client:test": "pnpm --dir apps/client test",
+    "client:build": "pnpm --dir apps/client build:web",
+    "api:dev": "cd apps/api && ../../scripts/uv-runner.sh run fastapi dev src/google_autocompleta/main.py",
+    "api:test": "cd apps/api && ../../scripts/uv-runner.sh run pytest",
+    "api:lint": "cd apps/api && ../../scripts/uv-runner.sh run ruff check . && ../../scripts/uv-runner.sh run ruff format --check . && ../../scripts/uv-runner.sh run mypy src",
+    "check": "pnpm client:lint && pnpm client:typecheck && pnpm client:test && pnpm api:lint && pnpm api:test && pnpm client:build"
+  }
+}

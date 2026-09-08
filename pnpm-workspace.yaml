@@ -1,0 +1,11 @@
+packages:
+  - apps/client
+
+allowBuilds:
+  # fsevents is an optional native watcher dependency pulled by the legacy
+  # Expo 44 toolchain. It is not required for the app to run, and disabling
+  # its install script keeps pnpm installs reproducible on modern Node hosts.
+  fsevents: false
+  unrs-resolver: true
+
+nodeLinker: hoisted
