@@ -105,6 +105,9 @@ function AnswerRow({ prompt, slot }: RowProps) {
         <View style={styles.rowSearchHandle} />
       </View>
       <View style={styles.answer}>
+        <Text numberOfLines={1} style={styles.answerPrompt}>
+          {prompt}
+        </Text>
         {(status === "hidden" || hintVisible) && (
           <Animated.View
             accessibilityElementsHidden
@@ -216,6 +219,13 @@ const createStyles = (colors: ThemeColors, viewportWidth = 768) =>
       alignItems: "center",
       gap: viewportWidth < 600 ? 7 : viewportWidth >= 1200 ? 9 : 12,
       overflow: "hidden",
+    },
+    answerPrompt: {
+      minWidth: 0,
+      flexShrink: 1,
+      color: colors.text,
+      fontSize: viewportWidth < 600 ? 13 : viewportWidth >= 1200 ? 13 : 16,
+      fontWeight: "600",
     },
     lengthHint: {
       height: viewportWidth < 600 ? 18 : 22,
