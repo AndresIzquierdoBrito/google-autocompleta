@@ -20,13 +20,9 @@ from google_autocompleta.models import Prompt, Puzzle
 async def seed_database(session: AsyncSession) -> None:
     current_prompt_ids = {item.id for item in PROMPT_SEEDS}
     await session.execute(
-        update(Prompt)
-        .where(Prompt.id.not_in(current_prompt_ids))
-        .values(is_active=False)
+        update(Prompt).where(Prompt.id.not_in(current_prompt_ids)).values(is_active=False)
     )
-    existing_prompts = {
-        item.id: item for item in (await session.scalars(select(Prompt))).all()
-    }
+    existing_prompts = {item.id: item for item in (await session.scalars(select(Prompt))).all()}
     for item in PROMPT_SEEDS:
         existing = existing_prompts.get(item.id)
         if existing is None:

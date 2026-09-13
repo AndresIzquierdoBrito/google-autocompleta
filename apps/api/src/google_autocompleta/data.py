@@ -94,10 +94,7 @@ def seeded_daily_prompts() -> list[tuple[date, PromptSeed]]:
 def legacy_daily_prompts() -> list[tuple[date, PromptSeed]]:
     """Keep a readable archive baseline when bootstrapping a new database."""
 
-    return [
-        (DAILY_EPOCH + timedelta(days=offset), PROMPT_SEEDS[offset])
-        for offset in range(35)
-    ]
+    return [(DAILY_EPOCH + timedelta(days=offset), PROMPT_SEEDS[offset]) for offset in range(35)]
 
 
 def puzzle_number(puzzle_date: date) -> int:
