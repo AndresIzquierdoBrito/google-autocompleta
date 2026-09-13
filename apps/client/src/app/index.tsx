@@ -295,7 +295,9 @@ export default function HomeScreen() {
                   />
                 ) : game ? (
                   <>
-                    <GameStats game={game} bestScore={session.bestScore} />
+                    <View style={styles.statsSection}>
+                      <GameStats game={game} bestScore={session.bestScore} />
+                    </View>
                     <View style={styles.gameCard}>
                     {mode !== "random" && (
                       <View style={styles.gameTopline}>
@@ -521,6 +523,10 @@ const createStyles = (colors: ThemeColors, viewportWidth = 768) =>
       width: "100%",
       maxWidth: 880,
       gap: 14,
+    },
+    statsSection: {
+      width: "100%",
+      marginVertical: viewportWidth < 600 ? 10 : 18,
     },
     gameCard: {
       width: "100%",
