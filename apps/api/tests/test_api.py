@@ -50,18 +50,18 @@ def test_hidden_answers_guess_normalization_and_duplicate(api_client: TestClient
 
     correct = api_client.post(
         f"/api/v1/games/{game['id']}/guesses",
-        json={"guess": "CONTRASTES!!!"},
+        json={"guess": "llegar tarde"},
     )
     assert correct.status_code == 200
     state = correct.json()
     assert state["last_result"]["outcome"] == "correct"
     assert state["score"] == 10_000
-    assert state["slots"][0]["completion"] == "un país de contrastes"
+    assert state["slots"][0]["completion"] == "llegar tarde y decir «ya estoy»"
     assert state["slots"][1]["completion"] is None
 
     duplicate = api_client.post(
         f"/api/v1/games/{game['id']}/guesses",
-        json={"guess": "españa es un país de contrastes"},
+        json={"guess": "lo más español es llegar tarde y decir ya estoy"},
     )
     assert duplicate.json()["last_result"]["outcome"] == "duplicate"
     assert duplicate.json()["misses"] == 0

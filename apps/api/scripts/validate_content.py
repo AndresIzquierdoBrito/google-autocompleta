@@ -59,7 +59,9 @@ def main() -> int:
             errors.append(f"{board_id}: duplicate normalized answer")
         if not prompt or any(normalize_text(prompt) not in answer for answer in normalized_answers):
             errors.append(f"{board_id}: malformed completion frame")
-        if category == "nombres" and any("empiezan por" in normalize_text(item) for item in completions):
+        if category == "nombres" and any(
+            "empiezan por" in normalize_text(item) for item in completions
+        ):
             errors.append(f"{board_id}: letter-list name board")
         if not source.get("url") or not source.get("inspiration") or not source.get("adapted_at"):
             errors.append(f"{board_id}: missing provenance")

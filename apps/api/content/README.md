@@ -11,3 +11,7 @@ production matching, rejects accidental four-or-more-slot structural combos,
 and checks the exact category/eligibility split. Prompt formats are inspired by
 Google Feud but localized and frozen in this repository; production never
 fetches suggestions live.
+
+The reviewed pack is reproducible with `apps/api/scripts/curate_v3_content.py`;
+run that script before validation when updating the Spanish prompt and answer
+banks.
