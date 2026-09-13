@@ -17,7 +17,6 @@ import type { ArchivePuzzle, Category } from "@/api/types";
 import { AnswerBoard } from "@/components/answer-board";
 import { ArchiveList } from "@/components/archive-list";
 import { BrandHeader } from "@/components/brand-header";
-import { CategoryPicker } from "@/components/category-picker";
 import { GameLoading } from "@/components/game-loading";
 import { GameResult } from "@/components/game-result";
 import { GameStats } from "@/components/game-stats";
@@ -62,7 +61,6 @@ export default function HomeScreen() {
   const [archiveDate, setArchiveDate] = useState<string | null>(null);
   const [completedDates, setCompletedDates] = useState<Set<string>>(new Set());
   const [category, setCategory] = useState("todas");
-  const [categoryPickerOpen, setCategoryPickerOpen] = useState(false);
   const [infoOpen, setInfoOpen] = useState(false);
   const [confirmGiveUp, setConfirmGiveUp] = useState(false);
   const [shareMessage, setShareMessage] = useState<string | null>(null);
@@ -191,21 +189,6 @@ export default function HomeScreen() {
     );
   };
 
-  const changeCategory = (nextCategory: string) => {
-    modeRequest.current += 1;
-    setCategory(nextCategory);
-    setModeError(null);
-    getRecentRandomPuzzleIds(nextCategory)
-      .then((recent_puzzle_ids) =>
-        session.start(
-          { mode: "random", category: nextCategory, recent_puzzle_ids },
-          sessionKey.random(nextCategory),
-          true,
-        ),
-      )
-      .catch(() => session.start({ mode: "random", category: nextCategory }, sessionKey.random(nextCategory), true));
-  };
-
   const startNewRandom = () => {
     modeRequest.current += 1;
     getRecentRandomPuzzleIds(category)
@@ -314,35 +297,27 @@ export default function HomeScreen() {
                   <>
                     <GameStats game={game} bestScore={session.bestScore} />
                     <View style={styles.gameCard}>
-                    <View style={styles.gameTopline}>
-                      {mode === "random" ? (
-                        <CategoryPicker
-                          categories={categories}
-                          value={game.category.slug}
-                          visible={categoryPickerOpen}
-                          disabled
-                          onOpen={() => setCategoryPickerOpen(true)}
-                          onClose={() => setCategoryPickerOpen(false)}
-                          onChange={changeCategory}
-                        />
-                      ) : mode === "archive" ? (
-                        <View style={styles.archiveTopline}>
-                          <Pressable
-                            onPress={returnToArchive}
-                            style={styles.backButton}
-                          >
-                            <Text style={styles.backText}>← Histórico</Text>
-                          </Pressable>
-                          {game.puzzle_date && (
-                            <Text style={styles.archiveDate}>
-                              {formatArchiveDate(game.puzzle_date)}
-                            </Text>
-                          )}
-                        </View>
-                      ) : (
-                        <Text style={styles.dailyDate}>HOY</Text>
-                      )}
-                    </View>
+                    {mode !== "random" && (
+                      <View style={styles.gameTopline}>
+                        {mode === "archive" ? (
+                          <View style={styles.archiveTopline}>
+                            <Pressable
+                              onPress={returnToArchive}
+                              style={styles.backButton}
+                            >
+                              <Text style={styles.backText}>← Histórico</Text>
+                            </Pressable>
+                            {game.puzzle_date && (
+                              <Text style={styles.archiveDate}>
+                                {formatArchiveDate(game.puzzle_date)}
+                              </Text>
+                            )}
+                          </View>
+                        ) : (
+                          <Text style={styles.dailyDate}>HOY</Text>
+                        )}
+                      </View>
+                    )}
 
                     {game.status === "playing" ? (
                       <GuessComposer
@@ -545,11 +520,11 @@ const createStyles = (colors: ThemeColors, viewportWidth = 768) =>
     content: {
       width: "100%",
       maxWidth: 880,
-      gap: 8,
+      gap: 14,
     },
     gameCard: {
       width: "100%",
-      gap: viewportWidth < 600 ? 8 : 6,
+      gap: viewportWidth < 600 ? 10 : 8,
       padding: 0,
       backgroundColor: "transparent",
     },

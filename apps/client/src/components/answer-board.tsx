@@ -230,7 +230,7 @@ const createStyles = (colors: ThemeColors, viewportWidth = 768) =>
     lengthHint: {
       height: viewportWidth < 600 ? 18 : 22,
       borderRadius: 4,
-      backgroundColor: "#185ABC",
+      backgroundColor: "#2B7DE9",
       flexShrink: 0,
     },
     answerChip: {
