@@ -33,16 +33,16 @@ este proyecto.
 ## Estructura
 
 - `apps/client`: aplicación Expo universal, persistencia local y contrato OpenAPI generado.
-- `apps/api`: FastAPI, SQLAlchemy, Alembic, proveedor de sugerencias y datos de respaldo.
+- `apps/api`: FastAPI, SQLAlchemy, Alembic y snapshots de contenido revisados.
 - `.github/workflows/ci.yml`: lint, tipos, pruebas, migraciones, contrato y exportación web.
 
 ## Modos de juego
 
-- **Diario:** un reto estable por fecha y un resultado por dispositivo. La API
-  prepara el reto del día al iniciar y lo genera automáticamente cada medianoche
-  según `DAILY_TIMEZONE` (por defecto, `Europe/Madrid`).
-- **Histórico:** catorce retos iniciales, con el progreso guardado localmente.
-- **Aleatorio:** cinco rondas sin repetir pregunta y categoría seleccionable.
+- **Diario:** un reto estable por fecha y un resultado por dispositivo. Los
+  snapshots diarios se programan por adelantado y las fechas no disponibles se
+  muestran explícitamente como no disponibles.
+- **Histórico:** retos diarios ya publicados, con el progreso guardado localmente.
+- **Aleatorio:** tres rondas con snapshots congelados, sin repetir tablero y categoría seleccionable.
 
 ## Calidad
 
@@ -50,6 +50,10 @@ este proyecto.
 make check
 ```
 
-La API consulta las sugerencias de Google únicamente desde el servidor. El endpoint es no documentado, por lo que todas las respuestas se validan, se guardan temporalmente y tienen un conjunto de datos estable como respaldo.
+El catálogo v3 contiene 210 tableros inmutables: adaptaciones españolas
+curadas, inspiradas en el formato de los juegos de autocompletado y revisadas
+para ser familiares y aptas para todos los públicos. La partida nunca consulta
+sugerencias en directo: cada resultado procede de un snapshot capturado y
+congelado para el juego.
 
-Google Autocompleta es un juego independiente y no está afiliado, patrocinado ni aprobado por Google LLC.
+Google Autocompleta es un juego independiente y no está afiliado, patrocinado ni aprobado por Google LLC. Las respuestas son predicciones capturadas para el juego; no representan directamente las búsquedas más populares de Google.
