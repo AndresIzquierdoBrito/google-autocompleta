@@ -3,6 +3,7 @@ import {
   Linking,
   Modal,
   Pressable,
+  ScrollView,
   StyleSheet,
   Text,
   useWindowDimensions,
@@ -16,21 +17,29 @@ import { brandColors, radius, shadow, type ThemeColors } from "@/theme/tokens";
 
 type Props = {
   categories: Category[];
+  categoriesLoading: boolean;
+  categoriesError: string | null;
   played: number;
   streak: number;
   onDaily: () => void;
   onArchive: () => void;
   onRandom: (category: string) => void;
+  onRandomOpen: () => void;
+  onRetryCategories: () => void;
   onInfo: () => void;
 };
 
 export function LandingScreen({
   categories,
+  categoriesLoading,
+  categoriesError,
   played,
   streak,
   onDaily,
   onArchive,
   onRandom,
+  onRandomOpen,
+  onRetryCategories,
   onInfo,
 }: Props) {
   const [randomOpen, setRandomOpen] = useState(false);
@@ -69,7 +78,10 @@ export function LandingScreen({
           </View>
           <ModeButton
             label="Aleatorio"
-            onPress={() => setRandomOpen(true)}
+            onPress={() => {
+              setRandomOpen(true);
+              onRandomOpen();
+            }}
             tone="green"
             wide
           />
@@ -92,15 +104,19 @@ export function LandingScreen({
       <View style={styles.footer}>
         <Text style={styles.disclaimer}>
           Juego independiente, no afiliado ni patrocinado por Google LLC. Las
-          sugerencias pueden cambiar y contener contenido inesperado.
+          respuestas son adaptaciones curadas inspiradas en juegos de
+          autocompletado.
         </Text>
         <IzbriFooter />
       </View>
 
       <RandomSetupModal
         categories={categories}
+        categoriesLoading={categoriesLoading}
+        categoriesError={categoriesError}
         visible={randomOpen}
         onClose={() => setRandomOpen(false)}
+        onRetry={onRetryCategories}
         onSelect={(selectedCategory) => {
           setRandomOpen(false);
           onRandom(selectedCategory);
@@ -184,13 +200,19 @@ function ModeButton({
 
 function RandomSetupModal({
   categories,
+  categoriesLoading,
+  categoriesError,
   visible,
   onClose,
+  onRetry,
   onSelect,
 }: {
   categories: Category[];
+  categoriesLoading: boolean;
+  categoriesError: string | null;
   visible: boolean;
   onClose: () => void;
+  onRetry: () => void;
   onSelect: (category: string) => void;
 }) {
   const { colors } = useAppTheme();
@@ -211,7 +233,7 @@ function RandomSetupModal({
           <Text style={styles.modalEyebrow}>MODO ALEATORIO</Text>
           <Text style={styles.modalTitle}>¿Cómo quieres jugar?</Text>
           <Text style={styles.modalDescription}>
-            Mezcla todas las categorías o mantén las cinco rondas dentro de una
+            Mezcla todas las categorías o mantén las tres rondas dentro de una
             sola.
           </Text>
           <Pressable
@@ -228,32 +250,52 @@ function RandomSetupModal({
             </Text>
           </Pressable>
           <Text style={styles.categoryLabel}>O ELIGE UNA CATEGORÍA</Text>
-          <View style={styles.categoryGrid}>
-            {categories.map((category, index) => (
+          {categoriesLoading ? (
+            <Text style={styles.categoryStatus}>Cargando categorías…</Text>
+          ) : categoriesError ? (
+            <View style={styles.categoryError}>
+              <Text style={styles.categoryStatus}>{categoriesError}</Text>
               <Pressable
                 accessibilityRole="button"
-                key={category.slug}
-                onPress={() => onSelect(category.slug)}
+                onPress={onRetry}
                 style={({ pressed }) => [
-                  styles.categoryOption,
-                  index % 4 === 0 && styles.categoryBlue,
-                  index % 4 === 1 && styles.categoryRed,
-                  index % 4 === 2 && styles.categoryYellow,
-                  index % 4 === 3 && styles.categoryGreen,
+                  styles.retryCategory,
                   pressed && styles.pressed,
                 ]}
               >
-                <Text
-                  style={[
-                    styles.categoryOptionText,
-                    index % 4 === 2 && styles.darkButtonText,
-                  ]}
-                >
-                  {category.name}
-                </Text>
+                <Text style={styles.retryCategoryText}>Reintentar</Text>
               </Pressable>
-            ))}
-          </View>
+            </View>
+          ) : (
+            <ScrollView style={styles.categoryScroll}>
+              <View style={styles.categoryGrid}>
+                {categories.map((category, index) => (
+                  <Pressable
+                    accessibilityRole="button"
+                    key={category.slug}
+                    onPress={() => onSelect(category.slug)}
+                    style={({ pressed }) => [
+                      styles.categoryOption,
+                      index % 4 === 0 && styles.categoryBlue,
+                      index % 4 === 1 && styles.categoryRed,
+                      index % 4 === 2 && styles.categoryYellow,
+                      index % 4 === 3 && styles.categoryGreen,
+                      pressed && styles.pressed,
+                    ]}
+                  >
+                    <Text
+                      style={[
+                        styles.categoryOptionText,
+                        index % 4 === 2 && styles.darkButtonText,
+                      ]}
+                    >
+                      {category.name}
+                    </Text>
+                  </Pressable>
+                ))}
+              </View>
+            </ScrollView>
+          )}
           <Pressable
             accessibilityRole="button"
             onPress={onClose}
@@ -327,9 +369,9 @@ const createStyles = (colors: ThemeColors) =>
       borderColor: "transparent",
       ...shadow,
     },
-    modeButtonBlue: { backgroundColor: brandColors.blue },
-    modeButtonRed: { backgroundColor: brandColors.red },
-    modeButtonGreen: { backgroundColor: brandColors.green },
+    modeButtonBlue: { backgroundColor: "#185ABC" },
+    modeButtonRed: { backgroundColor: "#B3261E" },
+    modeButtonGreen: { backgroundColor: "#137333" },
     modeButtonWide: { width: "100%", flexBasis: "auto", flexGrow: 0 },
     modeButtonPressed: {
       opacity: 0.84,
@@ -412,7 +454,7 @@ const createStyles = (colors: ThemeColors) =>
       minHeight: 62,
       justifyContent: "center",
       borderRadius: radius.medium,
-      backgroundColor: brandColors.green,
+      backgroundColor: "#137333",
       paddingHorizontal: 16,
       marginTop: 18,
     },
@@ -440,10 +482,28 @@ const createStyles = (colors: ThemeColors) =>
       borderRadius: radius.small,
       paddingHorizontal: 8,
     },
-    categoryBlue: { backgroundColor: brandColors.blue },
-    categoryRed: { backgroundColor: brandColors.red },
+    categoryScroll: { maxHeight: 340 },
+    categoryStatus: {
+      color: colors.textMuted,
+      fontSize: 12,
+      lineHeight: 18,
+      textAlign: "center",
+      marginTop: 12,
+    },
+    categoryError: { alignItems: "center" },
+    retryCategory: {
+      minHeight: 38,
+      justifyContent: "center",
+      borderRadius: radius.small,
+      backgroundColor: colors.surfaceSoft,
+      paddingHorizontal: 16,
+      marginTop: 10,
+    },
+    retryCategoryText: { color: colors.text, fontSize: 12, fontWeight: "800" },
+    categoryBlue: { backgroundColor: "#185ABC" },
+    categoryRed: { backgroundColor: "#B3261E" },
     categoryYellow: { backgroundColor: brandColors.yellow },
-    categoryGreen: { backgroundColor: brandColors.green },
+    categoryGreen: { backgroundColor: "#137333" },
     categoryOptionText: {
       color: "#FFFFFF",
       fontSize: 12,

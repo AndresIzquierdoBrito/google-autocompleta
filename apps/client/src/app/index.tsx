@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import {
   Modal,
   Platform,
@@ -27,6 +27,7 @@ import type { UiMode } from "@/components/mode-tabs";
 import { useGameSession } from "@/hooks/use-game-session";
 import {
   getCompletedArchiveDates,
+  getRecentRandomPuzzleIds,
   getStreakStats,
   migrateDailySession,
   sessionKey,
@@ -52,8 +53,12 @@ export default function HomeScreen() {
   const [mode, setMode] = useState<UiMode>("daily");
   const [streak, setStreak] = useState<StreakStats>({ current: 0, played: 0 });
   const [categories, setCategories] = useState<Category[]>([]);
+  const [categoriesLoading, setCategoriesLoading] = useState(false);
+  const [categoriesError, setCategoriesError] = useState<string | null>(null);
   const [archive, setArchive] = useState<ArchivePuzzle[]>([]);
   const [archiveLoading, setArchiveLoading] = useState(false);
+  const [archiveError, setArchiveError] = useState<string | null>(null);
+  const [modeError, setModeError] = useState<string | null>(null);
   const [archiveDate, setArchiveDate] = useState<string | null>(null);
   const [completedDates, setCompletedDates] = useState<Set<string>>(new Set());
   const [category, setCategory] = useState("todas");
@@ -64,17 +69,38 @@ export default function HomeScreen() {
   const modeRequest = useRef(0);
   const session = useGameSession();
 
-  useEffect(() => {
-    listCategories()
-      .then(setCategories)
-      .catch(() => undefined);
-    getStreakStats()
-      .then(setStreak)
-      .catch(() => undefined);
+  const loadCategories = useCallback(async () => {
+    setCategoriesLoading(true);
+    setCategoriesError(null);
+    try {
+      const result = await listCategories();
+      if (result.length === 0) throw new Error("No hay categorías disponibles.");
+      setCategories(result);
+    } catch (caught) {
+      setCategoriesError(
+        caught instanceof Error
+          ? caught.message
+          : "No se pudieron cargar las categorías.",
+      );
+    } finally {
+      setCategoriesLoading(false);
+    }
   }, []);
+
+  useEffect(() => {
+    const categoriesRequest = setTimeout(() => {
+      loadCategories().catch(() => undefined);
+    }, 0);
+    getCurrentDaily()
+      .then((current) => getStreakStats(current.date, current.timezone))
+      .then(setStreak)
+      .catch(() => getStreakStats().then(setStreak).catch(() => undefined));
+    return () => clearTimeout(categoriesRequest);
+  }, [loadCategories]);
 
   const refreshArchive = async () => {
     setArchiveLoading(true);
+    setArchiveError(null);
     try {
       const [puzzles, dates] = await Promise.all([
         listArchive(),
@@ -82,6 +108,8 @@ export default function HomeScreen() {
       ]);
       setArchive(puzzles);
       setCompletedDates(dates);
+    } catch (caught) {
+      setArchiveError(caught instanceof Error ? caught.message : "No se pudo cargar el histórico.");
     } finally {
       setArchiveLoading(false);
     }
@@ -92,6 +120,7 @@ export default function HomeScreen() {
     setLanding(false);
     setMode(nextMode);
     setShareMessage(null);
+    setModeError(null);
     setArchiveDate(null);
     if (nextMode === "daily") {
       getCurrentDaily()
@@ -104,11 +133,20 @@ export default function HomeScreen() {
           );
         })
         .catch(() => {
-          if (requestId === modeRequest.current)
-            session.start({ mode: "daily" }, sessionKey.daily(), true);
+          if (requestId === modeRequest.current) {
+            session.resetView();
+            setModeError("No se pudo cargar el reto de hoy. Inténtalo de nuevo.");
+          }
         });
     } else if (nextMode === "random") {
-      session.start({ mode: "random", category }, sessionKey.random(category));
+      getRecentRandomPuzzleIds(category)
+        .then((recent_puzzle_ids) =>
+          session.start(
+            { mode: "random", category, recent_puzzle_ids },
+            sessionKey.random(category),
+          ),
+        )
+        .catch(() => session.start({ mode: "random", category }, sessionKey.random(category)));
     } else {
       session.resetView();
       refreshArchive().catch(() => undefined);
@@ -132,11 +170,16 @@ export default function HomeScreen() {
     setMode("random");
     setCategory(selectedCategory);
     setShareMessage(null);
+    setModeError(null);
     setArchiveDate(null);
-    session.start(
-      { mode: "random", category: selectedCategory },
-      sessionKey.random(selectedCategory),
-    );
+    getRecentRandomPuzzleIds(selectedCategory)
+      .then((recent_puzzle_ids) =>
+        session.start(
+          { mode: "random", category: selectedCategory, recent_puzzle_ids },
+          sessionKey.random(selectedCategory),
+        ),
+      )
+      .catch(() => session.start({ mode: "random", category: selectedCategory }, sessionKey.random(selectedCategory)));
   };
 
   const selectArchivePuzzle = (puzzle: ArchivePuzzle) => {
@@ -151,20 +194,31 @@ export default function HomeScreen() {
   const changeCategory = (nextCategory: string) => {
     modeRequest.current += 1;
     setCategory(nextCategory);
-    session.start(
-      { mode: "random", category: nextCategory },
-      sessionKey.random(nextCategory),
-      true,
-    );
+    setModeError(null);
+    getRecentRandomPuzzleIds(nextCategory)
+      .then((recent_puzzle_ids) =>
+        session.start(
+          { mode: "random", category: nextCategory, recent_puzzle_ids },
+          sessionKey.random(nextCategory),
+          true,
+        ),
+      )
+      .catch(() => session.start({ mode: "random", category: nextCategory }, sessionKey.random(nextCategory), true));
   };
 
   const startNewRandom = () => {
     modeRequest.current += 1;
-    session.start(
-      { mode: "random", category },
-      sessionKey.random(category),
-      true,
-    );
+    getRecentRandomPuzzleIds(category)
+      .then((recent_puzzle_ids) =>
+        session.start(
+          { mode: "random", category, recent_puzzle_ids },
+          sessionKey.random(category),
+          true,
+        ),
+      )
+      .catch(() =>
+        session.start({ mode: "random", category }, sessionKey.random(category), true),
+      );
   };
 
   const shareResult = async () => {
@@ -207,11 +261,19 @@ export default function HomeScreen() {
             {landing ? (
               <LandingScreen
                 categories={categories}
+                categoriesLoading={categoriesLoading}
+                categoriesError={categoriesError}
                 played={streak.played}
                 streak={streak.current}
                 onDaily={() => changeMode("daily")}
                 onArchive={() => changeMode("archive")}
                 onRandom={startRandomWithCategory}
+                onRandomOpen={() => {
+                  if (!categories.length || categoriesError) {
+                    loadCategories().catch(() => undefined);
+                  }
+                }}
+                onRetryCategories={() => loadCategories().catch(() => undefined)}
                 onInfo={() => setInfoOpen(true)}
               />
             ) : (
@@ -221,18 +283,23 @@ export default function HomeScreen() {
                   onInfo={() => setInfoOpen(true)}
                 />
                 {mode === "archive" && archiveDate === null ? (
-                  <ArchiveList
-                    puzzles={archive}
-                    loading={archiveLoading}
-                    completedDates={completedDates}
-                    onSelect={selectArchivePuzzle}
-                  />
+                  archiveError ? (
+                    <ErrorCard message={archiveError} onRetry={refreshArchive} />
+                  ) : (
+                    <ArchiveList
+                      puzzles={archive}
+                      loading={archiveLoading}
+                      completedDates={completedDates}
+                      onSelect={selectArchivePuzzle}
+                    />
+                  )
                 ) : session.loading ? (
                   <GameLoading />
-                ) : session.error && !game ? (
+                ) : (session.error || modeError) && !game ? (
                   <ErrorCard
-                    message={session.error}
+                    message={session.error ?? modeError ?? "No se pudo cargar el juego."}
                     onRetry={() => {
+                      setModeError(null);
                       if (mode === "daily") changeMode("daily");
                       else if (mode === "random") changeMode("random");
                       else if (archiveDate) {
@@ -251,8 +318,9 @@ export default function HomeScreen() {
                       {mode === "random" ? (
                         <CategoryPicker
                           categories={categories}
-                          value={category}
+                          value={game.category.slug}
                           visible={categoryPickerOpen}
+                          disabled
                           onOpen={() => setCategoryPickerOpen(true)}
                           onClose={() => setCategoryPickerOpen(false)}
                           onChange={changeCategory}
@@ -288,16 +356,17 @@ export default function HomeScreen() {
                       </GuessComposer>
                     ) : (
                       <>
-                        <AnswerBoard prompt={game.prompt} slots={game.slots} />
                         <GameResult
                           game={game}
                           acting={session.acting}
+                          newRecord={session.newRecord}
                           shareMessage={shareMessage}
                           onShare={shareResult}
                           onNextRound={session.nextRound}
                           onNewRandom={startNewRandom}
                           onArchive={() => changeMode("archive")}
                         />
+                        <AnswerBoard prompt={game.prompt} slots={game.slots} />
                       </>
                     )}
 
@@ -316,8 +385,8 @@ export default function HomeScreen() {
                 <Text style={styles.disclaimer}>
                   Google Autocompleta es un juego independiente y no está
                   afiliado, patrocinado ni aprobado por Google LLC. Google es
-                  una marca de Google LLC. Las sugerencias pueden cambiar y
-                  contener contenido inesperado.
+                  una marca de Google LLC. Las respuestas son adaptaciones
+                  curadas inspiradas en juegos de autocompletado.
                 </Text>
                 <View style={styles.gameFooter}>
                   <IzbriFooter />
@@ -382,6 +451,10 @@ function InfoModal({
       onRequestClose={onClose}
     >
       <Pressable style={styles.modalBackdrop} onPress={onClose}>
+        <ScrollView
+          contentContainerStyle={styles.modalScrollContent}
+          keyboardShouldPersistTaps="handled"
+        >
         <Pressable
           accessibilityViewIsModal
           style={styles.modalCard}
@@ -390,7 +463,8 @@ function InfoModal({
           <Text style={styles.modalEyebrow}>CÓMO SE JUEGA</Text>
           <Text style={styles.modalTitle}>Piensa como busca España</Text>
           <Text style={styles.modalBody}>
-            Adivina las diez formas más populares de completar la frase. Puedes
+            Adivina diez predicciones capturadas para completar la frase. No son
+            un ranking oficial de Google. Puedes
             escribir una palabra distintiva, la parte que falta o la búsqueda
             completa. Tienes cuatro fallos por ronda.
           </Text>
@@ -402,7 +476,7 @@ function InfoModal({
               ● Histórico — recupera los retos de fechas anteriores.
             </Text>
             <Text style={styles.infoRow}>
-              ● Aleatorio — cinco rondas y puntuación acumulada.
+              ● Aleatorio — tres rondas y puntuación acumulada.
             </Text>
           </View>
           <Pressable
@@ -413,6 +487,7 @@ function InfoModal({
             <Text style={styles.modalPrimaryText}>Entendido</Text>
           </Pressable>
         </Pressable>
+        </ScrollView>
       </Pressable>
     </Modal>
   );
@@ -443,10 +518,10 @@ function ConfirmModal({
             Esta ronda terminará y contará como jugada.
           </Text>
           <View style={styles.confirmActions}>
-            <Pressable onPress={onCancel} style={styles.confirmSecondary}>
+            <Pressable accessibilityRole="button" onPress={onCancel} style={styles.confirmSecondary}>
               <Text style={styles.confirmSecondaryText}>Seguir jugando</Text>
             </Pressable>
-            <Pressable onPress={onConfirm} style={styles.confirmDanger}>
+            <Pressable accessibilityRole="button" onPress={onConfirm} style={styles.confirmDanger}>
               <Text style={styles.confirmDangerText}>Revelar</Text>
             </Pressable>
           </View>
@@ -468,8 +543,8 @@ const createStyles = (colors: ThemeColors, viewportWidth = 768) =>
       paddingBottom: 24,
     },
     content: {
-      width: viewportWidth >= 900 ? "43.2%" : "100%",
-      maxWidth: 1500,
+      width: "100%",
+      maxWidth: 880,
       gap: 8,
     },
     gameCard: {
@@ -631,6 +706,12 @@ const createStyles = (colors: ThemeColors, viewportWidth = 768) =>
       alignItems: "center",
       justifyContent: "center",
       backgroundColor: "rgba(0,0,0,0.72)",
+      padding: 20,
+    },
+    modalScrollContent: {
+      flexGrow: 1,
+      justifyContent: "center",
+      alignItems: "center",
       padding: 20,
     },
     modalCard: {
