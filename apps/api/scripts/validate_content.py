@@ -63,7 +63,12 @@ def main() -> int:
             "empiezan por" in normalize_text(item) for item in completions
         ):
             errors.append(f"{board_id}: letter-list name board")
-        if not source.get("url") or not source.get("inspiration") or not source.get("adapted_at"):
+        if (
+            not source.get("url")
+            or not source.get("inspiration")
+            or not source.get("adapted_at")
+            or not source.get("captured_at")
+        ):
             errors.append(f"{board_id}: missing provenance")
         if review.get("approval_status") != "approved" or not review.get("family_safe"):
             errors.append(f"{board_id}: board is not approved and family-safe")

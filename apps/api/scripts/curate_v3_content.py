@@ -1026,6 +1026,7 @@ def main() -> None:
             board["source"]["inspiration"] = (
                 "Original-style autocomplete game stem, localized for Spain"
             )
+            board["source"]["captured_at"] = "2026-09-13T00:00:00Z"
             board["source"]["localization_note"] = (
                 "Adaptación española curada; no es una copia literal ni una "
                 "respuesta en tiempo real."
