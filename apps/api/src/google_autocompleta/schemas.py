@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from datetime import date as Date
+from datetime import datetime
 from enum import StrEnum
 
 from pydantic import BaseModel, ConfigDict, Field, model_validator
@@ -22,6 +23,20 @@ class SlotStatus(StrEnum):
     HIDDEN = "hidden"
     FOUND = "found"
     REVEALED = "revealed"
+
+
+class GuessOutcome(StrEnum):
+    CORRECT = "correct"
+    INCORRECT = "incorrect"
+    DUPLICATE = "duplicate"
+    TOO_BROAD = "too_broad"
+    GAVE_UP = "gave_up"
+
+
+class MatchKind(StrEnum):
+    EXACT = "exact"
+    ALIAS = "alias"
+    CONCEPT = "concept"
 
 
 class CategoryOut(BaseModel):
@@ -46,6 +61,7 @@ class CreateGameRequest(BaseModel):
     mode: GameMode
     date: Date | None = None
     category: str | None = None
+    recent_puzzle_ids: list[str] = Field(default_factory=list, max_length=100)
 
     @model_validator(mode="after")
     def validate_mode_fields(self) -> CreateGameRequest:
@@ -68,9 +84,22 @@ class AnswerSlot(BaseModel):
 
 
 class GuessResult(BaseModel):
-    outcome: str
+    outcome: GuessOutcome
+    matched_ranks: list[int] = Field(default_factory=list)
     matched_rank: int | None = None
+    points_awarded: int = 0
+    combo_count: int = 0
+    match_kind: MatchKind | None = None
     message: str
+
+
+class RoundSummary(BaseModel):
+    round_number: int
+    category: CategoryOut
+    found: int
+    score: int
+    misses: int
+    puzzle_number: int | None = None
 
 
 class GameState(BaseModel):
@@ -84,12 +113,17 @@ class GameState(BaseModel):
     total_rounds: int
     category: CategoryOut
     prompt: str
+    content_id: str
+    content_version: str
+    snapshot_source: str
+    captured_at: datetime | None = None
     score: int
     round_score: int
     misses: int
     misses_remaining: int
     status: GameStatus
     slots: list[AnswerSlot]
+    round_summaries: list[RoundSummary] = Field(default_factory=list)
     last_result: GuessResult | None = None
 
 

@@ -1,15 +1,11 @@
-import asyncio
 import logging
 from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
-from datetime import datetime, timedelta
-from zoneinfo import ZoneInfo
 
 from fastapi import FastAPI, Request
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
-from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 
 from google_autocompleta.api import categories, daily, games
 from google_autocompleta.config import Settings, get_settings
@@ -19,47 +15,6 @@ from google_autocompleta.seed import seed_database
 from google_autocompleta.services import GameError, GameService
 
 logger = logging.getLogger(__name__)
-
-
-async def _daily_scheduler(
-    session_factory: async_sessionmaker[AsyncSession], service: GameService
-) -> None:
-    """Keep the next local-calendar daily puzzle generated while the API runs."""
-    while True:
-        try:
-            async with session_factory() as session:
-                await service.ensure_daily_puzzle(session)
-                await session.commit()
-            break
-        except asyncio.CancelledError:
-            raise
-        except Exception:
-            logger.exception("Initial daily puzzle generation failed; retrying in one minute")
-            await asyncio.sleep(60)
-
-    while True:
-        local_now = datetime.now(ZoneInfo(service.settings.daily_timezone))
-        tomorrow = local_now.date() + timedelta(days=1)
-        next_midnight = datetime.combine(
-            tomorrow, datetime.min.time(), tzinfo=ZoneInfo(service.settings.daily_timezone)
-        )
-        delay = max(1.0, (next_midnight - local_now).total_seconds())
-        try:
-            await asyncio.sleep(delay)
-        except asyncio.CancelledError:
-            raise
-        while True:
-            try:
-                async with session_factory() as session:
-                    await service.ensure_daily_puzzle(session, tomorrow)
-                    await session.commit()
-                logger.info("Generated daily puzzle for %s", tomorrow.isoformat())
-                break
-            except asyncio.CancelledError:
-                raise
-            except Exception:
-                logger.exception("Daily puzzle generation failed; retrying in one minute")
-                await asyncio.sleep(60)
 
 
 def create_app(settings: Settings | None = None) -> FastAPI:
@@ -80,25 +35,18 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         app.state.engine = engine
         app.state.session_factory = session_factory
         app.state.game_service = GameService(current_settings, provider)
-        # Generate today's puzzle before serving traffic.  This transaction is
-        # separate from seed/setup and is safe to repeat after a restart.
+        # Materialize today's reviewed fallback snapshot before serving
+        # traffic. This transaction is separate from seed/setup and is safe to
+        # repeat after a restart; historical dates are never backfilled here.
         try:
             async with session_factory() as session:
                 await app.state.game_service.ensure_daily_puzzle(session)
                 await session.commit()
         except Exception:
-            # A provider outage should not take the whole API offline; gameplay
-            # and the scheduler can retry using the same fallback path.
+            # A missing approved snapshot should not take the whole API offline;
+            # the client receives an explicit unavailable/retry state.
             logger.exception("Initial daily puzzle generation failed")
-        app.state.daily_scheduler = asyncio.create_task(
-            _daily_scheduler(session_factory, app.state.game_service)
-        )
         yield
-        app.state.daily_scheduler.cancel()
-        try:
-            await app.state.daily_scheduler
-        except asyncio.CancelledError:
-            pass
         await engine.dispose()
 
     app = FastAPI(

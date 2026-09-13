@@ -24,6 +24,10 @@ class Prompt(Base):
     category: Mapped[str] = mapped_column(String(32), index=True)
     text: Mapped[str] = mapped_column(String(160))
     fallback_answers: Mapped[list[str]] = mapped_column(JSON, default=list)
+    # Editorial matching rules stay server-side so they cannot reveal hidden
+    # answers to the client. Keys are normalized aliases and values are rank
+    # lists; an optional ``blocked_guesses`` list prevents broad scaffolding.
+    match_config: Mapped[dict[str, Any]] = mapped_column(JSON, default=dict)
     is_active: Mapped[bool] = mapped_column(default=True)
 
 
@@ -46,6 +50,13 @@ class Puzzle(Base):
     source: Mapped[str] = mapped_column(String(24))
     captured_at: Mapped[datetime] = mapped_column(DateTime(timezone=True))
     expires_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+    prompt_text: Mapped[str | None] = mapped_column(String(160), nullable=True)
+    aliases: Mapped[dict[str, list[int]]] = mapped_column(JSON, default=dict)
+    content_version: Mapped[str] = mapped_column(String(24), default="legacy")
+    matcher_version: Mapped[str] = mapped_column(String(24), default="v2")
+    random_eligible: Mapped[bool] = mapped_column(default=True)
+    approval_status: Mapped[str] = mapped_column(String(16), default="approved")
+    match_index: Mapped[dict[str, Any]] = mapped_column(JSON, default=dict)
 
 
 class Game(Base):
@@ -62,6 +73,10 @@ class Game(Base):
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True))
     updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True))
     expires_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), index=True)
+    planned_puzzle_ids: Mapped[list[str]] = mapped_column(JSON, default=list)
+    round_summaries: Mapped[list[dict[str, Any]]] = mapped_column(JSON, default=list)
+    content_version: Mapped[str] = mapped_column(String(24), default="legacy")
+    version: Mapped[int] = mapped_column(Integer, default=1)
 
 
 class GameRound(Base):
@@ -77,3 +92,4 @@ class GameRound(Base):
     misses: Mapped[int] = mapped_column(Integer, default=0)
     score: Mapped[int] = mapped_column(Integer, default=0)
     status: Mapped[str] = mapped_column(String(20), default="playing")
+    version: Mapped[int] = mapped_column(Integer, default=1)
