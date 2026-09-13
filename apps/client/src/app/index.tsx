@@ -35,6 +35,13 @@ import {
 import { useAppTheme } from "@/theme/theme-context";
 import { radius, shadow, type ThemeColors } from "@/theme/tokens";
 import { buildShareText } from "@/utils/share-result";
+import {
+  getCurrentWebRoute,
+  getPathForMode,
+  pushWebPath,
+  replaceWebPath,
+  type WebRoute,
+} from "@/utils/web-navigation";
 
 function formatArchiveDate(value: string): string {
   return new Intl.DateTimeFormat("es-ES", {
@@ -48,7 +55,10 @@ export default function HomeScreen() {
   const { colors } = useAppTheme();
   const { width } = useWindowDimensions();
   const styles = createStyles(colors, width);
-  const [landing, setLanding] = useState(true);
+  const [initialRoute] = useState<WebRoute>(() => getCurrentWebRoute());
+  const [landing, setLanding] = useState(
+    () => initialRoute !== "daily",
+  );
   const [mode, setMode] = useState<UiMode>("daily");
   const [streak, setStreak] = useState<StreakStats>({ current: 0, played: 0 });
   const [categories, setCategories] = useState<Category[]>([]);
@@ -65,6 +75,9 @@ export default function HomeScreen() {
   const [confirmGiveUp, setConfirmGiveUp] = useState(false);
   const [shareMessage, setShareMessage] = useState<string | null>(null);
   const modeRequest = useRef(0);
+  const changeModeRef = useRef<(nextMode: UiMode) => void>(() => undefined);
+  const returnHomeRef = useRef<(updateUrl?: boolean) => void>(() => undefined);
+  const webRouteInitialized = useRef(false);
   const session = useGameSession();
 
   const loadCategories = useCallback(async () => {
@@ -117,6 +130,7 @@ export default function HomeScreen() {
     const requestId = ++modeRequest.current;
     setLanding(false);
     setMode(nextMode);
+    pushWebPath(getPathForMode(nextMode));
     setShareMessage(null);
     setModeError(null);
     setArchiveDate(null);
@@ -151,8 +165,9 @@ export default function HomeScreen() {
     }
   };
 
-  const returnHome = () => {
+  const returnHome = (updateUrl = true) => {
     modeRequest.current += 1;
+    if (updateUrl) pushWebPath("/");
     setLanding(true);
     setArchiveDate(null);
     setShareMessage(null);
@@ -166,6 +181,7 @@ export default function HomeScreen() {
     modeRequest.current += 1;
     setLanding(false);
     setMode("random");
+    pushWebPath(getPathForMode("random"));
     setCategory(selectedCategory);
     setShareMessage(null);
     setModeError(null);
@@ -230,6 +246,41 @@ export default function HomeScreen() {
     session.resetView();
     refreshArchive().catch(() => undefined);
   };
+
+  useEffect(() => {
+    changeModeRef.current = changeMode;
+    returnHomeRef.current = returnHome;
+  });
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const handlePopState = () => {
+      const nextRoute = getCurrentWebRoute();
+      if (nextRoute === "daily") {
+        changeModeRef.current("daily");
+        return;
+      }
+
+      returnHomeRef.current(false);
+      if (window.location.pathname !== "/") replaceWebPath("/");
+    };
+
+    window.addEventListener("popstate", handlePopState);
+    if (!webRouteInitialized.current) {
+      webRouteInitialized.current = true;
+      if (initialRoute === "daily") {
+        changeModeRef.current("daily");
+      } else if (initialRoute !== "home") {
+        returnHomeRef.current(false);
+        replaceWebPath("/");
+      } else if (window.location.pathname !== "/") {
+        replaceWebPath("/");
+      }
+    }
+
+    return () => window.removeEventListener("popstate", handlePopState);
+  }, [initialRoute]);
 
   const game = session.game;
   return (
@@ -363,7 +414,7 @@ export default function HomeScreen() {
                   Google Autocompleta es un juego independiente y no está
                   afiliado, patrocinado ni aprobado por Google LLC. Google es
                   una marca de Google LLC. Las respuestas son adaptaciones
-                  curadas inspiradas en juegos de autocompletado.
+                  inspiradas en juegos de autocompletado.
                 </Text>
                 <View style={styles.gameFooter}>
                   <IzbriFooter />

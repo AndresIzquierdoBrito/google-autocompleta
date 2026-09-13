@@ -68,6 +68,14 @@ export const brandColors = {
   green: "#34A853",
 } as const;
 
+// Slightly lighter action shades that preserve readable white button labels.
+export const actionColors = {
+  blue: "#1A73E8",
+  red: "#D93025",
+  yellow: "#FBBC05",
+  green: "#188038",
+} as const;
+
 export const radius = {
   small: 8,
   medium: 12,

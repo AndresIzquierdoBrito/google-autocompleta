@@ -51,16 +51,21 @@ export function BrandHeader({ onHome, onInfo }: Props) {
           <Text style={styles.homeText}>← Inicio</Text>
         </Pressable>
       </View>
-      <View
-        pointerEvents="none"
-        style={styles.brand}
-        accessibilityLabel="Google Autocompleta"
+      <Pressable
+        accessibilityRole="link"
+        accessibilityLabel="Volver al inicio"
+        hitSlop={4}
+        onPress={onHome}
+        style={({ pressed }) => [
+          styles.brand,
+          pressed && styles.pressed,
+        ]}
       >
         <GoogleLetters size={width < 600 ? 22 : 32} />
         <Text style={styles.brandSuffix} numberOfLines={1}>
           Autocompleta
         </Text>
-      </View>
+      </Pressable>
       <View style={styles.actions}>
         <ThemeToggle />
         <Pressable

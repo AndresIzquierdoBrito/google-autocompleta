@@ -27,6 +27,7 @@ function AnswerRow({ prompt, slot }: RowProps) {
   // the answer text is present immediately; status changes while playing are
   // still animated by the effect below.
   const [reveal] = useState(() => new Animated.Value(1));
+  const [revealWidth, setRevealWidth] = useState(0);
   const previousStatus = useRef(slot.status);
   const [hintVisible, setHintVisible] = useState(slot.status === "hidden");
   const { status } = slot;
@@ -60,27 +61,15 @@ function AnswerRow({ prompt, slot }: RowProps) {
     maxHintWidth,
     Math.max(58, (slot.answer_length ?? 8) * 7.5 + 16),
   );
-  const animatedStyle = {
-    opacity: reveal,
+  const maskWidth = revealWidth || hintWidth;
+  const maskAnimatedStyle = {
     transform: [
       {
-        translateY: reveal.interpolate({
+        // Move the blue mask to the right so the answer appears from left to
+        // right underneath it.
+        translateX: reveal.interpolate({
           inputRange: [0, 1],
-          outputRange: [5, 0],
-        }),
-      },
-    ],
-  };
-  const hintAnimatedStyle = {
-    opacity: reveal.interpolate({
-      inputRange: [0, 1],
-      outputRange: [1, 0],
-    }),
-    transform: [
-      {
-        scaleX: reveal.interpolate({
-          inputRange: [0, 1],
-          outputRange: [1, 0.2],
+          outputRange: [0, maskWidth],
         }),
       },
     ],
@@ -108,27 +97,34 @@ function AnswerRow({ prompt, slot }: RowProps) {
         <Text numberOfLines={1} style={styles.answerPrompt}>
           {prompt}
         </Text>
-        {(status === "hidden" || hintVisible) && (
-          <Animated.View
+        {status === "hidden" && (
+          <View
             accessibilityElementsHidden
-            style={[
-              styles.lengthHint,
-              { width: hintWidth },
-              status !== "hidden" && hintAnimatedStyle,
-            ]}
+            style={[styles.lengthHint, { width: hintWidth }]}
           />
         )}
         {status !== "hidden" && (
-          <Animated.View
-            style={[
-              styles.answerChip,
-              animatedStyle,
-            ]}
+          <View
+            onLayout={({ nativeEvent }) => {
+              const nextWidth = nativeEvent.layout.width;
+              if (nextWidth > 0 && nextWidth !== revealWidth) {
+                setRevealWidth(nextWidth);
+              }
+            }}
+            style={styles.answerReveal}
           >
-            <Text numberOfLines={2} style={styles.completion}>
-              {slot.completion}
-            </Text>
-          </Animated.View>
+            <View style={styles.answerChip}>
+              <Text numberOfLines={2} style={styles.completion}>
+                {slot.completion}
+              </Text>
+            </View>
+            {hintVisible && (
+              <Animated.View
+                accessibilityElementsHidden
+                style={[styles.revealMask, { width: maskWidth }, maskAnimatedStyle]}
+              />
+            )}
+          </View>
         )}
       </View>
       <Text style={[styles.points, isFound && styles.pointsFound]}>
@@ -220,6 +216,14 @@ const createStyles = (colors: ThemeColors, viewportWidth = 768) =>
       gap: viewportWidth < 600 ? 7 : viewportWidth >= 1200 ? 9 : 12,
       overflow: "hidden",
     },
+    answerReveal: {
+      minWidth: 0,
+      maxWidth: "100%",
+      flexShrink: 1,
+      flexGrow: 0,
+      position: "relative",
+      overflow: "hidden",
+    },
     answerPrompt: {
       minWidth: 0,
       flexShrink: 1,
@@ -232,6 +236,14 @@ const createStyles = (colors: ThemeColors, viewportWidth = 768) =>
       borderRadius: 4,
       backgroundColor: "#2B7DE9",
       flexShrink: 0,
+    },
+    revealMask: {
+      position: "absolute",
+      top: 0,
+      bottom: 0,
+      left: 0,
+      borderRadius: 4,
+      backgroundColor: "#2B7DE9",
     },
     answerChip: {
       alignSelf: "flex-start",

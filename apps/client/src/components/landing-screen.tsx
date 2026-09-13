@@ -13,7 +13,13 @@ import {
 import type { Category } from "@/api/types";
 import { ThemeToggle } from "@/components/brand-header";
 import { useAppTheme } from "@/theme/theme-context";
-import { brandColors, radius, shadow, type ThemeColors } from "@/theme/tokens";
+import {
+  actionColors,
+  brandColors,
+  radius,
+  shadow,
+  type ThemeColors,
+} from "@/theme/tokens";
 
 type Props = {
   categories: Category[];
@@ -104,8 +110,7 @@ export function LandingScreen({
       <View style={styles.footer}>
         <Text style={styles.disclaimer}>
           Juego independiente, no afiliado ni patrocinado por Google LLC. Las
-          respuestas son adaptaciones curadas inspiradas en juegos de
-          autocompletado.
+          respuestas son adaptaciones inspiradas en juegos de autocompletado.
         </Text>
         <IzbriFooter />
       </View>
@@ -369,9 +374,9 @@ const createStyles = (colors: ThemeColors) =>
       borderColor: "transparent",
       ...shadow,
     },
-    modeButtonBlue: { backgroundColor: "#185ABC" },
-    modeButtonRed: { backgroundColor: "#B3261E" },
-    modeButtonGreen: { backgroundColor: "#137333" },
+    modeButtonBlue: { backgroundColor: actionColors.blue },
+    modeButtonRed: { backgroundColor: actionColors.red },
+    modeButtonGreen: { backgroundColor: actionColors.green },
     modeButtonWide: { width: "100%", flexBasis: "auto", flexGrow: 0 },
     modeButtonPressed: {
       opacity: 0.84,
@@ -454,7 +459,7 @@ const createStyles = (colors: ThemeColors) =>
       minHeight: 62,
       justifyContent: "center",
       borderRadius: radius.medium,
-      backgroundColor: "#137333",
+      backgroundColor: actionColors.green,
       paddingHorizontal: 16,
       marginTop: 18,
     },
@@ -500,10 +505,10 @@ const createStyles = (colors: ThemeColors) =>
       marginTop: 10,
     },
     retryCategoryText: { color: colors.text, fontSize: 12, fontWeight: "800" },
-    categoryBlue: { backgroundColor: "#185ABC" },
-    categoryRed: { backgroundColor: "#B3261E" },
-    categoryYellow: { backgroundColor: brandColors.yellow },
-    categoryGreen: { backgroundColor: "#137333" },
+    categoryBlue: { backgroundColor: actionColors.blue },
+    categoryRed: { backgroundColor: actionColors.red },
+    categoryYellow: { backgroundColor: actionColors.yellow },
+    categoryGreen: { backgroundColor: actionColors.green },
     categoryOptionText: {
       color: "#FFFFFF",
       fontSize: 12,

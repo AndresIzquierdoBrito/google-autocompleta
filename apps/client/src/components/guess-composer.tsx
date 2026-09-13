@@ -14,7 +14,12 @@ import type { ReactNode } from "react";
 
 import type { GameState } from "@/api/types";
 import { useAppTheme } from "@/theme/theme-context";
-import { radius, shadow, type ThemeColors } from "@/theme/tokens";
+import {
+  actionColors,
+  radius,
+  shadow,
+  type ThemeColors,
+} from "@/theme/tokens";
 
 type Props = {
   game: GameState;
@@ -33,7 +38,7 @@ export function GuessComposer({
   onGiveUp,
   children,
 }: Props) {
-  const { colors } = useAppTheme();
+  const { colors, mode } = useAppTheme();
   const { width } = useWindowDimensions();
   const styles = createStyles(colors, width);
   const compact = width < 600;
@@ -114,6 +119,7 @@ export function GuessComposer({
           style={({ pressed }) => [
             styles.actionButton,
             styles.submitButton,
+            mode === "dark" && styles.darkSubmitButton,
             (!guess.trim() || acting) && styles.disabled,
             pressed && styles.pressed,
           ]}
@@ -235,6 +241,7 @@ const createStyles = (colors: ThemeColors, viewportWidth = 768) =>
     },
     giveUpButton: { backgroundColor: colors.surfaceSoft },
     submitButton: { backgroundColor: colors.cobalt },
+    darkSubmitButton: { backgroundColor: actionColors.blue },
     giveUpButtonText: {
       color: colors.text,
       fontSize: viewportWidth >= 1200 ? 16 : 16,
