@@ -20,7 +20,7 @@ type Props = {
   game: GameState;
   acting: boolean;
   feedbackId: number;
-  onSubmit: (guess: string) => Promise<void>;
+  onSubmit: (guess: string) => Promise<boolean | void>;
   onGiveUp: () => void;
   children?: ReactNode;
 };
@@ -36,7 +36,9 @@ export function GuessComposer({
   const { colors } = useAppTheme();
   const { width } = useWindowDimensions();
   const styles = createStyles(colors, width);
+  const compact = width < 600;
   const [guess, setGuess] = useState("");
+  const [focused, setFocused] = useState(false);
   const [shake] = useState(() => new Animated.Value(0));
   const input = useRef<TextInput>(null);
   const lastHandledFeedback = useRef(0);
@@ -62,24 +64,30 @@ export function GuessComposer({
   const submit = async () => {
     const value = guess.trim();
     if (!value || acting) return;
-    setGuess("");
-    await onSubmit(value);
+    const accepted = await onSubmit(value);
+    if (accepted !== false) setGuess("");
   };
 
   return (
     <View style={styles.wrapper}>
       <Text style={styles.eyebrow}>¿CÓMO COMPLETA ESPAÑA ESTA BÚSQUEDA?</Text>
+      {compact && <Text style={styles.promptAbove}>{game.prompt}</Text>}
       <Animated.View
-        style={[styles.inputRow, { transform: [{ translateX: shake }] }]}
+        style={[
+          styles.inputRow,
+          focused && styles.inputRowFocused,
+          { transform: [{ translateX: shake }] },
+        ]}
       >
         <View accessibilityElementsHidden style={styles.searchIcon}>
           <View style={styles.searchCircle} />
           <View style={styles.searchHandle} />
         </View>
-        <Text style={styles.prompt} numberOfLines={2}>
-          {game.prompt}
-        </Text>
-        <View style={styles.cursor} />
+        {!compact && (
+          <Text style={styles.prompt} numberOfLines={2}>
+            {game.prompt}
+          </Text>
+        )}
         <TextInput
           ref={input}
           accessibilityLabel="Escribe la parte que falta de la búsqueda"
@@ -88,6 +96,8 @@ export function GuessComposer({
           enterKeyHint="send"
           maxLength={80}
           onChangeText={setGuess}
+          onBlur={() => setFocused(false)}
+          onFocus={() => setFocused(true)}
           onSubmitEditing={submit}
           placeholder="completa…"
           placeholderTextColor={colors.textFaint}
@@ -96,7 +106,6 @@ export function GuessComposer({
           value={guess}
         />
       </Animated.View>
-      {children && <View style={styles.options}>{children}</View>}
       <View style={styles.actionsRow}>
         <Pressable
           accessibilityRole="button"
@@ -131,6 +140,7 @@ export function GuessComposer({
           style={[
             styles.feedback,
             game.last_result?.outcome === "correct" && styles.feedbackCorrect,
+            game.last_result?.outcome === "too_broad" && styles.feedbackBroad,
             game.last_result?.outcome === "incorrect" && styles.feedbackWrong,
           ]}
         >
@@ -138,6 +148,7 @@ export function GuessComposer({
             `${game.misses_remaining} intentos antes de revelar`}
         </Text>
       </View>
+      {children && <View style={styles.options}>{children}</View>}
     </View>
   );
 }
@@ -164,6 +175,10 @@ const createStyles = (colors: ThemeColors, viewportWidth = 768) =>
       backgroundColor: colors.surface,
       ...shadow,
     },
+    inputRowFocused: {
+      borderColor: colors.borderStrong,
+      borderWidth: 2,
+    },
     input: {
       flex: 1,
       minWidth: 70,
@@ -172,6 +187,13 @@ const createStyles = (colors: ThemeColors, viewportWidth = 768) =>
       fontWeight: "700",
       paddingVertical: 0,
     },
+    promptAbove: {
+      color: colors.text,
+      fontSize: 18,
+      lineHeight: 23,
+      fontWeight: "800",
+      marginBottom: 2,
+    },
     prompt: {
       maxWidth: "52%",
       color: colors.text,
@@ -179,13 +201,6 @@ const createStyles = (colors: ThemeColors, viewportWidth = 768) =>
       lineHeight: viewportWidth >= 1200 ? 22 : viewportWidth < 600 ? 21 : 23,
       fontWeight: "800",
       flexShrink: 1,
-    },
-    cursor: {
-      width: 2,
-      height: 22,
-      marginHorizontal: 10,
-      backgroundColor: colors.cobalt,
-      borderRadius: 2,
     },
     searchIcon: { width: 24, height: 24, position: "relative", marginRight: 12 },
     searchCircle: {
@@ -239,6 +254,7 @@ const createStyles = (colors: ThemeColors, viewportWidth = 768) =>
     },
     feedback: { color: colors.textMuted, fontSize: 11, flex: 1 },
     feedbackCorrect: { color: colors.green, fontWeight: "700" },
+    feedbackBroad: { color: colors.textMuted, fontWeight: "700" },
     feedbackWrong: { color: colors.danger, fontWeight: "700" },
     disabled: { opacity: 0.45 },
     pressed: { opacity: 0.7 },

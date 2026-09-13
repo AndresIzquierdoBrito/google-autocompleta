@@ -11,10 +11,8 @@ import {
 
 import type { AnswerSlot } from "@/api/types";
 import { useAppTheme } from "@/theme/theme-context";
-import { brandColors, radius, type ThemeColors } from "@/theme/tokens";
+import { radius, type ThemeColors } from "@/theme/tokens";
 import { formatPoints } from "@/utils/share-result";
-
-const blankWidths = [72, 112, 94, 128, 82, 106, 120, 88, 101, 78];
 
 type RowProps = {
   prompt: string;
@@ -34,15 +32,18 @@ function AnswerRow({ prompt, slot }: RowProps) {
   useEffect(() => {
     if (previousStatus.current === "hidden" && slot.status !== "hidden") {
       reveal.setValue(0);
-      Animated.timing(reveal, {
-        toValue: 1,
-        duration: 360,
-        easing: Easing.out(Easing.cubic),
-        useNativeDriver: Platform.OS !== "web",
-      }).start();
+      Animated.sequence([
+        Animated.delay((slot.rank - 1) * 35),
+        Animated.timing(reveal, {
+          toValue: 1,
+          duration: 360,
+          easing: Easing.out(Easing.cubic),
+          useNativeDriver: Platform.OS !== "web",
+        }),
+      ]).start();
     }
     previousStatus.current = slot.status;
-  }, [reveal, slot.status]);
+  }, [reveal, slot.rank, slot.status]);
 
   const isFound = slot.status === "found";
   const isRevealed = slot.status === "revealed";
@@ -77,30 +78,21 @@ function AnswerRow({ prompt, slot }: RowProps) {
         <View style={styles.rowSearchHandle} />
       </View>
       <View style={styles.answer}>
-        <Text
-          style={[styles.prompt, isFound && styles.promptFound]}
-          numberOfLines={2}
-        >
-          {prompt}
-        </Text>
         {slot.status === "hidden" ? (
-          <View
-            style={[
-              styles.blank,
-              { width: blankWidths[(slot.rank - 1) % blankWidths.length] },
-            ]}
-          />
+          <Text style={styles.hiddenText}>Respuesta oculta</Text>
         ) : (
-          <Animated.Text
-            numberOfLines={2}
+          <Animated.View
             style={[
-              styles.completion,
-              isFound && styles.completionFound,
+              styles.answerChip,
+              isFound && styles.answerChipFound,
+              isRevealed && styles.answerChipRevealed,
               animatedStyle,
             ]}
           >
-            {slot.completion}
-          </Animated.Text>
+            <Text numberOfLines={2} style={styles.completion}>
+              {slot.completion}
+            </Text>
+          </Animated.View>
         )}
       </View>
       <Text style={[styles.points, isFound && styles.pointsFound]}>
@@ -120,7 +112,10 @@ export function AnswerBoard({ prompt, slots }: Props) {
   const { width } = useWindowDimensions();
   const styles = createStyles(colors, width);
   return (
-    <View style={styles.board} accessibilityLabel="Diez respuestas posibles">
+    <View
+      style={styles.board}
+      accessibilityLabel={`Diez respuestas posibles para «${prompt}»`}
+    >
       {slots.map((slot) => (
         <AnswerRow key={slot.rank} prompt={prompt} slot={slot} />
       ))}
@@ -189,32 +184,28 @@ const createStyles = (colors: ThemeColors, viewportWidth = 768) =>
       gap: viewportWidth < 600 ? 7 : viewportWidth >= 1200 ? 9 : 12,
       overflow: "hidden",
     },
-    prompt: {
-      color: colors.textMuted,
-      fontSize: viewportWidth < 600 ? 13 : viewportWidth >= 1200 ? 13 : 16,
+    hiddenText: {
+      color: colors.textFaint,
+      fontSize: viewportWidth < 600 ? 13 : 14,
       fontWeight: "600",
-      maxWidth: "52%",
-      flexShrink: 1,
+      fontStyle: "italic",
     },
-    promptFound: { color: colors.green },
-    blank: {
-      height: viewportWidth < 600 ? 18 : viewportWidth >= 1200 ? 17 : 20,
-      maxWidth: "42%",
-      minWidth: viewportWidth < 600 ? 54 : viewportWidth >= 1200 ? 54 : 68,
-      flexShrink: 0,
-      borderWidth: 1,
-      borderColor: brandColors.blue,
-      borderRadius: 1,
-      backgroundColor: brandColors.blue,
-      opacity: 1,
+    answerChip: {
+      alignSelf: "flex-start",
+      maxWidth: "100%",
+      borderRadius: 4,
+      paddingHorizontal: 10,
+      paddingVertical: 5,
+      backgroundColor: colors.cobalt,
     },
+    answerChipFound: { backgroundColor: colors.cobalt },
+    answerChipRevealed: { backgroundColor: colors.cobalt },
     completion: {
       flexShrink: 1,
-      color: colors.text,
+      color: colors.white,
       fontSize: viewportWidth < 600 ? 13 : viewportWidth >= 1200 ? 13 : 16,
       fontWeight: "800",
     },
-    completionFound: { color: colors.green },
     points: {
       width: viewportWidth < 600 ? 62 : viewportWidth >= 1200 ? 74 : 90,
       flexShrink: 0,
