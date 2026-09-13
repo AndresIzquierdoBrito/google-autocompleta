@@ -452,14 +452,14 @@ class GameService:
                 status = SlotStatus.REVEALED
             else:
                 status = SlotStatus.HIDDEN
+            completion = self._completion(prompt_text, answer)
             slots.append(
                 AnswerSlot(
                     rank=index,
                     points=self._points_for_rank(index),
                     status=status,
-                    completion=self._completion(prompt_text, answer)
-                    if status is not SlotStatus.HIDDEN
-                    else None,
+                    completion=completion if status is not SlotStatus.HIDDEN else None,
+                    answer_length=len(completion),
                 )
             )
         puzzle_date = puzzle.puzzle_date

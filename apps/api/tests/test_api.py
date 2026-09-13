@@ -47,6 +47,7 @@ def test_loopback_web_origin_can_start_game(api_client: TestClient) -> None:
 def test_hidden_answers_guess_normalization_and_duplicate(api_client: TestClient) -> None:
     game = start_archive(api_client)
     assert all(slot["completion"] is None for slot in game["slots"])
+    assert all(slot["answer_length"] > 0 for slot in game["slots"])
 
     correct = api_client.post(
         f"/api/v1/games/{game['id']}/guesses",

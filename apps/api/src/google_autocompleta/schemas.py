@@ -81,6 +81,9 @@ class AnswerSlot(BaseModel):
     points: int
     status: SlotStatus
     completion: str | None = None
+    # Safe hint for the hidden answer's approximate visual length; the answer
+    # itself remains server-side until the slot is found or revealed.
+    answer_length: int = Field(default=0, ge=0, le=160)
 
 
 class GuessResult(BaseModel):
