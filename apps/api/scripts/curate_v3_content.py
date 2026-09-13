@@ -1012,6 +1012,7 @@ def main() -> None:
         if len(boards) != 30 or len(prompts) != 30 or len(banks) != expected_bank_count:
             raise ValueError(f"{category}: expected 30 prompts and 10 answer banks")
         for index, board in enumerate(boards):
+            board["id"] = f"v3r-{category}-{index + 1:02d}"
             board["prompt"] = prompts[index]
             board["completions"] = banks[index if category == "nombres" else index // 3]
             board["review"].update(

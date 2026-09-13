@@ -48,6 +48,14 @@ async def seed_database(session: AsyncSession) -> None:
         update(Puzzle)
         .where(
             Puzzle.puzzle_date.is_(None),
+            Puzzle.prompt_id.not_in(current_prompt_ids),
+        )
+        .values(random_eligible=False, approval_status="legacy")
+    )
+    await session.execute(
+        update(Puzzle)
+        .where(
+            Puzzle.puzzle_date.is_(None),
             Puzzle.content_version != CURRENT_CONTENT_VERSION,
         )
         .values(random_eligible=False, approval_status="legacy")

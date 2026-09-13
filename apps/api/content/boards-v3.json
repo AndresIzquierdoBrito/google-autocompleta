@@ -4,7 +4,7 @@
   "generated_at": "2026-09-13",
   "boards": [
     {
-      "id": "v3-cultura-01",
+      "id": "v3r-cultura-01",
       "category": "cultura",
       "category_name": "Cultura",
       "prompt": "lo más español es",
@@ -39,7 +39,7 @@
       }
     },
     {
-      "id": "v3-cultura-02",
+      "id": "v3r-cultura-02",
       "category": "cultura",
       "category_name": "Cultura",
       "prompt": "algo muy español es",
@@ -74,7 +74,7 @@
       }
     },
     {
-      "id": "v3-cultura-03",
+      "id": "v3r-cultura-03",
       "category": "cultura",
       "category_name": "Cultura",
       "prompt": "ser español es",
@@ -109,7 +109,7 @@
       }
     },
     {
-      "id": "v3-cultura-04",
+      "id": "v3r-cultura-04",
       "category": "cultura",
       "category_name": "Cultura",
       "prompt": "antes de internet la gente",
@@ -144,7 +144,7 @@
       }
     },
     {
-      "id": "v3-cultura-05",
+      "id": "v3r-cultura-05",
       "category": "cultura",
       "category_name": "Cultura",
       "prompt": "sin móvil la gente",
@@ -179,7 +179,7 @@
       }
     },
     {
-      "id": "v3-cultura-06",
+      "id": "v3r-cultura-06",
       "category": "cultura",
       "category_name": "Cultura",
       "prompt": "cuando no había wifi la gente",
@@ -214,7 +214,7 @@
       }
     },
     {
-      "id": "v3-cultura-07",
+      "id": "v3r-cultura-07",
       "category": "cultura",
       "category_name": "Cultura",
       "prompt": "si piensas en España aparece",
@@ -249,7 +249,7 @@
       }
     },
     {
-      "id": "v3-cultura-08",
+      "id": "v3r-cultura-08",
       "category": "cultura",
       "category_name": "Cultura",
       "prompt": "España parece",
@@ -284,7 +284,7 @@
       }
     },
     {
-      "id": "v3-cultura-09",
+      "id": "v3r-cultura-09",
       "category": "cultura",
       "category_name": "Cultura",
       "prompt": "lo que recuerdo de España es",
@@ -319,7 +319,7 @@
       }
     },
     {
-      "id": "v3-cultura-10",
+      "id": "v3r-cultura-10",
       "category": "cultura",
       "category_name": "Cultura",
       "prompt": "en España se",
@@ -354,7 +354,7 @@
       }
     },
     {
-      "id": "v3-cultura-11",
+      "id": "v3r-cultura-11",
       "category": "cultura",
       "category_name": "Cultura",
       "prompt": "en los bares se",
@@ -389,7 +389,7 @@
       }
     },
     {
-      "id": "v3-cultura-12",
+      "id": "v3r-cultura-12",
       "category": "cultura",
       "category_name": "Cultura",
       "prompt": "cuando sales a cenar se",
@@ -424,7 +424,7 @@
       }
     },
     {
-      "id": "v3-cultura-13",
+      "id": "v3r-cultura-13",
       "category": "cultura",
       "category_name": "Cultura",
       "prompt": "antes la gente",
@@ -459,7 +459,7 @@
       }
     },
     {
-      "id": "v3-cultura-14",
+      "id": "v3r-cultura-14",
       "category": "cultura",
       "category_name": "Cultura",
       "prompt": "sin móvil la gente",
@@ -494,7 +494,7 @@
       }
     },
     {
-      "id": "v3-cultura-15",
+      "id": "v3r-cultura-15",
       "category": "cultura",
       "category_name": "Cultura",
       "prompt": "cuando no había notificaciones la gente",
@@ -529,7 +529,7 @@
       }
     },
     {
-      "id": "v3-cultura-16",
+      "id": "v3r-cultura-16",
       "category": "cultura",
       "category_name": "Cultura",
       "prompt": "mi primer móvil servía para",
@@ -564,7 +564,7 @@
       }
     },
     {
-      "id": "v3-cultura-17",
+      "id": "v3r-cultura-17",
       "category": "cultura",
       "category_name": "Cultura",
       "prompt": "un teléfono fijo servía para",
@@ -599,7 +599,7 @@
       }
     },
     {
-      "id": "v3-cultura-18",
+      "id": "v3r-cultura-18",
       "category": "cultura",
       "category_name": "Cultura",
       "prompt": "antes quedábamos para",
@@ -634,7 +634,7 @@
       }
     },
     {
-      "id": "v3-cultura-19",
+      "id": "v3r-cultura-19",
       "category": "cultura",
       "category_name": "Cultura",
       "prompt": "en España se",
@@ -669,7 +669,7 @@
       }
     },
     {
-      "id": "v3-cultura-20",
+      "id": "v3r-cultura-20",
       "category": "cultura",
       "category_name": "Cultura",
       "prompt": "en los bares se",
@@ -704,7 +704,7 @@
       }
     },
     {
-      "id": "v3-cultura-21",
+      "id": "v3r-cultura-21",
       "category": "cultura",
       "category_name": "Cultura",
       "prompt": "cuando sales a cenar se",
@@ -739,7 +739,7 @@
       }
     },
     {
-      "id": "v3-cultura-22",
+      "id": "v3r-cultura-22",
       "category": "cultura",
       "category_name": "Cultura",
       "prompt": "en una sobremesa se",
@@ -774,7 +774,7 @@
       }
     },
     {
-      "id": "v3-cultura-23",
+      "id": "v3r-cultura-23",
       "category": "cultura",
       "category_name": "Cultura",
       "prompt": "en una comida familiar se",
@@ -809,7 +809,7 @@
       }
     },
     {
-      "id": "v3-cultura-24",
+      "id": "v3r-cultura-24",
       "category": "cultura",
       "category_name": "Cultura",
       "prompt": "cuando visitas a la abuela se",
@@ -844,7 +844,7 @@
       }
     },
     {
-      "id": "v3-cultura-25",
+      "id": "v3r-cultura-25",
       "category": "cultura",
       "category_name": "Cultura",
       "prompt": "en las fiestas de mi pueblo se",
@@ -879,7 +879,7 @@
       }
     },
     {
-      "id": "v3-cultura-26",
+      "id": "v3r-cultura-26",
       "category": "cultura",
       "category_name": "Cultura",
       "prompt": "en una boda española se",
@@ -914,7 +914,7 @@
       }
     },
     {
-      "id": "v3-cultura-27",
+      "id": "v3r-cultura-27",
       "category": "cultura",
       "category_name": "Cultura",
       "prompt": "en Navidad se",
@@ -949,7 +949,7 @@
       }
     },
     {
-      "id": "v3-cultura-28",
+      "id": "v3r-cultura-28",
       "category": "cultura",
       "category_name": "Cultura",
       "prompt": "para vivir en España hay que",
@@ -984,7 +984,7 @@
       }
     },
     {
-      "id": "v3-cultura-29",
+      "id": "v3r-cultura-29",
       "category": "cultura",
       "category_name": "Cultura",
       "prompt": "viajar por España implica",
@@ -1019,7 +1019,7 @@
       }
     },
     {
-      "id": "v3-cultura-30",
+      "id": "v3r-cultura-30",
       "category": "cultura",
       "category_name": "Cultura",
       "prompt": "un día en España empieza por",
@@ -1054,7 +1054,7 @@
       }
     },
     {
-      "id": "v3-personas-01",
+      "id": "v3r-personas-01",
       "category": "personas",
       "category_name": "Personas",
       "prompt": "mi pareja no sabe que",
@@ -1089,7 +1089,7 @@
       }
     },
     {
-      "id": "v3-personas-02",
+      "id": "v3r-personas-02",
       "category": "personas",
       "category_name": "Personas",
       "prompt": "mi ex confiesa que",
@@ -1124,7 +1124,7 @@
       }
     },
     {
-      "id": "v3-personas-03",
+      "id": "v3r-personas-03",
       "category": "personas",
       "category_name": "Personas",
       "prompt": "mi crush admite que",
@@ -1159,7 +1159,7 @@
       }
     },
     {
-      "id": "v3-personas-04",
+      "id": "v3r-personas-04",
       "category": "personas",
       "category_name": "Personas",
       "prompt": "mi ex",
@@ -1194,7 +1194,7 @@
       }
     },
     {
-      "id": "v3-personas-05",
+      "id": "v3r-personas-05",
       "category": "personas",
       "category_name": "Personas",
       "prompt": "mi crush",
@@ -1229,7 +1229,7 @@
       }
     },
     {
-      "id": "v3-personas-06",
+      "id": "v3r-personas-06",
       "category": "personas",
       "category_name": "Personas",
       "prompt": "la persona que me gusta",
@@ -1264,7 +1264,7 @@
       }
     },
     {
-      "id": "v3-personas-07",
+      "id": "v3r-personas-07",
       "category": "personas",
       "category_name": "Personas",
       "prompt": "cómo saber si alguien",
@@ -1299,7 +1299,7 @@
       }
     },
     {
-      "id": "v3-personas-08",
+      "id": "v3r-personas-08",
       "category": "personas",
       "category_name": "Personas",
       "prompt": "cuando te gusta alguien",
@@ -1334,7 +1334,7 @@
       }
     },
     {
-      "id": "v3-personas-09",
+      "id": "v3r-personas-09",
       "category": "personas",
       "category_name": "Personas",
       "prompt": "mi pareja",
@@ -1369,7 +1369,7 @@
       }
     },
     {
-      "id": "v3-personas-10",
+      "id": "v3r-personas-10",
       "category": "personas",
       "category_name": "Personas",
       "prompt": "la persona que me gusta",
@@ -1404,7 +1404,7 @@
       }
     },
     {
-      "id": "v3-personas-11",
+      "id": "v3r-personas-11",
       "category": "personas",
       "category_name": "Personas",
       "prompt": "mi crush",
@@ -1439,7 +1439,7 @@
       }
     },
     {
-      "id": "v3-personas-12",
+      "id": "v3r-personas-12",
       "category": "personas",
       "category_name": "Personas",
       "prompt": "alguien que te gusta",
@@ -1474,7 +1474,7 @@
       }
     },
     {
-      "id": "v3-personas-13",
+      "id": "v3r-personas-13",
       "category": "personas",
       "category_name": "Personas",
       "prompt": "en una primera cita",
@@ -1509,7 +1509,7 @@
       }
     },
     {
-      "id": "v3-personas-14",
+      "id": "v3r-personas-14",
       "category": "personas",
       "category_name": "Personas",
       "prompt": "en una cita",
@@ -1544,7 +1544,7 @@
       }
     },
     {
-      "id": "v3-personas-15",
+      "id": "v3r-personas-15",
       "category": "personas",
       "category_name": "Personas",
       "prompt": "cuando conoces a alguien",
@@ -1579,7 +1579,7 @@
       }
     },
     {
-      "id": "v3-personas-16",
+      "id": "v3r-personas-16",
       "category": "personas",
       "category_name": "Personas",
       "prompt": "cuando te gusta alguien",
@@ -1614,7 +1614,7 @@
       }
     },
     {
-      "id": "v3-personas-17",
+      "id": "v3r-personas-17",
       "category": "personas",
       "category_name": "Personas",
       "prompt": "cómo saber si alguien",
@@ -1649,7 +1649,7 @@
       }
     },
     {
-      "id": "v3-personas-18",
+      "id": "v3r-personas-18",
       "category": "personas",
       "category_name": "Personas",
       "prompt": "mi pareja",
@@ -1684,7 +1684,7 @@
       }
     },
     {
-      "id": "v3-personas-19",
+      "id": "v3r-personas-19",
       "category": "personas",
       "category_name": "Personas",
       "prompt": "cómo saber si alguien",
@@ -1719,7 +1719,7 @@
       }
     },
     {
-      "id": "v3-personas-20",
+      "id": "v3r-personas-20",
       "category": "personas",
       "category_name": "Personas",
       "prompt": "cuando conoces a alguien",
@@ -1754,7 +1754,7 @@
       }
     },
     {
-      "id": "v3-personas-21",
+      "id": "v3r-personas-21",
       "category": "personas",
       "category_name": "Personas",
       "prompt": "mi pareja",
@@ -1789,7 +1789,7 @@
       }
     },
     {
-      "id": "v3-personas-22",
+      "id": "v3r-personas-22",
       "category": "personas",
       "category_name": "Personas",
       "prompt": "cuando alguien te deja",
@@ -1824,7 +1824,7 @@
       }
     },
     {
-      "id": "v3-personas-23",
+      "id": "v3r-personas-23",
       "category": "personas",
       "category_name": "Personas",
       "prompt": "después de una ruptura",
@@ -1859,7 +1859,7 @@
       }
     },
     {
-      "id": "v3-personas-24",
+      "id": "v3r-personas-24",
       "category": "personas",
       "category_name": "Personas",
       "prompt": "cuando termina una relación",
@@ -1894,7 +1894,7 @@
       }
     },
     {
-      "id": "v3-personas-25",
+      "id": "v3r-personas-25",
       "category": "personas",
       "category_name": "Personas",
       "prompt": "no le escribas a tu ex si",
@@ -1929,7 +1929,7 @@
       }
     },
     {
-      "id": "v3-personas-26",
+      "id": "v3r-personas-26",
       "category": "personas",
       "category_name": "Personas",
       "prompt": "no mandes ese mensaje si",
@@ -1964,7 +1964,7 @@
       }
     },
     {
-      "id": "v3-personas-27",
+      "id": "v3r-personas-27",
       "category": "personas",
       "category_name": "Personas",
       "prompt": "no llames a tu ex cuando",
@@ -1999,7 +1999,7 @@
       }
     },
     {
-      "id": "v3-personas-28",
+      "id": "v3r-personas-28",
       "category": "personas",
       "category_name": "Personas",
       "prompt": "mi mejor amigo siempre",
@@ -2034,7 +2034,7 @@
       }
     },
     {
-      "id": "v3-personas-29",
+      "id": "v3r-personas-29",
       "category": "personas",
       "category_name": "Personas",
       "prompt": "mi vecino",
@@ -2069,7 +2069,7 @@
       }
     },
     {
-      "id": "v3-personas-30",
+      "id": "v3r-personas-30",
       "category": "personas",
       "category_name": "Personas",
       "prompt": "mi compañero de piso",
@@ -2104,7 +2104,7 @@
       }
     },
     {
-      "id": "v3-nombres-01",
+      "id": "v3r-nombres-01",
       "category": "nombres",
       "category_name": "Nombres",
       "prompt": "María",
@@ -2139,7 +2139,7 @@
       }
     },
     {
-      "id": "v3-nombres-02",
+      "id": "v3r-nombres-02",
       "category": "nombres",
       "category_name": "Nombres",
       "prompt": "José",
@@ -2174,7 +2174,7 @@
       }
     },
     {
-      "id": "v3-nombres-03",
+      "id": "v3r-nombres-03",
       "category": "nombres",
       "category_name": "Nombres",
       "prompt": "Antonio",
@@ -2209,7 +2209,7 @@
       }
     },
     {
-      "id": "v3-nombres-04",
+      "id": "v3r-nombres-04",
       "category": "nombres",
       "category_name": "Nombres",
       "prompt": "Carmen",
@@ -2244,7 +2244,7 @@
       }
     },
     {
-      "id": "v3-nombres-05",
+      "id": "v3r-nombres-05",
       "category": "nombres",
       "category_name": "Nombres",
       "prompt": "Lucía",
@@ -2279,7 +2279,7 @@
       }
     },
     {
-      "id": "v3-nombres-06",
+      "id": "v3r-nombres-06",
       "category": "nombres",
       "category_name": "Nombres",
       "prompt": "Manuel",
@@ -2314,7 +2314,7 @@
       }
     },
     {
-      "id": "v3-nombres-07",
+      "id": "v3r-nombres-07",
       "category": "nombres",
       "category_name": "Nombres",
       "prompt": "Laura",
@@ -2349,7 +2349,7 @@
       }
     },
     {
-      "id": "v3-nombres-08",
+      "id": "v3r-nombres-08",
       "category": "nombres",
       "category_name": "Nombres",
       "prompt": "Javier",
@@ -2384,7 +2384,7 @@
       }
     },
     {
-      "id": "v3-nombres-09",
+      "id": "v3r-nombres-09",
       "category": "nombres",
       "category_name": "Nombres",
       "prompt": "Ana",
@@ -2419,7 +2419,7 @@
       }
     },
     {
-      "id": "v3-nombres-10",
+      "id": "v3r-nombres-10",
       "category": "nombres",
       "category_name": "Nombres",
       "prompt": "David",
@@ -2454,7 +2454,7 @@
       }
     },
     {
-      "id": "v3-nombres-11",
+      "id": "v3r-nombres-11",
       "category": "nombres",
       "category_name": "Nombres",
       "prompt": "Sofía",
@@ -2489,7 +2489,7 @@
       }
     },
     {
-      "id": "v3-nombres-12",
+      "id": "v3r-nombres-12",
       "category": "nombres",
       "category_name": "Nombres",
       "prompt": "Daniel",
@@ -2524,7 +2524,7 @@
       }
     },
     {
-      "id": "v3-nombres-13",
+      "id": "v3r-nombres-13",
       "category": "nombres",
       "category_name": "Nombres",
       "prompt": "Marta",
@@ -2559,7 +2559,7 @@
       }
     },
     {
-      "id": "v3-nombres-14",
+      "id": "v3r-nombres-14",
       "category": "nombres",
       "category_name": "Nombres",
       "prompt": "Pablo",
@@ -2594,7 +2594,7 @@
       }
     },
     {
-      "id": "v3-nombres-15",
+      "id": "v3r-nombres-15",
       "category": "nombres",
       "category_name": "Nombres",
       "prompt": "Elena",
@@ -2629,7 +2629,7 @@
       }
     },
     {
-      "id": "v3-nombres-16",
+      "id": "v3r-nombres-16",
       "category": "nombres",
       "category_name": "Nombres",
       "prompt": "Carlos",
@@ -2664,7 +2664,7 @@
       }
     },
     {
-      "id": "v3-nombres-17",
+      "id": "v3r-nombres-17",
       "category": "nombres",
       "category_name": "Nombres",
       "prompt": "Paula",
@@ -2699,7 +2699,7 @@
       }
     },
     {
-      "id": "v3-nombres-18",
+      "id": "v3r-nombres-18",
       "category": "nombres",
       "category_name": "Nombres",
       "prompt": "Miguel",
@@ -2734,7 +2734,7 @@
       }
     },
     {
-      "id": "v3-nombres-19",
+      "id": "v3r-nombres-19",
       "category": "nombres",
       "category_name": "Nombres",
       "prompt": "Alba",
@@ -2769,7 +2769,7 @@
       }
     },
     {
-      "id": "v3-nombres-20",
+      "id": "v3r-nombres-20",
       "category": "nombres",
       "category_name": "Nombres",
       "prompt": "Alejandro",
@@ -2804,7 +2804,7 @@
       }
     },
     {
-      "id": "v3-nombres-21",
+      "id": "v3r-nombres-21",
       "category": "nombres",
       "category_name": "Nombres",
       "prompt": "Sara",
@@ -2839,7 +2839,7 @@
       }
     },
     {
-      "id": "v3-nombres-22",
+      "id": "v3r-nombres-22",
       "category": "nombres",
       "category_name": "Nombres",
       "prompt": "Diego",
@@ -2874,7 +2874,7 @@
       }
     },
     {
-      "id": "v3-nombres-23",
+      "id": "v3r-nombres-23",
       "category": "nombres",
       "category_name": "Nombres",
       "prompt": "Isabel",
@@ -2909,7 +2909,7 @@
       }
     },
     {
-      "id": "v3-nombres-24",
+      "id": "v3r-nombres-24",
       "category": "nombres",
       "category_name": "Nombres",
       "prompt": "Fernando",
@@ -2944,7 +2944,7 @@
       }
     },
     {
-      "id": "v3-nombres-25",
+      "id": "v3r-nombres-25",
       "category": "nombres",
       "category_name": "Nombres",
       "prompt": "Aitana",
@@ -2979,7 +2979,7 @@
       }
     },
     {
-      "id": "v3-nombres-26",
+      "id": "v3r-nombres-26",
       "category": "nombres",
       "category_name": "Nombres",
       "prompt": "Rosalía",
@@ -3014,7 +3014,7 @@
       }
     },
     {
-      "id": "v3-nombres-27",
+      "id": "v3r-nombres-27",
       "category": "nombres",
       "category_name": "Nombres",
       "prompt": "Penélope",
@@ -3049,7 +3049,7 @@
       }
     },
     {
-      "id": "v3-nombres-28",
+      "id": "v3r-nombres-28",
       "category": "nombres",
       "category_name": "Nombres",
       "prompt": "Pedro",
@@ -3084,7 +3084,7 @@
       }
     },
     {
-      "id": "v3-nombres-29",
+      "id": "v3r-nombres-29",
       "category": "nombres",
       "category_name": "Nombres",
       "prompt": "Inés",
@@ -3119,7 +3119,7 @@
       }
     },
     {
-      "id": "v3-nombres-30",
+      "id": "v3r-nombres-30",
       "category": "nombres",
       "category_name": "Nombres",
       "prompt": "Lola",
@@ -3154,7 +3154,7 @@
       }
     },
     {
-      "id": "v3-preguntas-01",
+      "id": "v3r-preguntas-01",
       "category": "preguntas",
       "category_name": "Preguntas",
       "prompt": "debería vender",
@@ -3189,7 +3189,7 @@
       }
     },
     {
-      "id": "v3-preguntas-02",
+      "id": "v3r-preguntas-02",
       "category": "preguntas",
       "category_name": "Preguntas",
       "prompt": "debería comprar",
@@ -3224,7 +3224,7 @@
       }
     },
     {
-      "id": "v3-preguntas-03",
+      "id": "v3r-preguntas-03",
       "category": "preguntas",
       "category_name": "Preguntas",
       "prompt": "me compensa vender",
@@ -3259,7 +3259,7 @@
       }
     },
     {
-      "id": "v3-preguntas-04",
+      "id": "v3r-preguntas-04",
       "category": "preguntas",
       "category_name": "Preguntas",
       "prompt": "debería escribirle a",
@@ -3294,7 +3294,7 @@
       }
     },
     {
-      "id": "v3-preguntas-05",
+      "id": "v3r-preguntas-05",
       "category": "preguntas",
       "category_name": "Preguntas",
       "prompt": "no le escribas a",
@@ -3329,7 +3329,7 @@
       }
     },
     {
-      "id": "v3-preguntas-06",
+      "id": "v3r-preguntas-06",
       "category": "preguntas",
       "category_name": "Preguntas",
       "prompt": "¿le escribo a",
@@ -3364,7 +3364,7 @@
       }
     },
     {
-      "id": "v3-preguntas-07",
+      "id": "v3r-preguntas-07",
       "category": "preguntas",
       "category_name": "Preguntas",
       "prompt": "puedo vivir sin",
@@ -3399,7 +3399,7 @@
       }
     },
     {
-      "id": "v3-preguntas-08",
+      "id": "v3r-preguntas-08",
       "category": "preguntas",
       "category_name": "Preguntas",
       "prompt": "es posible vivir sin",
@@ -3434,7 +3434,7 @@
       }
     },
     {
-      "id": "v3-preguntas-09",
+      "id": "v3r-preguntas-09",
       "category": "preguntas",
       "category_name": "Preguntas",
       "prompt": "cómo vivir sin",
@@ -3469,7 +3469,7 @@
       }
     },
     {
-      "id": "v3-preguntas-10",
+      "id": "v3r-preguntas-10",
       "category": "preguntas",
       "category_name": "Preguntas",
       "prompt": "es normal que",
@@ -3504,7 +3504,7 @@
       }
     },
     {
-      "id": "v3-preguntas-11",
+      "id": "v3r-preguntas-11",
       "category": "preguntas",
       "category_name": "Preguntas",
       "prompt": "por qué es normal que",
@@ -3539,7 +3539,7 @@
       }
     },
     {
-      "id": "v3-preguntas-12",
+      "id": "v3r-preguntas-12",
       "category": "preguntas",
       "category_name": "Preguntas",
       "prompt": "me preocupa que",
@@ -3574,7 +3574,7 @@
       }
     },
     {
-      "id": "v3-preguntas-13",
+      "id": "v3r-preguntas-13",
       "category": "preguntas",
       "category_name": "Preguntas",
       "prompt": "por qué mi perro",
@@ -3609,7 +3609,7 @@
       }
     },
     {
-      "id": "v3-preguntas-14",
+      "id": "v3r-preguntas-14",
       "category": "preguntas",
       "category_name": "Preguntas",
       "prompt": "por qué mi gato",
@@ -3644,7 +3644,7 @@
       }
     },
     {
-      "id": "v3-preguntas-15",
+      "id": "v3r-preguntas-15",
       "category": "preguntas",
       "category_name": "Preguntas",
       "prompt": "por qué mi conejo",
@@ -3679,7 +3679,7 @@
       }
     },
     {
-      "id": "v3-preguntas-16",
+      "id": "v3r-preguntas-16",
       "category": "preguntas",
       "category_name": "Preguntas",
       "prompt": "qué hacer si",
@@ -3714,7 +3714,7 @@
       }
     },
     {
-      "id": "v3-preguntas-17",
+      "id": "v3r-preguntas-17",
       "category": "preguntas",
       "category_name": "Preguntas",
       "prompt": "qué hago si",
@@ -3749,7 +3749,7 @@
       }
     },
     {
-      "id": "v3-preguntas-18",
+      "id": "v3r-preguntas-18",
       "category": "preguntas",
       "category_name": "Preguntas",
       "prompt": "y si",
@@ -3784,7 +3784,7 @@
       }
     },
     {
-      "id": "v3-preguntas-19",
+      "id": "v3r-preguntas-19",
       "category": "preguntas",
       "category_name": "Preguntas",
       "prompt": "me puedo comer",
@@ -3819,7 +3819,7 @@
       }
     },
     {
-      "id": "v3-preguntas-20",
+      "id": "v3r-preguntas-20",
       "category": "preguntas",
       "category_name": "Preguntas",
       "prompt": "puedo probar",
@@ -3854,7 +3854,7 @@
       }
     },
     {
-      "id": "v3-preguntas-21",
+      "id": "v3r-preguntas-21",
       "category": "preguntas",
       "category_name": "Preguntas",
       "prompt": "es seguro comer",
@@ -3889,7 +3889,7 @@
       }
     },
     {
-      "id": "v3-preguntas-22",
+      "id": "v3r-preguntas-22",
       "category": "preguntas",
       "category_name": "Preguntas",
       "prompt": "debería comprar",
@@ -3924,7 +3924,7 @@
       }
     },
     {
-      "id": "v3-preguntas-23",
+      "id": "v3r-preguntas-23",
       "category": "preguntas",
       "category_name": "Preguntas",
       "prompt": "qué debería comprar",
@@ -3959,7 +3959,7 @@
       }
     },
     {
-      "id": "v3-preguntas-24",
+      "id": "v3r-preguntas-24",
       "category": "preguntas",
       "category_name": "Preguntas",
       "prompt": "merece la pena comprar",
@@ -3994,7 +3994,7 @@
       }
     },
     {
-      "id": "v3-preguntas-25",
+      "id": "v3r-preguntas-25",
       "category": "preguntas",
       "category_name": "Preguntas",
       "prompt": "cómo saber si",
@@ -4029,7 +4029,7 @@
       }
     },
     {
-      "id": "v3-preguntas-26",
+      "id": "v3r-preguntas-26",
       "category": "preguntas",
       "category_name": "Preguntas",
       "prompt": "quiero saber si",
@@ -4064,7 +4064,7 @@
       }
     },
     {
-      "id": "v3-preguntas-27",
+      "id": "v3r-preguntas-27",
       "category": "preguntas",
       "category_name": "Preguntas",
       "prompt": "cómo comprobar si",
@@ -4099,7 +4099,7 @@
       }
     },
     {
-      "id": "v3-preguntas-28",
+      "id": "v3r-preguntas-28",
       "category": "preguntas",
       "category_name": "Preguntas",
       "prompt": "puedo dormir con",
@@ -4134,7 +4134,7 @@
       }
     },
     {
-      "id": "v3-preguntas-29",
+      "id": "v3r-preguntas-29",
       "category": "preguntas",
       "category_name": "Preguntas",
       "prompt": "es raro dormir con",
@@ -4169,7 +4169,7 @@
       }
     },
     {
-      "id": "v3-preguntas-30",
+      "id": "v3r-preguntas-30",
       "category": "preguntas",
       "category_name": "Preguntas",
       "prompt": "quién puede dormir con",
@@ -4204,7 +4204,7 @@
       }
     },
     {
-      "id": "v3-animales-01",
+      "id": "v3r-animales-01",
       "category": "animales",
       "category_name": "Animales",
       "prompt": "mi perro se ha comido",
@@ -4239,7 +4239,7 @@
       }
     },
     {
-      "id": "v3-animales-02",
+      "id": "v3r-animales-02",
       "category": "animales",
       "category_name": "Animales",
       "prompt": "mi gato se ha comido",
@@ -4274,7 +4274,7 @@
       }
     },
     {
-      "id": "v3-animales-03",
+      "id": "v3r-animales-03",
       "category": "animales",
       "category_name": "Animales",
       "prompt": "mi conejo se ha comido",
@@ -4309,7 +4309,7 @@
       }
     },
     {
-      "id": "v3-animales-04",
+      "id": "v3r-animales-04",
       "category": "animales",
       "category_name": "Animales",
       "prompt": "mi perro no deja de",
@@ -4344,7 +4344,7 @@
       }
     },
     {
-      "id": "v3-animales-05",
+      "id": "v3r-animales-05",
       "category": "animales",
       "category_name": "Animales",
       "prompt": "mi gato no deja de",
@@ -4379,7 +4379,7 @@
       }
     },
     {
-      "id": "v3-animales-06",
+      "id": "v3r-animales-06",
       "category": "animales",
       "category_name": "Animales",
       "prompt": "mi conejo no deja de",
@@ -4414,7 +4414,7 @@
       }
     },
     {
-      "id": "v3-animales-07",
+      "id": "v3r-animales-07",
       "category": "animales",
       "category_name": "Animales",
       "prompt": "mi gato duerme",
@@ -4449,7 +4449,7 @@
       }
     },
     {
-      "id": "v3-animales-08",
+      "id": "v3r-animales-08",
       "category": "animales",
       "category_name": "Animales",
       "prompt": "mi perro duerme",
@@ -4484,7 +4484,7 @@
       }
     },
     {
-      "id": "v3-animales-09",
+      "id": "v3r-animales-09",
       "category": "animales",
       "category_name": "Animales",
       "prompt": "mi conejo duerme",
@@ -4519,7 +4519,7 @@
       }
     },
     {
-      "id": "v3-animales-10",
+      "id": "v3r-animales-10",
       "category": "animales",
       "category_name": "Animales",
       "prompt": "mi gato me",
@@ -4554,7 +4554,7 @@
       }
     },
     {
-      "id": "v3-animales-11",
+      "id": "v3r-animales-11",
       "category": "animales",
       "category_name": "Animales",
       "prompt": "mi perro me",
@@ -4589,7 +4589,7 @@
       }
     },
     {
-      "id": "v3-animales-12",
+      "id": "v3r-animales-12",
       "category": "animales",
       "category_name": "Animales",
       "prompt": "mi conejo me",
@@ -4624,7 +4624,7 @@
       }
     },
     {
-      "id": "v3-animales-13",
+      "id": "v3r-animales-13",
       "category": "animales",
       "category_name": "Animales",
       "prompt": "por qué mi perro",
@@ -4659,7 +4659,7 @@
       }
     },
     {
-      "id": "v3-animales-14",
+      "id": "v3r-animales-14",
       "category": "animales",
       "category_name": "Animales",
       "prompt": "por qué mi gato",
@@ -4694,7 +4694,7 @@
       }
     },
     {
-      "id": "v3-animales-15",
+      "id": "v3r-animales-15",
       "category": "animales",
       "category_name": "Animales",
       "prompt": "por qué mi conejo",
@@ -4729,7 +4729,7 @@
       }
     },
     {
-      "id": "v3-animales-16",
+      "id": "v3r-animales-16",
       "category": "animales",
       "category_name": "Animales",
       "prompt": "cuando mi perro",
@@ -4764,7 +4764,7 @@
       }
     },
     {
-      "id": "v3-animales-17",
+      "id": "v3r-animales-17",
       "category": "animales",
       "category_name": "Animales",
       "prompt": "cuando mi gato",
@@ -4799,7 +4799,7 @@
       }
     },
     {
-      "id": "v3-animales-18",
+      "id": "v3r-animales-18",
       "category": "animales",
       "category_name": "Animales",
       "prompt": "cuando mi conejo",
@@ -4834,7 +4834,7 @@
       }
     },
     {
-      "id": "v3-animales-19",
+      "id": "v3r-animales-19",
       "category": "animales",
       "category_name": "Animales",
       "prompt": "el perro del vecino",
@@ -4869,7 +4869,7 @@
       }
     },
     {
-      "id": "v3-animales-20",
+      "id": "v3r-animales-20",
       "category": "animales",
       "category_name": "Animales",
       "prompt": "el gato del vecino",
@@ -4904,7 +4904,7 @@
       }
     },
     {
-      "id": "v3-animales-21",
+      "id": "v3r-animales-21",
       "category": "animales",
       "category_name": "Animales",
       "prompt": "la mascota de mi hermana",
@@ -4939,7 +4939,7 @@
       }
     },
     {
-      "id": "v3-animales-22",
+      "id": "v3r-animales-22",
       "category": "animales",
       "category_name": "Animales",
       "prompt": "mi mascota sabe",
@@ -4974,7 +4974,7 @@
       }
     },
     {
-      "id": "v3-animales-23",
+      "id": "v3r-animales-23",
       "category": "animales",
       "category_name": "Animales",
       "prompt": "mi perro sabe",
@@ -5009,7 +5009,7 @@
       }
     },
     {
-      "id": "v3-animales-24",
+      "id": "v3r-animales-24",
       "category": "animales",
       "category_name": "Animales",
       "prompt": "mi gato sabe",
@@ -5044,7 +5044,7 @@
       }
     },
     {
-      "id": "v3-animales-25",
+      "id": "v3r-animales-25",
       "category": "animales",
       "category_name": "Animales",
       "prompt": "cómo saber si mi gato",
@@ -5079,7 +5079,7 @@
       }
     },
     {
-      "id": "v3-animales-26",
+      "id": "v3r-animales-26",
       "category": "animales",
       "category_name": "Animales",
       "prompt": "cómo saber si mi perro",
@@ -5114,7 +5114,7 @@
       }
     },
     {
-      "id": "v3-animales-27",
+      "id": "v3r-animales-27",
       "category": "animales",
       "category_name": "Animales",
       "prompt": "cómo saber si mi conejo",
@@ -5149,7 +5149,7 @@
       }
     },
     {
-      "id": "v3-animales-28",
+      "id": "v3r-animales-28",
       "category": "animales",
       "category_name": "Animales",
       "prompt": "animales que",
@@ -5184,7 +5184,7 @@
       }
     },
     {
-      "id": "v3-animales-29",
+      "id": "v3r-animales-29",
       "category": "animales",
       "category_name": "Animales",
       "prompt": "animales que pueden",
@@ -5219,7 +5219,7 @@
       }
     },
     {
-      "id": "v3-animales-30",
+      "id": "v3r-animales-30",
       "category": "animales",
       "category_name": "Animales",
       "prompt": "animales capaces de",
@@ -5254,7 +5254,7 @@
       }
     },
     {
-      "id": "v3-entretenimiento-01",
+      "id": "v3r-entretenimiento-01",
       "category": "entretenimiento",
       "category_name": "Entretenimiento",
       "prompt": "la película en la que el protagonista",
@@ -5289,7 +5289,7 @@
       }
     },
     {
-      "id": "v3-entretenimiento-02",
+      "id": "v3r-entretenimiento-02",
       "category": "entretenimiento",
       "category_name": "Entretenimiento",
       "prompt": "la película donde el protagonista",
@@ -5324,7 +5324,7 @@
       }
     },
     {
-      "id": "v3-entretenimiento-03",
+      "id": "v3r-entretenimiento-03",
       "category": "entretenimiento",
       "category_name": "Entretenimiento",
       "prompt": "la historia en la que el protagonista",
@@ -5359,7 +5359,7 @@
       }
     },
     {
-      "id": "v3-entretenimiento-04",
+      "id": "v3r-entretenimiento-04",
       "category": "entretenimiento",
       "category_name": "Entretenimiento",
       "prompt": "la película donde sale",
@@ -5394,7 +5394,7 @@
       }
     },
     {
-      "id": "v3-entretenimiento-05",
+      "id": "v3r-entretenimiento-05",
       "category": "entretenimiento",
       "category_name": "Entretenimiento",
       "prompt": "la película que incluye",
@@ -5429,7 +5429,7 @@
       }
     },
     {
-      "id": "v3-entretenimiento-06",
+      "id": "v3r-entretenimiento-06",
       "category": "entretenimiento",
       "category_name": "Entretenimiento",
       "prompt": "una película con",
@@ -5464,7 +5464,7 @@
       }
     },
     {
-      "id": "v3-entretenimiento-07",
+      "id": "v3r-entretenimiento-07",
       "category": "entretenimiento",
       "category_name": "Entretenimiento",
       "prompt": "una serie sobre",
@@ -5499,7 +5499,7 @@
       }
     },
     {
-      "id": "v3-entretenimiento-08",
+      "id": "v3r-entretenimiento-08",
       "category": "entretenimiento",
       "category_name": "Entretenimiento",
       "prompt": "series sobre",
@@ -5534,7 +5534,7 @@
       }
     },
     {
-      "id": "v3-entretenimiento-09",
+      "id": "v3r-entretenimiento-09",
       "category": "entretenimiento",
       "category_name": "Entretenimiento",
       "prompt": "una serie acerca de",
@@ -5569,7 +5569,7 @@
       }
     },
     {
-      "id": "v3-entretenimiento-10",
+      "id": "v3r-entretenimiento-10",
       "category": "entretenimiento",
       "category_name": "Entretenimiento",
       "prompt": "la canción que dice",
@@ -5604,7 +5604,7 @@
       }
     },
     {
-      "id": "v3-entretenimiento-11",
+      "id": "v3r-entretenimiento-11",
       "category": "entretenimiento",
       "category_name": "Entretenimiento",
       "prompt": "la letra que repite",
@@ -5639,7 +5639,7 @@
       }
     },
     {
-      "id": "v3-entretenimiento-12",
+      "id": "v3r-entretenimiento-12",
       "category": "entretenimiento",
       "category_name": "Entretenimiento",
       "prompt": "una canción que habla de",
@@ -5674,7 +5674,7 @@
       }
     },
     {
-      "id": "v3-entretenimiento-13",
+      "id": "v3r-entretenimiento-13",
       "category": "entretenimiento",
       "category_name": "Entretenimiento",
       "prompt": "canciones para",
@@ -5709,7 +5709,7 @@
       }
     },
     {
-      "id": "v3-entretenimiento-14",
+      "id": "v3r-entretenimiento-14",
       "category": "entretenimiento",
       "category_name": "Entretenimiento",
       "prompt": "música para",
@@ -5744,7 +5744,7 @@
       }
     },
     {
-      "id": "v3-entretenimiento-15",
+      "id": "v3r-entretenimiento-15",
       "category": "entretenimiento",
       "category_name": "Entretenimiento",
       "prompt": "una canción para",
@@ -5779,7 +5779,7 @@
       }
     },
     {
-      "id": "v3-entretenimiento-16",
+      "id": "v3r-entretenimiento-16",
       "category": "entretenimiento",
       "category_name": "Entretenimiento",
       "prompt": "el cantante que",
@@ -5814,7 +5814,7 @@
       }
     },
     {
-      "id": "v3-entretenimiento-17",
+      "id": "v3r-entretenimiento-17",
       "category": "entretenimiento",
       "category_name": "Entretenimiento",
       "prompt": "la cantante que",
@@ -5849,7 +5849,7 @@
       }
     },
     {
-      "id": "v3-entretenimiento-18",
+      "id": "v3r-entretenimiento-18",
       "category": "entretenimiento",
       "category_name": "Entretenimiento",
       "prompt": "un cantante que",
@@ -5884,7 +5884,7 @@
       }
     },
     {
-      "id": "v3-entretenimiento-19",
+      "id": "v3r-entretenimiento-19",
       "category": "entretenimiento",
       "category_name": "Entretenimiento",
       "prompt": "series sobre",
@@ -5919,7 +5919,7 @@
       }
     },
     {
-      "id": "v3-entretenimiento-20",
+      "id": "v3r-entretenimiento-20",
       "category": "entretenimiento",
       "category_name": "Entretenimiento",
       "prompt": "una serie donde",
@@ -5954,7 +5954,7 @@
       }
     },
     {
-      "id": "v3-entretenimiento-21",
+      "id": "v3r-entretenimiento-21",
       "category": "entretenimiento",
       "category_name": "Entretenimiento",
       "prompt": "la mejor serie para",
@@ -5989,7 +5989,7 @@
       }
     },
     {
-      "id": "v3-entretenimiento-22",
+      "id": "v3r-entretenimiento-22",
       "category": "entretenimiento",
       "category_name": "Entretenimiento",
       "prompt": "la serie que todo el mundo",
@@ -6024,7 +6024,7 @@
       }
     },
     {
-      "id": "v3-entretenimiento-23",
+      "id": "v3r-entretenimiento-23",
       "category": "entretenimiento",
       "category_name": "Entretenimiento",
       "prompt": "esa serie que todo el mundo",
@@ -6059,7 +6059,7 @@
       }
     },
     {
-      "id": "v3-entretenimiento-24",
+      "id": "v3r-entretenimiento-24",
       "category": "entretenimiento",
       "category_name": "Entretenimiento",
       "prompt": "una serie que todo el mundo",
@@ -6094,7 +6094,7 @@
       }
     },
     {
-      "id": "v3-entretenimiento-25",
+      "id": "v3r-entretenimiento-25",
       "category": "entretenimiento",
       "category_name": "Entretenimiento",
       "prompt": "el capítulo que me hizo",
@@ -6129,7 +6129,7 @@
       }
     },
     {
-      "id": "v3-entretenimiento-26",
+      "id": "v3r-entretenimiento-26",
       "category": "entretenimiento",
       "category_name": "Entretenimiento",
       "prompt": "una serie que me hizo",
@@ -6164,7 +6164,7 @@
       }
     },
     {
-      "id": "v3-entretenimiento-27",
+      "id": "v3r-entretenimiento-27",
       "category": "entretenimiento",
       "category_name": "Entretenimiento",
       "prompt": "la serie que consiguió hacerme",
@@ -6199,7 +6199,7 @@
       }
     },
     {
-      "id": "v3-entretenimiento-28",
+      "id": "v3r-entretenimiento-28",
       "category": "entretenimiento",
       "category_name": "Entretenimiento",
       "prompt": "el personaje que",
@@ -6234,7 +6234,7 @@
       }
     },
     {
-      "id": "v3-entretenimiento-29",
+      "id": "v3r-entretenimiento-29",
       "category": "entretenimiento",
       "category_name": "Entretenimiento",
       "prompt": "el personaje de la serie que",
@@ -6269,7 +6269,7 @@
       }
     },
     {
-      "id": "v3-entretenimiento-30",
+      "id": "v3r-entretenimiento-30",
       "category": "entretenimiento",
       "category_name": "Entretenimiento",
       "prompt": "ese personaje que",
@@ -6304,7 +6304,7 @@
       }
     },
     {
-      "id": "v3-comida-01",
+      "id": "v3r-comida-01",
       "category": "comida",
       "category_name": "Comida",
       "prompt": "me he comido por accidente",
@@ -6339,7 +6339,7 @@
       }
     },
     {
-      "id": "v3-comida-02",
+      "id": "v3r-comida-02",
       "category": "comida",
       "category_name": "Comida",
       "prompt": "me he tragado por accidente",
@@ -6374,7 +6374,7 @@
       }
     },
     {
-      "id": "v3-comida-03",
+      "id": "v3r-comida-03",
       "category": "comida",
       "category_name": "Comida",
       "prompt": "he comido sin querer",
@@ -6409,7 +6409,7 @@
       }
     },
     {
-      "id": "v3-comida-04",
+      "id": "v3r-comida-04",
       "category": "comida",
       "category_name": "Comida",
       "prompt": "mi perro se ha comido",
@@ -6444,7 +6444,7 @@
       }
     },
     {
-      "id": "v3-comida-05",
+      "id": "v3r-comida-05",
       "category": "comida",
       "category_name": "Comida",
       "prompt": "mi gato se ha comido",
@@ -6479,7 +6479,7 @@
       }
     },
     {
-      "id": "v3-comida-06",
+      "id": "v3r-comida-06",
       "category": "comida",
       "category_name": "Comida",
       "prompt": "mi mascota se ha comido",
@@ -6514,7 +6514,7 @@
       }
     },
     {
-      "id": "v3-comida-07",
+      "id": "v3r-comida-07",
       "category": "comida",
       "category_name": "Comida",
       "prompt": "he bebido demasiado",
@@ -6549,7 +6549,7 @@
       }
     },
     {
-      "id": "v3-comida-08",
+      "id": "v3r-comida-08",
       "category": "comida",
       "category_name": "Comida",
       "prompt": "he tomado demasiado",
@@ -6584,7 +6584,7 @@
       }
     },
     {
-      "id": "v3-comida-09",
+      "id": "v3r-comida-09",
       "category": "comida",
       "category_name": "Comida",
       "prompt": "después de beber",
@@ -6619,7 +6619,7 @@
       }
     },
     {
-      "id": "v3-comida-10",
+      "id": "v3r-comida-10",
       "category": "comida",
       "category_name": "Comida",
       "prompt": "me sabe la boca a",
@@ -6654,7 +6654,7 @@
       }
     },
     {
-      "id": "v3-comida-11",
+      "id": "v3r-comida-11",
       "category": "comida",
       "category_name": "Comida",
       "prompt": "todo me sabe a",
@@ -6689,7 +6689,7 @@
       }
     },
     {
-      "id": "v3-comida-12",
+      "id": "v3r-comida-12",
       "category": "comida",
       "category_name": "Comida",
       "prompt": "la cocina huele a",
@@ -6724,7 +6724,7 @@
       }
     },
     {
-      "id": "v3-comida-13",
+      "id": "v3r-comida-13",
       "category": "comida",
       "category_name": "Comida",
       "prompt": "nunca mezcles",
@@ -6759,7 +6759,7 @@
       }
     },
     {
-      "id": "v3-comida-14",
+      "id": "v3r-comida-14",
       "category": "comida",
       "category_name": "Comida",
       "prompt": "no mezcles",
@@ -6794,7 +6794,7 @@
       }
     },
     {
-      "id": "v3-comida-15",
+      "id": "v3r-comida-15",
       "category": "comida",
       "category_name": "Comida",
       "prompt": "qué pasa si mezclas",
@@ -6829,7 +6829,7 @@
       }
     },
     {
-      "id": "v3-comida-16",
+      "id": "v3r-comida-16",
       "category": "comida",
       "category_name": "Comida",
       "prompt": "cuando comes demasiado",
@@ -6864,7 +6864,7 @@
       }
     },
     {
-      "id": "v3-comida-17",
+      "id": "v3r-comida-17",
       "category": "comida",
       "category_name": "Comida",
       "prompt": "si comes demasiado",
@@ -6899,7 +6899,7 @@
       }
     },
     {
-      "id": "v3-comida-18",
+      "id": "v3r-comida-18",
       "category": "comida",
       "category_name": "Comida",
       "prompt": "después de comer demasiado",
@@ -6934,7 +6934,7 @@
       }
     },
     {
-      "id": "v3-comida-19",
+      "id": "v3r-comida-19",
       "category": "comida",
       "category_name": "Comida",
       "prompt": "la comida que más",
@@ -6969,7 +6969,7 @@
       }
     },
     {
-      "id": "v3-comida-20",
+      "id": "v3r-comida-20",
       "category": "comida",
       "category_name": "Comida",
       "prompt": "lo que más me gusta comer",
@@ -7004,7 +7004,7 @@
       }
     },
     {
-      "id": "v3-comida-21",
+      "id": "v3r-comida-21",
       "category": "comida",
       "category_name": "Comida",
       "prompt": "mi comida favorita",
@@ -7039,7 +7039,7 @@
       }
     },
     {
-      "id": "v3-comida-22",
+      "id": "v3r-comida-22",
       "category": "comida",
       "category_name": "Comida",
       "prompt": "qué hacer si te tragas",
@@ -7074,7 +7074,7 @@
       }
     },
     {
-      "id": "v3-comida-23",
+      "id": "v3r-comida-23",
       "category": "comida",
       "category_name": "Comida",
       "prompt": "qué pasa si te tragas",
@@ -7109,7 +7109,7 @@
       }
     },
     {
-      "id": "v3-comida-24",
+      "id": "v3r-comida-24",
       "category": "comida",
       "category_name": "Comida",
       "prompt": "si te tragas",
@@ -7144,7 +7144,7 @@
       }
     },
     {
-      "id": "v3-comida-25",
+      "id": "v3r-comida-25",
       "category": "comida",
       "category_name": "Comida",
       "prompt": "he encontrado",
@@ -7179,7 +7179,7 @@
       }
     },
     {
-      "id": "v3-comida-26",
+      "id": "v3r-comida-26",
       "category": "comida",
       "category_name": "Comida",
       "prompt": "en la nevera he encontrado",
@@ -7214,7 +7214,7 @@
       }
     },
     {
-      "id": "v3-comida-27",
+      "id": "v3r-comida-27",
       "category": "comida",
       "category_name": "Comida",
       "prompt": "qué hago con lo que he encontrado",
@@ -7249,7 +7249,7 @@
       }
     },
     {
-      "id": "v3-comida-28",
+      "id": "v3r-comida-28",
       "category": "comida",
       "category_name": "Comida",
       "prompt": "mi nevera huele a",
@@ -7284,7 +7284,7 @@
       }
     },
     {
-      "id": "v3-comida-29",
+      "id": "v3r-comida-29",
       "category": "comida",
       "category_name": "Comida",
       "prompt": "la cocina huele a",
@@ -7319,7 +7319,7 @@
       }
     },
     {
-      "id": "v3-comida-30",
+      "id": "v3r-comida-30",
       "category": "comida",
       "category_name": "Comida",
       "prompt": "la bolsa huele a",
