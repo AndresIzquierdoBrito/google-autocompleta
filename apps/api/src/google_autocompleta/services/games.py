@@ -8,7 +8,6 @@ from uuid import uuid4
 from zoneinfo import ZoneInfo
 
 from sqlalchemy import delete, select
-from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from google_autocompleta.config import Settings
