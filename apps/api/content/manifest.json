@@ -1,0 +1,24 @@
+{
+  "content_version": "3",
+  "status": "reviewed-localized-pack",
+  "target_board_count": 210,
+  "random_target_per_category": 25,
+  "daily_reserve_per_category": 5,
+  "daily_schedule_start": "2026-09-14",
+  "daily_schedule_end": "2026-10-18",
+  "source": {
+    "kind": "google-feud-localized",
+    "url": "https://googlefeud.com/answers/",
+    "captured_at": "2026-09-13",
+    "note": "Prompt formats and concepts are localized adaptations, not live Google results or literal copies."
+  },
+  "editorial_rules": {
+    "answers_per_board": 10,
+    "minimum_distinct_ideas": 8,
+    "minimum_guessable": 6,
+    "minimum_surprising": 2,
+    "maximum_unapproved_structural_combo": 3,
+    "family_safe": true,
+    "tone": "mildly_edgy"
+  }
+}

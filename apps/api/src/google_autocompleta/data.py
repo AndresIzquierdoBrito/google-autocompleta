@@ -1,5 +1,10 @@
+"""Versioned content catalog and deterministic Daily schedule."""
+
+import json
 from dataclasses import dataclass
 from datetime import date, timedelta
+from pathlib import Path
+from typing import Any
 
 CATEGORY_NAMES: dict[str, str] = {
     "cultura": "Cultura",
@@ -11,8 +16,12 @@ CATEGORY_NAMES: dict[str, str] = {
     "comida": "Comida",
 }
 
+CURRENT_CONTENT_VERSION = "3"
+# Keep the original epoch so old dated puzzles remain addressable in Histórico.
 DAILY_EPOCH = date(2026, 8, 3)
-DAILY_SEED_END = date(2026, 8, 16)
+V3_DAILY_EPOCH = date(2026, 9, 14)
+V3_DAILY_DAYS = 35
+V3_DAILY_END = V3_DAILY_EPOCH + timedelta(days=V3_DAILY_DAYS - 1)
 
 
 @dataclass(frozen=True, slots=True)
@@ -20,592 +29,74 @@ class PromptSeed:
     id: str
     text: str
     endings: tuple[str, ...]
+    content_version: str = CURRENT_CONTENT_VERSION
+    eligibility: str = "random"
+    aliases: dict[str, list[int]] | None = None
+    source: str = "google-feud-localized"
 
     @property
     def category(self) -> str:
-        return self.id.split("-", 1)[0]
+        return self.id.split("-", 2)[1]
 
     @property
     def answers(self) -> list[str]:
         return [f"{self.text} {ending}".strip() for ending in self.endings]
 
 
-PROMPT_SEEDS: tuple[PromptSeed, ...] = (
-    PromptSeed(
-        "cultura-espana",
-        "por qué en españa",
-        (
-            "moana se llama vaiana",
-            "no hay terremotos",
-            "se celebra el día de la madre en mayo",
-            "tenemos dos apellidos",
-            "oscurece tan tarde",
-            "hace tanto calor",
-            "se come tan tarde",
-            "se cena tan tarde",
-            "se saluda con dos besos",
-            "hay tantos castillos",
-        ),
-    ),
-    PromptSeed(
-        "cultura-historia",
-        "la historia de",
-        (
-            "mi familia",
-            "mi familia reparto",
-            "la música española",
-            "juan castillo",
-            "la virgen de la paloma",
-            "una escalera",
-            "tu vida",
-            "los vertebrados",
-            "la peseta",
-            "la imprenta",
-        ),
-    ),
-    PromptSeed(
-        "cultura-tradiciones",
-        "tradiciones españolas",
-        (
-            "más conocidas",
-            "de navidad",
-            "para niños",
-            "de semana santa",
-            "raras",
-            "en el extranjero",
-            "por comunidades",
-            "de año nuevo",
-            "gastronómicas",
-            "antiguas",
-        ),
-    ),
-    PromptSeed(
-        "cultura-celebra",
-        "cuándo se celebra",
-        (
-            "semana santa",
-            "san juan",
-            "el día del padre",
-            "el día del libro",
-            "la feria de abril",
-            "el orgullo",
-            "el carnaval",
-            "la hispanidad",
-            "san isidro",
-            "la tomatina",
-        ),
-    ),
-    PromptSeed(
-        "cultura-palabra",
-        "qué significa la palabra",
-        (
-            "ojalá",
-            "cultura",
-            "flamenco",
-            "sobremesa",
-            "duende",
-            "siesta",
-            "guiri",
-            "majo",
-            "chulo",
-            "morriña",
-        ),
-    ),
-    PromptSeed(
-        "personas-gente",
-        "por qué la gente",
-        (
-            "se tatúa",
-            "ronca",
-            "fuma",
-            "hace el camino de santiago",
-            "miente",
-            "se muerde las uñas",
-            "bosteza",
-            "habla dormida",
-            "tiene hipo",
-            "colecciona cosas",
-        ),
-    ),
-    PromptSeed(
-        "personas-que",
-        "personas que",
-        (
-            "inspiran",
-            "cambiaron el mundo",
-            "se sienten animales",
-            "conocemos en vacaciones",
-            "se creen sus propias mentiras",
-            "mienten y manipulan",
-            "trabajan de noche",
-            "viven solas",
-            "aprenden rápido",
-            "viajan por el mundo",
-        ),
-    ),
-    PromptSeed(
-        "personas-saber",
-        "cómo saber si alguien",
-        (
-            "te quiere",
-            "miente",
-            "te ha bloqueado",
-            "piensa en ti",
-            "es buena persona",
-            "está conectado",
-            "te echa de menos",
-            "es manipulador",
-            "ha leído tu mensaje",
-            "te admira",
-        ),
-    ),
-    PromptSeed(
-        "personas-famosos",
-        "famosos españoles que",
-        (
-            "viven en madrid",
-            "hablan inglés",
-            "son familia",
-            "viven fuera de españa",
-            "tienen gemelos",
-            "han estudiado derecho",
-            "son de canarias",
-            "tienen negocios",
-            "empezaron desde cero",
-            "cumplen años hoy",
-        ),
-    ),
-    PromptSeed(
-        "personas-hace",
-        "qué hace una persona",
-        (
-            "cuando está enamorada",
-            "de recursos humanos",
-            "cuando miente",
-            "cuando está nerviosa",
-            "productiva",
-            "cuando te bloquea",
-            "para ser feliz",
-            "en marketing",
-            "cuando tiene ansiedad",
-            "que te respeta",
-        ),
-    ),
-    PromptSeed(
-        "nombres-nino",
-        "nombres de niño que",
-        (
-            "empiezan por a",
-            "empiezan por m",
-            "empiezan por e",
-            "empiezan por l",
-            "empiezan por d",
-            "empiezan por n",
-            "empiezan por c",
-            "signifiquen luz",
-            "empiezan por b",
-            "empiezan por j",
-        ),
-    ),
-    PromptSeed(
-        "nombres-nina",
-        "nombres de niña que",
-        (
-            "empiezan por a",
-            "empiezan por m",
-            "empiezan por l",
-            "empiezan por e",
-            "signifiquen luz",
-            "empiezan por c",
-            "empiezan por s",
-            "sean cortos",
-            "empiezan por n",
-            "signifiquen fuerza",
-        ),
-    ),
-    PromptSeed(
-        "nombres-significa",
-        "qué significa el nombre",
-        (
-            "lucía",
-            "mateo",
-            "hugo",
-            "sofía",
-            "martina",
-            "leo",
-            "valeria",
-            "alejandro",
-            "alma",
-            "daniel",
-        ),
-    ),
-    PromptSeed(
-        "nombres-espanoles",
-        "nombres españoles",
-        (
-            "antiguos",
-            "de niña",
-            "de niño",
-            "poco comunes",
-            "con significado",
-            "medievales",
-            "bonitos",
-            "tradicionales",
-            "que empiezan por a",
-            "para bebés",
-        ),
-    ),
-    PromptSeed(
-        "nombres-empiezan",
-        "nombres que empiezan por",
-        ("a", "m", "e", "l", "c", "s", "n", "d", "r", "j"),
-    ),
-    PromptSeed(
-        "preguntas-aprender",
-        "cómo puedo aprender",
-        (
-            "inglés",
-            "a tocar la guitarra",
-            "a dibujar",
-            "a leer",
-            "a nadar",
-            "chino",
-            "a meditar",
-            "inglés gratis",
-            "a hablar gallego",
-            "programación",
-        ),
-    ),
-    PromptSeed(
-        "preguntas-pasa",
-        "qué pasa si",
-        (
-            "tienes el potasio alto",
-            "no voy en ayunas a un análisis",
-            "no haces la declaración de la renta",
-            "te pica una garrapata",
-            "un huevo flota en el agua",
-            "tienes el hígado graso",
-            "tienes la vitamina d baja",
-            "tienes el cortisol alto",
-            "duermes poco",
-            "bebes mucha agua",
-        ),
-    ),
-    PromptSeed(
-        "preguntas-no-puedo",
-        "por qué no puedo",
-        (
-            "dormir",
-            "adelgazar",
-            "llorar",
-            "entrar en instagram",
-            "dejar de pensar",
-            "concentrarme",
-            "actualizar mi móvil",
-            "ver una serie",
-            "hacer una transferencia",
-            "olvidar a alguien",
-        ),
-    ),
-    PromptSeed(
-        "preguntas-tiempo",
-        "cuánto tiempo tarda",
-        (
-            "un pasaporte",
-            "en cocerse un huevo",
-            "una transferencia",
-            "en crecer el pelo",
-            "hacienda en devolver",
-            "un envío",
-            "en cargar un coche eléctrico",
-            "una carta certificada",
-            "en curarse un esguince",
-            "un juicio",
-        ),
-    ),
-    PromptSeed(
-        "preguntas-donde",
-        "dónde puedo ver",
-        (
-            "la liga",
-            "mi vida laboral",
-            "el número de la seguridad social",
-            "series gratis",
-            "el partido de hoy",
-            "mis puntos del carnet",
-            "la declaración de la renta",
-            "películas antiguas",
-            "mi contrato de trabajo",
-            "documentales",
-        ),
-    ),
-    PromptSeed(
-        "animales-gatos",
-        "por qué los gatos",
-        (
-            "ronronean",
-            "amasan",
-            "mueven la cola",
-            "odian el agua",
-            "duermen tanto",
-            "sacan la lengua",
-            "comen hierba",
-            "tienen la lengua áspera",
-            "muerden",
-            "maúllan de noche",
-        ),
-    ),
-    PromptSeed(
-        "animales-perros",
-        "los perros pueden",
-        (
-            "comer fresas",
-            "comer melón",
-            "comer sandía",
-            "comer cerezas",
-            "comer tomate",
-            "comer arándanos",
-            "comer almendras",
-            "comer papaya",
-            "comer aguacate",
-            "comer uvas",
-        ),
-    ),
-    PromptSeed(
-        "animales-cuidar",
-        "cómo cuidar a",
-        (
-            "un gato",
-            "un cachorro",
-            "un hámster",
-            "una tortuga",
-            "un conejo",
-            "un pájaro",
-            "un pez betta",
-            "un perro mayor",
-            "un erizo",
-            "un camaleón",
-        ),
-    ),
-    PromptSeed(
-        "animales-mi-perro",
-        "por qué mi perro",
-        (
-            "tiembla",
-            "me lame",
-            "come hierba",
-            "jadea mucho",
-            "no quiere comer",
-            "duerme tanto",
-            "me sigue a todas partes",
-            "ladra por la noche",
-            "se rasca mucho",
-            "inclina la cabeza",
-        ),
-    ),
-    PromptSeed(
-        "animales-que",
-        "animales que",
-        (
-            "hibernan",
-            "ponen huevos",
-            "viven en el desierto",
-            "respiran por la piel",
-            "empiezan por a",
-            "viven más años",
-            "brillan en la oscuridad",
-            "no tienen huesos",
-            "duermen de pie",
-            "cambian de color",
-        ),
-    ),
-    PromptSeed(
-        "entretenimiento-series",
-        "mejores series para",
-        (
-            "ver",
-            "ver en netflix",
-            "aprender inglés",
-            "ver en pareja",
-            "ver en amazon prime",
-            "adolescentes",
-            "ver en familia",
-            "un fin de semana",
-            "reírse",
-            "ver ahora",
-        ),
-    ),
-    PromptSeed(
-        "entretenimiento-peliculas",
-        "películas sobre",
-        (
-            "la segunda guerra mundial",
-            "viajes en el tiempo",
-            "música",
-            "el espacio",
-            "historias reales",
-            "periodismo",
-            "el medio ambiente",
-            "ajedrez",
-            "inteligencia artificial",
-            "superación personal",
-        ),
-    ),
-    PromptSeed(
-        "entretenimiento-canciones",
-        "canciones para",
-        (
-            "entrenar",
-            "una boda",
-            "viajar",
-            "dormir",
-            "aprender inglés",
-            "niños",
-            "una fiesta",
-            "dedicar",
-            "cantar en karaoke",
-            "estudiar",
-        ),
-    ),
-    PromptSeed(
-        "entretenimiento-ver",
-        "dónde ver",
-        (
-            "películas clásicas",
-            "series españolas",
-            "documentales gratis",
-            "anime en español",
-            "el partido de hoy",
-            "cine independiente",
-            "cortometrajes",
-            "teatro online",
-            "conciertos completos",
-            "los premios goya",
-        ),
-    ),
-    PromptSeed(
-        "entretenimiento-libros",
-        "libros parecidos a",
-        (
-            "harry potter",
-            "la sombra del viento",
-            "dune",
-            "el principito",
-            "los juegos del hambre",
-            "patria",
-            "reina roja",
-            "el señor de los anillos",
-            "1984",
-            "el nombre del viento",
-        ),
-    ),
-    PromptSeed(
-        "comida-tortilla",
-        "cómo hacer tortilla",
-        (
-            "de calabacín",
-            "de patata",
-            "de calabaza",
-            "de patata con cebolla",
-            "de espinacas",
-            "de plátano",
-            "de bacalao",
-            "francesa en el microondas",
-            "francesa",
-            "de berenjena",
-        ),
-    ),
-    PromptSeed(
-        "comida-congelar",
-        "se puede congelar",
-        (
-            "el queso",
-            "la ensaladilla rusa",
-            "el gazpacho",
-            "la pasta cocida",
-            "el arroz cocido",
-            "la tortilla de patatas",
-            "el calabacín",
-            "el aguacate",
-            "la paella",
-            "el salmón ahumado",
-        ),
-    ),
-    PromptSeed(
-        "comida-receta",
-        "receta de",
-        (
-            "torrijas",
-            "croquetas caseras",
-            "paella valenciana",
-            "gazpacho andaluz",
-            "bizcocho de yogur",
-            "lentejas",
-            "pan casero",
-            "albóndigas",
-            "tarta de queso",
-            "pisto manchego",
-        ),
-    ),
-    PromptSeed(
-        "comida-cuece",
-        "cuánto tiempo se cuece",
-        (
-            "un huevo",
-            "el arroz",
-            "la pasta",
-            "el pulpo",
-            "una patata",
-            "el brócoli",
-            "la quinoa",
-            "el garbanzo",
-            "la coliflor",
-            "una alcachofa",
-        ),
-    ),
-    PromptSeed(
-        "comida-cocinar",
-        "qué puedo cocinar con",
-        (
-            "pollo",
-            "calabacín",
-            "arroz",
-            "huevos",
-            "patatas",
-            "lentejas",
-            "berenjena",
-            "atún",
-            "espinacas",
-            "garbanzos cocidos",
-        ),
-    ),
-)
+def _load_content() -> tuple[PromptSeed, ...]:
+    path = Path(__file__).resolve().parents[2] / "content" / "boards-v3.json"
+    raw = json.loads(path.read_text(encoding="utf-8"))
+    if raw.get("content_version") != CURRENT_CONTENT_VERSION:
+        raise RuntimeError("The bundled content pack is not version 3.")
+    seeds: list[PromptSeed] = []
+    for board in raw["boards"]:
+        source: dict[str, Any] = board.get("source", {})
+        seeds.append(
+            PromptSeed(
+                id=board["id"],
+                text=board["prompt"],
+                endings=tuple(board["completions"]),
+                content_version=raw["content_version"],
+                eligibility=board["eligibility"],
+                aliases=board.get("aliases") or {},
+                source=str(source.get("kind", "google-feud-localized")),
+            )
+        )
+    return tuple(seeds)
 
+
+PROMPT_SEEDS: tuple[PromptSeed, ...] = _load_content()
 PROMPTS_BY_ID = {prompt.id: prompt for prompt in PROMPT_SEEDS}
-
-DAILY_SEED_PROMPT_IDS: tuple[str, ...] = (
-    "cultura-espana",
-    "personas-gente",
-    "nombres-nino",
-    "preguntas-aprender",
-    "animales-gatos",
-    "entretenimiento-series",
-    "comida-tortilla",
-    "cultura-historia",
-    "personas-que",
-    "nombres-nina",
-    "preguntas-pasa",
-    "animales-perros",
-    "entretenimiento-peliculas",
-    "comida-congelar",
-)
 
 
 def seeded_daily_prompts() -> list[tuple[date, PromptSeed]]:
+    """Return the 35 pre-scheduled v3 Daily snapshots in category rotation."""
+
+    by_category = {
+        category: [
+            prompt
+            for prompt in PROMPT_SEEDS
+            if prompt.category == category and prompt.eligibility == "daily"
+        ]
+        for category in CATEGORY_NAMES
+    }
+    if any(len(prompts) != 5 for prompts in by_category.values()):
+        raise RuntimeError("Content pack must contain five Daily boards per category.")
+
+    scheduled: list[tuple[date, PromptSeed]] = []
+    for round_number in range(5):
+        for category_index, category in enumerate(CATEGORY_NAMES):
+            puzzle_date = V3_DAILY_EPOCH + timedelta(days=round_number * 7 + category_index)
+            scheduled.append((puzzle_date, by_category[category][round_number]))
+    return scheduled
+
+
+def legacy_daily_prompts() -> list[tuple[date, PromptSeed]]:
+    """Keep a readable archive baseline when bootstrapping a new database."""
+
     return [
-        (DAILY_EPOCH + timedelta(days=offset), PROMPTS_BY_ID[prompt_id])
-        for offset, prompt_id in enumerate(DAILY_SEED_PROMPT_IDS)
+        (DAILY_EPOCH + timedelta(days=offset), PROMPT_SEEDS[offset])
+        for offset in range(35)
     ]
 
 
