@@ -27,7 +27,8 @@ def test_categories_and_seeded_archive(api_client: TestClient) -> None:
     current = api_client.get("/api/v1/daily/current")
     assert current.status_code == 200
     assert len(archive.json()) >= 15
-    assert archive.json()[0]["date"] == current.json()["date"]
+    assert current.json()["date"] not in {item["date"] for item in archive.json()}
+    assert archive.json()[0]["date"] < current.json()["date"]
 
 
 def test_loopback_web_origin_can_start_game(api_client: TestClient) -> None:
@@ -49,21 +50,38 @@ def test_hidden_answers_guess_normalization_and_duplicate(api_client: TestClient
 
     correct = api_client.post(
         f"/api/v1/games/{game['id']}/guesses",
-        json={"guess": "VAIANA!!!"},
+        json={"guess": "CONTRASTES!!!"},
     )
     assert correct.status_code == 200
     state = correct.json()
     assert state["last_result"]["outcome"] == "correct"
     assert state["score"] == 10_000
-    assert state["slots"][0]["completion"] == "moana se llama vaiana"
+    assert state["slots"][0]["completion"] == "un país de contrastes"
     assert state["slots"][1]["completion"] is None
 
     duplicate = api_client.post(
         f"/api/v1/games/{game['id']}/guesses",
-        json={"guess": "por que en espana moana se llama vaiana"},
+        json={"guess": "españa es un país de contrastes"},
     )
     assert duplicate.json()["last_result"]["outcome"] == "duplicate"
     assert duplicate.json()["misses"] == 0
+
+
+def test_today_is_not_available_as_archive(api_client: TestClient) -> None:
+    today = api_client.get("/api/v1/daily/current").json()["date"]
+    response = api_client.post("/api/v1/games", json={"mode": "archive", "date": today})
+    assert response.status_code == 400
+    assert response.json()["error"]["code"] == "today_not_archive"
+
+
+def test_retired_letter_list_scaffold_is_not_a_valid_answer(api_client: TestClient) -> None:
+    response = api_client.post("/api/v1/games", json={"mode": "random", "category": "nombres"})
+    assert response.status_code == 201
+    game = response.json()
+    response = api_client.post(f"/api/v1/games/{game['id']}/guesses", json={"guess": "empiezan"})
+    assert response.status_code == 200
+    assert response.json()["last_result"]["outcome"] == "incorrect"
+    assert response.json()["misses"] == 1
 
 
 def test_keyword_matching_ignores_connector_words() -> None:
@@ -99,15 +117,15 @@ def test_four_misses_finish_and_reveal_round(api_client: TestClient) -> None:
     assert all(slot["completion"] for slot in state["slots"])
 
 
-def test_random_game_advances_five_unique_rounds(api_client: TestClient) -> None:
+def test_random_game_advances_three_unique_rounds(api_client: TestClient) -> None:
     response = api_client.post("/api/v1/games", json={"mode": "random", "category": "comida"})
     assert response.status_code == 201
     state = response.json()
     prompts = {state["prompt"]}
 
-    for round_number in range(1, 6):
+    for round_number in range(1, 4):
         state = api_client.post(f"/api/v1/games/{state['id']}/give-up").json()
-        if round_number < 5:
+        if round_number < 3:
             assert state["status"] == "round_complete"
             next_response = api_client.post(f"/api/v1/games/{state['id']}/next-round")
             assert next_response.status_code == 200
@@ -116,7 +134,7 @@ def test_random_game_advances_five_unique_rounds(api_client: TestClient) -> None
             prompts.add(state["prompt"])
 
     assert state["status"] == "complete"
-    assert len(prompts) == 5
+    assert len(prompts) == 3
 
 
 def test_api_errors_are_structured(api_client: TestClient) -> None:
