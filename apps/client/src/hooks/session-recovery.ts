@@ -27,8 +27,10 @@ export async function restoreOrCreateGame(
 ): Promise<GameState> {
   if (!forceNew) {
     const saved = await dependencies.getSavedSession(key);
-    if (saved?.completedState) return saved.completedState;
-    if (saved?.gameId) {
+    if (saved?.completedState && payload.mode !== "random") {
+      return saved.completedState;
+    }
+    if (saved?.gameId && !saved.completedState) {
       try {
         return await dependencies.getGame(saved.gameId);
       } catch (restoreError) {

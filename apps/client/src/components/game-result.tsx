@@ -8,6 +8,7 @@ import { formatPoints } from "@/utils/share-result";
 type Props = {
   game: GameState;
   acting: boolean;
+  newRecord?: boolean;
   shareMessage?: string | null;
   onShare: () => void;
   onNextRound: () => void;
@@ -18,6 +19,7 @@ type Props = {
 export function GameResult({
   game,
   acting,
+  newRecord = false,
   shareMessage,
   onShare,
   onNextRound,
@@ -30,6 +32,10 @@ export function GameResult({
   const randomBetweenRounds =
     game.mode === "random" && game.status === "round_complete";
   const randomComplete = game.mode === "random" && game.status === "complete";
+  const summaries = game.round_summaries ?? [];
+  const totalFound = summaries.length
+    ? summaries.reduce((sum, item) => sum + item.found, 0)
+    : found;
   return (
     <View style={styles.card}>
       <Text style={styles.eyebrow}>
@@ -38,9 +44,23 @@ export function GameResult({
           : "RESULTADO"}
       </Text>
       <Text style={styles.title}>
-        {found === 10 ? "¡Tablero perfecto!" : `${found} de 10 respuestas`}
+        {randomComplete
+          ? `${totalFound} de ${game.total_rounds * 10} respuestas`
+          : found === 10
+            ? "¡Tablero perfecto!"
+            : `${found} de 10 respuestas`}
       </Text>
       <Text style={styles.score}>{formatPoints(game.score)} puntos</Text>
+      {randomComplete && newRecord && <Text style={styles.record}>🏆 Nuevo récord</Text>}
+      {randomComplete && (
+        <View style={styles.recap} accessibilityLabel="Resumen de rondas">
+          {summaries.map((summary) => (
+            <Text key={summary.round_number} style={styles.recapRow}>
+              Ronda {summary.round_number} · {summary.category.name} · {summary.found}/10 · {formatPoints(summary.score)}
+            </Text>
+          ))}
+        </View>
+      )}
       <View style={styles.actions}>
         {randomBetweenRounds && (
           <Action
@@ -58,7 +78,7 @@ export function GameResult({
             onPress={onNewRandom}
           />
         )}
-        {game.mode !== "random" && (
+        {(game.mode !== "random" || randomComplete) && (
           <>
             <Action
               label="Compartir"
@@ -66,11 +86,7 @@ export function GameResult({
               disabled={acting}
               onPress={onShare}
             />
-            <Action
-              label="Ver histórico"
-              disabled={acting}
-              onPress={onArchive}
-            />
+            {game.mode !== "random" && <Action label="Ver histórico" disabled={acting} onPress={onArchive} />}
           </>
         )}
       </View>
@@ -144,6 +160,9 @@ const createStyles = (colors: ThemeColors) =>
       fontWeight: "700",
       marginTop: 3,
     },
+    record: { color: colors.amber, fontSize: 12, fontWeight: "800", marginTop: 5 },
+    recap: { width: "100%", marginTop: 12, gap: 4 },
+    recapRow: { color: colors.textMuted, fontSize: 12, textAlign: "center" },
     actions: { width: "100%", flexDirection: "row", gap: 8, marginTop: 14 },
     button: {
       flex: 1,

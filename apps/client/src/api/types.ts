@@ -7,3 +7,6 @@ export type AnswerSlot = components["schemas"]["AnswerSlot"];
 export type Category = components["schemas"]["CategoryOut"];
 export type ArchivePuzzle = components["schemas"]["ArchivePuzzleOut"];
 export type CreateGamePayload = components["schemas"]["CreateGameRequest"];
+export type GuessResult = components["schemas"]["GuessResult"];
+export type GuessOutcome = components["schemas"]["GuessOutcome"];
+export type RoundSummary = components["schemas"]["RoundSummary"];

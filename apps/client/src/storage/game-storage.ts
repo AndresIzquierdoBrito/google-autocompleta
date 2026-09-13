@@ -10,11 +10,15 @@ export type SavedSession = {
 };
 
 export const sessionKey = {
+  // Daily and archive attempts for a date intentionally share one key.
+  dated: (date: string) => `${PREFIX}:session:dated:${date}`,
   daily: (date?: string) =>
-    date ? `${PREFIX}:session:daily:${date}` : `${PREFIX}:session:daily`,
-  archive: (date: string) => `${PREFIX}:session:archive:${date}`,
+    date ? `${PREFIX}:session:dated:${date}` : `${PREFIX}:session:daily`,
+  archive: (date: string) => `${PREFIX}:session:dated:${date}`,
   random: (category: string) => `${PREFIX}:session:random:${category}`,
 };
+
+const RANDOM_BAG_PREFIX = `${PREFIX}:shuffle-bag:`;
 
 export async function getSavedSession(
   key: string,
@@ -54,19 +58,57 @@ export async function migrateDailySession(date: string): Promise<void> {
   }
 }
 
-export async function getRandomBest(): Promise<number> {
-  return Number(await AsyncStorage.getItem(`${PREFIX}:random-best`)) || 0;
+export async function getRecentRandomPuzzleIds(category: string): Promise<string[]> {
+  const raw = await AsyncStorage.getItem(`${RANDOM_BAG_PREFIX}${category}`);
+  if (!raw) return [];
+  try {
+    return JSON.parse(raw) as string[];
+  } catch {
+    await AsyncStorage.removeItem(`${RANDOM_BAG_PREFIX}${category}`);
+    return [];
+  }
 }
 
-export async function updateRandomBest(score: number): Promise<number> {
-  const best = Math.max(await getRandomBest(), score);
-  await AsyncStorage.setItem(`${PREFIX}:random-best`, String(best));
+export async function recordRandomPuzzle(
+  category: string,
+  puzzleId: string,
+): Promise<void> {
+  const current = await getRecentRandomPuzzleIds(category);
+  const next = [...current.filter((id) => id !== puzzleId), puzzleId].slice(-175);
+  await AsyncStorage.setItem(`${RANDOM_BAG_PREFIX}${category}`, JSON.stringify(next));
+}
+
+export async function getRandomBest(
+  category = "todas",
+  totalRounds = 3,
+  contentVersion = "2",
+): Promise<number> {
+  return (
+    Number(
+      await AsyncStorage.getItem(
+        `${PREFIX}:random-best:${category}:${totalRounds}:${contentVersion}`,
+      ),
+    ) || 0
+  );
+}
+
+export async function updateRandomBest(
+  score: number,
+  category = "todas",
+  totalRounds = 3,
+  contentVersion = "2",
+): Promise<number> {
+  const best = Math.max(await getRandomBest(category, totalRounds, contentVersion), score);
+  await AsyncStorage.setItem(
+    `${PREFIX}:random-best:${category}:${totalRounds}:${contentVersion}`,
+    String(best),
+  );
   return best;
 }
 
 export async function getCompletedArchiveDates(): Promise<Set<string>> {
   const keys = (await AsyncStorage.getAllKeys()).filter((key) =>
-    key.startsWith(`${PREFIX}:session:archive:`),
+    key.startsWith(`${PREFIX}:session:dated:`),
   );
   const entries = await Promise.all(
     keys.map(
@@ -81,7 +123,9 @@ export async function getCompletedArchiveDates(): Promise<Set<string>> {
       if (!raw) return [];
       try {
         const saved = JSON.parse(raw) as SavedSession;
-        return saved.completedState ? [key.split(":").at(-1) ?? ""] : [];
+        return saved.completedState?.mode === "archive"
+          ? [key.split(":").at(-1) ?? ""]
+          : [];
       } catch {
         return [];
       }
@@ -91,7 +135,10 @@ export async function getCompletedArchiveDates(): Promise<Set<string>> {
 
 export type StreakStats = { current: number; played: number };
 
-export async function getStreakStats(): Promise<StreakStats> {
+export async function getStreakStats(
+  canonicalToday?: string,
+  timezone = "Europe/Madrid",
+): Promise<StreakStats> {
   const keys = (await AsyncStorage.getAllKeys()).filter((key) =>
     key.startsWith(`${PREFIX}:session:`),
   );
@@ -101,15 +148,25 @@ export async function getStreakStats(): Promise<StreakStats> {
     if (!raw) continue;
     try {
       const saved = JSON.parse(raw) as SavedSession;
-      if (saved.completedState?.puzzle_date)
+      if (
+        saved.completedState?.mode === "daily" &&
+        saved.completedState.puzzle_date
+      )
         dates.add(saved.completedState.puzzle_date);
     } catch {
       // Ignore an invalid local record; session recovery handles its own cleanup.
     }
   }
 
-  const cursor = new Date();
-  const today = cursor.toISOString().slice(0, 10);
+  const today =
+    canonicalToday ??
+    new Intl.DateTimeFormat("en-CA", {
+      timeZone: timezone,
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+    }).format(new Date());
+  const cursor = new Date(`${today}T12:00:00Z`);
   if (!dates.has(today)) cursor.setUTCDate(cursor.getUTCDate() - 1);
 
   let current = 0;

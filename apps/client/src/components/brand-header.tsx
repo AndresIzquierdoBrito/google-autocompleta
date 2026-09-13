@@ -100,6 +100,7 @@ const createStyles = (colors: ThemeColors, viewportWidth = 768) =>
     homeButton: { minHeight: 36, justifyContent: "center" },
     homeText: { color: colors.cobalt, fontSize: 17, fontWeight: "700" },
     brand: {
+      display: viewportWidth < 600 ? "none" : "flex",
       position: "absolute",
       left: 0,
       right: 0,

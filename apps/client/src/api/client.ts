@@ -65,16 +65,24 @@ type ErrorPayload = { error?: { code?: string; message?: string } };
 
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
   let response: Response;
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 10000);
   try {
     response = await fetch(`${resolveApiUrl()}${path}`, {
       ...init,
+      signal: init?.signal ?? controller.signal,
       headers: {
         "Content-Type": "application/json",
         ...(init?.headers ?? {}),
       },
     });
-  } catch {
+  } catch (caught) {
+    if (caught instanceof Error && caught.name === "AbortError") {
+      throw new ApiError("La conexión está tardando demasiado. Inténtalo de nuevo.", "timeout");
+    }
     throw new ApiError("No hemos podido conectar con el juego.");
+  } finally {
+    clearTimeout(timeout);
   }
 
   const payload = (await response.json().catch(() => undefined)) as

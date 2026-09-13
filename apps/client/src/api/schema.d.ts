@@ -206,6 +206,8 @@ export interface components {
       date?: string | null;
       /** Category */
       category?: string | null;
+      /** Recent Puzzle Ids */
+      recent_puzzle_ids?: string[];
     };
     /**
      * GameMode
@@ -228,6 +230,14 @@ export interface components {
       category: components["schemas"]["CategoryOut"];
       /** Prompt */
       prompt: string;
+      /** Content Id */
+      content_id?: string;
+      /** Content Version */
+      content_version?: string;
+      /** Snapshot Source */
+      snapshot_source?: string;
+      /** Captured At */
+      captured_at?: string | null;
       /** Score */
       score: number;
       /** Round Score */
@@ -239,6 +249,8 @@ export interface components {
       status: components["schemas"]["GameStatus"];
       /** Slots */
       slots: components["schemas"]["AnswerSlot"][];
+      /** Round Summaries */
+      round_summaries?: components["schemas"]["RoundSummary"][];
       last_result?: components["schemas"]["GuessResult"] | null;
     };
     /**
@@ -246,6 +258,10 @@ export interface components {
      * @enum {string}
      */
     GameStatus: "playing" | "round_complete" | "complete";
+    /** GuessOutcome */
+    GuessOutcome: "correct" | "incorrect" | "duplicate" | "too_broad" | "gave_up";
+    /** MatchKind */
+    MatchKind: "exact" | "alias" | "concept";
     /** GuessRequest */
     GuessRequest: {
       /** Guess */
@@ -254,11 +270,28 @@ export interface components {
     /** GuessResult */
     GuessResult: {
       /** Outcome */
-      outcome: string;
+      outcome: components["schemas"]["GuessOutcome"];
+      /** Matched Ranks */
+      matched_ranks: number[];
       /** Matched Rank */
       matched_rank?: number | null;
+      /** Points Awarded */
+      points_awarded: number;
+      /** Combo Count */
+      combo_count: number;
+      /** Match Kind */
+      match_kind?: components["schemas"]["MatchKind"] | null;
       /** Message */
       message: string;
+    };
+    /** RoundSummary */
+    RoundSummary: {
+      round_number: number;
+      category: components["schemas"]["CategoryOut"];
+      found: number;
+      score: number;
+      misses: number;
+      puzzle_number?: number | null;
     };
     /** HTTPValidationError */
     HTTPValidationError: {

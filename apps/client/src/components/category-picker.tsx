@@ -1,4 +1,4 @@
-import { Modal, Pressable, StyleSheet, Text, View } from "react-native";
+import { Modal, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 
 import type { Category } from "@/api/types";
 import { useAppTheme } from "@/theme/theme-context";
@@ -68,13 +68,14 @@ export function CategoryPicker({
               </View>
               <Pressable
                 accessibilityLabel="Cerrar"
+                accessibilityRole="button"
                 onPress={onClose}
                 style={styles.close}
               >
                 <Text style={styles.closeText}>×</Text>
               </Pressable>
             </View>
-            <View style={styles.options}>
+            <ScrollView style={styles.options}>
               {options.map((item) => {
                 const isSelected = item.slug === value;
                 return (
@@ -104,7 +105,7 @@ export function CategoryPicker({
                   </Pressable>
                 );
               })}
-            </View>
+            </ScrollView>
           </Pressable>
         </Pressable>
       </Modal>
@@ -179,7 +180,7 @@ const createStyles = (colors: ThemeColors) =>
       backgroundColor: colors.surfaceSoft,
     },
     closeText: { color: colors.text, fontSize: 25, lineHeight: 27 },
-    options: { gap: 7 },
+    options: { maxHeight: 380 },
     option: {
       minHeight: 47,
       paddingHorizontal: 14,

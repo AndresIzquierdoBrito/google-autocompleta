@@ -16,24 +16,22 @@ export function GameStats({ game, bestScore = 0 }: Props) {
   const styles = createStyles(colors);
   const entries = [
     {
-      label:
-        game.mode === "random"
-          ? "RONDA"
-          : game.puzzle_number
-            ? `RETO #${game.puzzle_number}`
-            : "RETO",
+      label: game.mode === "random" ? "RONDA" : game.puzzle_number ? `RETO #${game.puzzle_number}` : "RETO",
       value:
         game.mode === "random"
           ? `${game.round_number}/${game.total_rounds}`
           : game.category.name,
     },
+    ...(game.mode === "random"
+      ? [{ label: "CATEGORÍA", value: game.category.name }]
+      : []),
     { label: "PUNTOS", value: formatPoints(game.score) },
   ];
-  if (game.mode === "random" && bestScore > 0) {
-    entries[0] = { label: "MEJOR", value: formatPoints(bestScore) };
-  }
   return (
-    <View style={styles.container}>
+    <View
+      style={styles.container}
+      accessibilityLabel={bestScore > 0 ? `Mejor puntuación: ${formatPoints(bestScore)}` : undefined}
+    >
       {entries.map((entry, index) => (
         <View
           key={entry.label}
