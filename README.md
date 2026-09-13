@@ -25,10 +25,22 @@ make web
 
 La web se abre en `http://localhost:8081` y la API en `http://localhost:8000`. Para abrir el cliente en un teléfono, ejecuta `pnpm --dir apps/client start` y escanea el QR con Expo Go. El cliente deduce la IP local del servidor de Expo; también puedes fijarla con `EXPO_PUBLIC_API_URL=http://TU-IP:8000`.
 
-Para publicar la web, ejecuta `pnpm client:build` y sirve únicamente el contenido
-de `apps/client/web-build`. Define `EXPO_PUBLIC_API_URL` con la URL pública de la
-API y `EXPO_PUBLIC_APP_URL` con la URL pública del juego antes de compilar;
+Para exportar la web manualmente, ejecuta `pnpm client:build` y sirve únicamente el
+contenido de `apps/client/web-build`. Define `EXPO_PUBLIC_API_URL` solo cuando el
+cliente y la API estén en orígenes distintos; con el despliegue recomendado de
+Coolify, la API se sirve detrás del mismo origen y no hace falta configurarla.
 `apps/client/dist` no es el directorio de publicación de este proyecto.
+
+## Despliegue en Coolify
+
+El despliegue de producción usa `compose.yaml` desde la raíz del repositorio. El
+servicio `web` sirve la exportación de Expo con Nginx y reenvía `/api` y `/health`
+al servicio interno `api`. La base SQLite vive en el volumen Docker `api-data`,
+por lo que no se pierde al recrear los contenedores.
+
+En Coolify, selecciona el build pack Docker Compose, usa `compose.yaml`, configura
+la rama de producción `main` y asigna el dominio generado únicamente al servicio
+`web` (puerto interno 80). El servicio `api` no necesita un dominio público.
 
 ## Estructura
 

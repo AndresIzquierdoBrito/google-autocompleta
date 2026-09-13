@@ -1,0 +1,49 @@
+services:
+  api:
+    build:
+      context: ./apps/api
+      dockerfile: Dockerfile
+    command:
+      - /bin/sh
+      - -c
+      - alembic upgrade head && exec fastapi run src/google_autocompleta/main.py --host 0.0.0.0 --port 8000
+    environment:
+      APP_ENV: production
+      ALLOWED_ORIGINS: ""
+      DATABASE_URL: sqlite+aiosqlite:////data/google_autocompleta.db
+      DAILY_TIMEZONE: Europe/Madrid
+    expose:
+      - "8000"
+    restart: unless-stopped
+    volumes:
+      - api-data:/data
+    healthcheck:
+      test:
+        - CMD
+        - python
+        - -c
+        - import urllib.request; urllib.request.urlopen("http://127.0.0.1:8000/health")
+      interval: 10s
+      timeout: 5s
+      retries: 6
+      start_period: 15s
+
+  web:
+    build:
+      context: .
+      dockerfile: apps/client/Dockerfile
+    depends_on:
+      api:
+        condition: service_healthy
+    expose:
+      - "80"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://127.0.0.1/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 6
+      start_period: 5s
+
+volumes:
+  api-data:

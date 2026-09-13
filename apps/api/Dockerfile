@@ -12,9 +12,9 @@ RUN uv sync --frozen --no-dev --no-install-project
 
 COPY migrations ./migrations
 COPY alembic.ini ./alembic.ini
+COPY content ./content
 COPY src ./src
 RUN uv sync --frozen --no-dev
 
 EXPOSE 8000
 CMD ["fastapi", "run", "src/google_autocompleta/main.py", "--host", "0.0.0.0", "--port", "8000"]
-

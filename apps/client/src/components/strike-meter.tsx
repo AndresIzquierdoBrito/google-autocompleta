@@ -1,4 +1,4 @@
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import Svg, { Line } from "react-native-svg";
 
 import { useAppTheme } from "@/theme/theme-context";
@@ -7,14 +7,20 @@ import { radius, type ThemeColors } from "@/theme/tokens";
 type Props = {
   misses: number;
   total?: number;
+  size?: number;
+  numeric?: boolean;
 };
 
-function Cross({ active }: { active: boolean }) {
+function Cross({ active, size }: { active: boolean; size: number }) {
   const { colors } = useAppTheme();
-  const styles = createStyles(colors);
+  const styles = createStyles(colors, size);
   return (
     <View style={[styles.crossBox, active && styles.crossBoxActive]}>
-      <Svg height={14} viewBox="0 0 16 16" width={14}>
+      <Svg
+        height={Math.round(size * 0.54)}
+        viewBox="0 0 16 16"
+        width={Math.round(size * 0.54)}
+      >
         <Line
           stroke={active ? colors.white : colors.textFaint}
           strokeLinecap="round"
@@ -38,33 +44,48 @@ function Cross({ active }: { active: boolean }) {
   );
 }
 
-export function StrikeMeter({ misses, total = 4 }: Props) {
+export function StrikeMeter({
+  misses,
+  total = 4,
+  size = 26,
+  numeric = false,
+}: Props) {
   const { colors } = useAppTheme();
-  const styles = createStyles(colors);
+  const styles = createStyles(colors, size);
   return (
     <View
       accessibilityLabel={`${misses} de ${total} fallos usados`}
       accessibilityRole="text"
       style={styles.container}
     >
-      {Array.from({ length: total }, (_, index) => (
-        <Cross active={index < misses} key={index} />
-      ))}
+      {numeric ? (
+        <Text style={styles.count}>{misses}/{total}</Text>
+      ) : (
+        Array.from({ length: total }, (_, index) => (
+          <Cross active={index < misses} key={index} size={size} />
+        ))
+      )}
     </View>
   );
 }
 
-const createStyles = (colors: ThemeColors) =>
+const createStyles = (colors: ThemeColors, size = 26) =>
   StyleSheet.create({
     container: {
       flexDirection: "row",
       alignItems: "center",
-      gap: 6,
+      gap: Math.max(2, Math.round(size * 0.14)),
       marginTop: 3,
     },
+    count: {
+      color: colors.text,
+      fontSize: 19,
+      lineHeight: 23,
+      fontWeight: "800",
+    },
     crossBox: {
-      width: 26,
-      height: 26,
+      width: size,
+      height: size,
       alignItems: "center",
       justifyContent: "center",
       borderRadius: radius.small,

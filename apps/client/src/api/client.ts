@@ -31,6 +31,11 @@ function resolveApiUrl(): string {
       }
       return `http://${browserHost}:8000`;
     }
+    // Production web deployments serve the API behind the same reverse proxy
+    // as the static client. Keeping this relative to the current origin lets
+    // one image move from Coolify's temporary sslip.io URL to the final
+    // custom domain without a rebuild.
+    if (!configured) return window.location.origin;
   }
   if (configured) return configured;
   if (Platform.OS !== "web") {

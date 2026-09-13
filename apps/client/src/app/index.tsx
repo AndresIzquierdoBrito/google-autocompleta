@@ -431,6 +431,7 @@ function InfoModal({
         <ScrollView
           contentContainerStyle={styles.modalScrollContent}
           keyboardShouldPersistTaps="handled"
+          style={styles.modalScroll}
         >
         <Pressable
           accessibilityViewIsModal
@@ -690,11 +691,13 @@ const createStyles = (colors: ThemeColors, viewportWidth = 768) =>
       padding: 20,
     },
     modalScrollContent: {
+      width: "100%",
       flexGrow: 1,
       justifyContent: "center",
       alignItems: "center",
       padding: 20,
     },
+    modalScroll: { width: "100%" },
     modalCard: {
       width: "100%",
       maxWidth: 480,
