@@ -71,7 +71,11 @@ export function LandingScreen({
       </View>
 
       <View style={styles.hero}>
-        <View accessibilityLabel="Google Autocompleta" style={styles.wordmark}>
+        <View
+          accessibilityLabel="Google Autocompleta"
+          accessibilityRole="header"
+          style={styles.wordmark}
+        >
           <GoogleTitle extraStyle={titleStyle} />
           <Text style={[styles.titleBottom, titleStyle]}>Autocompleta</Text>
         </View>

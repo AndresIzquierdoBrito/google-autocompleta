@@ -12,7 +12,9 @@ export function buildShareText(game: GameState): string {
   const total = game.mode === "random" ? game.total_rounds * 10 : 10;
   const appUrl =
     process.env.EXPO_PUBLIC_APP_URL ??
-    (typeof window !== "undefined" ? window.location.origin : "https://google-autocompleta.app");
+    (typeof window !== "undefined"
+      ? window.location.origin
+      : "https://googleautocompleta.com");
   return [
     `Google Autocompleta${number}`,
     `${found}/${total} · ${formatPoints(game.score)} puntos · ${game.misses}/4 fallos`,

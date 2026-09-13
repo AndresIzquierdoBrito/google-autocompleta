@@ -43,6 +43,13 @@ import {
   type WebRoute,
 } from "@/utils/web-navigation";
 
+// The installed React Native type definitions predate the web `role` prop;
+// react-native-web maps this role to a semantic <main> element.
+const mainLandmarkProps =
+  Platform.OS === "web"
+    ? ({ role: "main" } as unknown as { role?: never })
+    : {};
+
 function formatArchiveDate(value: string): string {
   return new Intl.DateTimeFormat("es-ES", {
     day: "numeric",
@@ -284,7 +291,7 @@ export default function HomeScreen() {
 
   const game = session.game;
   return (
-    <View style={styles.screen}>
+    <View {...mainLandmarkProps} style={styles.screen}>
       <SafeAreaView style={styles.safeArea} edges={["top", "left", "right"]}>
         <ScrollView
           contentContainerStyle={styles.scrollContent}

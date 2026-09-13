@@ -4,7 +4,7 @@ import type { GameState } from "@/api/types";
 import { buildShareText, formatPoints } from "@/utils/share-result";
 
 const expectedShareUrl =
-  process.env.EXPO_PUBLIC_APP_URL ?? "https://google-autocompleta.app";
+  process.env.EXPO_PUBLIC_APP_URL ?? "https://googleautocompleta.com";
 
 function makeGame(): GameState {
   return {

@@ -1,6 +1,7 @@
 {
   "expo": {
     "name": "Google Autocompleta",
+    "description": "Adivina cómo se completan búsquedas en español con retos diarios, históricos y aleatorios.",
     "slug": "google-autocompleta",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -13,8 +14,7 @@
     "android": {
       "adaptiveIcon": {
         "backgroundColor": "#FFFFFF",
-        "foregroundImage": "./assets/images/android-icon-foreground.png",
-        "backgroundImage": "./assets/images/android-icon-background.png"
+        "foregroundImage": "./assets/images/android-icon-foreground.png"
       }
     },
     "web": {

@@ -31,6 +31,11 @@ cliente y la API estén en orígenes distintos; con el despliegue recomendado de
 Coolify, la API se sirve detrás del mismo origen y no hace falta configurarla.
 `apps/client/dist` no es el directorio de publicación de este proyecto.
 
+La exportación web usa `https://googleautocompleta.com/` como URL canónica para
+SEO, compartir resultados, `robots.txt` y `sitemap.xml`. Si cambia el dominio de
+producción, define `EXPO_PUBLIC_APP_URL` con una URL HTTPS absoluta antes de
+ejecutar `pnpm client:build`.
+
 ## Despliegue en Coolify
 
 El despliegue de producción usa `compose.yaml` desde la raíz del repositorio. El
@@ -41,6 +46,11 @@ por lo que no se pierde al recrear los contenedores.
 En Coolify, selecciona el build pack Docker Compose, usa `compose.yaml`, configura
 la rama de producción `main` y asigna el dominio generado únicamente al servicio
 `web` (puerto interno 80). El servicio `api` no necesita un dominio público.
+Configura el dominio apex `googleautocompleta.com` como principal y redirige
+`www.googleautocompleta.com` al apex. Después del primer despliegue, verifica el
+dominio en Google Search Console mediante DNS, envía
+`https://googleautocompleta.com/sitemap.xml` y solicita la indexación de la
+homepage desde URL Inspection.
 
 ## Estructura
 
