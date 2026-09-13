@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "private": true,
   "packageManager": "pnpm@11.16.0",
+  "engines": {
+    "node": ">=22.13.0 <23"
+  },
   "scripts": {
     "client": "pnpm --dir apps/client start",
     "web": "pnpm --dir apps/client web",
@@ -13,6 +16,7 @@
     "api:dev": "cd apps/api && ../../scripts/uv-runner.sh run fastapi dev src/google_autocompleta/main.py",
     "api:test": "cd apps/api && ../../scripts/uv-runner.sh run pytest",
     "api:lint": "cd apps/api && ../../scripts/uv-runner.sh run ruff check . && ../../scripts/uv-runner.sh run ruff format --check . && ../../scripts/uv-runner.sh run mypy src",
-    "check": "pnpm client:lint && pnpm client:typecheck && pnpm client:test && pnpm api:lint && pnpm api:test && pnpm client:build"
+    "api:content": "PYTHONPATH=apps/api/src ./scripts/uv-runner.sh run --project apps/api python apps/api/scripts/validate_content.py",
+    "check": "pnpm client:lint && pnpm client:typecheck && pnpm client:test && pnpm api:lint && pnpm api:content && pnpm api:test && pnpm client:build"
   }
 }
