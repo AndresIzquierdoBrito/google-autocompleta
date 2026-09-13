@@ -196,10 +196,10 @@ const createStyles = (colors: ThemeColors, viewportWidth = 768) =>
       borderRadius: 4,
       paddingHorizontal: 10,
       paddingVertical: 5,
-      backgroundColor: colors.cobalt,
+      backgroundColor: "#185ABC",
     },
-    answerChipFound: { backgroundColor: colors.cobalt },
-    answerChipRevealed: { backgroundColor: colors.cobalt },
+    answerChipFound: { backgroundColor: "#185ABC" },
+    answerChipRevealed: { backgroundColor: "#185ABC" },
     completion: {
       flexShrink: 1,
       color: colors.white,
