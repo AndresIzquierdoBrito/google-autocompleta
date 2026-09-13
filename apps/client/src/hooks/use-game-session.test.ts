@@ -102,6 +102,34 @@ describe("restoreOrCreateGame", () => {
     expect(createCalls).toBe(0);
   });
 
+  it("replaces a retired random snapshot on the normal entry path", async () => {
+    const retired = makeGame("retired-game");
+    retired.content_id = "v3-cultura-01";
+    retired.content_version = "3";
+    const freshGame = makeGame("fresh-game");
+    freshGame.content_id = "v3r-cultura-01";
+    freshGame.content_version = "3";
+    const clearedKeys: string[] = [];
+
+    const result = await restoreOrCreateGame(
+      randomPayload,
+      "random-key",
+      false,
+      {
+        getSavedSession: async () => ({ gameId: retired.id }),
+        getGame: async () => retired,
+        clearSession: async (key) => {
+          clearedKeys.push(key);
+        },
+        createGame: async () => freshGame,
+        saveSession: async () => undefined,
+      },
+    );
+
+    expect(result).toBe(freshGame);
+    expect(clearedKeys).toEqual(["random-key"]);
+  });
+
   it("propagates a fresh-game creation error", async () => {
     const error = makeApiError(
       "Las sugerencias no están disponibles.",

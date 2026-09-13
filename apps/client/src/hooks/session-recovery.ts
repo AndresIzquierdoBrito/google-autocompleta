@@ -32,7 +32,18 @@ export async function restoreOrCreateGame(
     }
     if (saved?.gameId && !saved.completedState) {
       try {
-        return await dependencies.getGame(saved.gameId);
+        const restored = await dependencies.getGame(saved.gameId);
+        if (
+          payload.mode === "random" &&
+          (restored.content_version !== "3" ||
+            !restored.content_id?.startsWith("v3r-"))
+        ) {
+          // Retired Random snapshots remain readable by direct game id, but
+          // the normal entry point must not reopen an unplayable legacy board.
+          await dependencies.clearSession(key);
+        } else {
+          return restored;
+        }
       } catch (restoreError) {
         if (!isStaleSessionError(restoreError)) throw restoreError;
         // A server restart, cleanup, or session expiry can leave a local game
