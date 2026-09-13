@@ -169,6 +169,8 @@ export interface components {
       status: components["schemas"]["SlotStatus"];
       /** Completion */
       completion?: string | null;
+      /** Answer Length */
+      answer_length?: number;
     };
     /** ArchivePuzzleOut */
     ArchivePuzzleOut: {

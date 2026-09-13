@@ -182,6 +182,7 @@ const createStyles = (colors: ThemeColors, viewportWidth = 768) =>
     input: {
       flex: 1,
       minWidth: 70,
+      marginLeft: 10,
       color: colors.text,
       fontSize: viewportWidth >= 1200 ? 15 : 16,
       fontWeight: "700",

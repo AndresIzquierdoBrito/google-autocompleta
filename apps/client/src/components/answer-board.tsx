@@ -28,9 +28,13 @@ function AnswerRow({ prompt, slot }: RowProps) {
   // still animated by the effect below.
   const [reveal] = useState(() => new Animated.Value(1));
   const previousStatus = useRef(slot.status);
+  const [hintVisible, setHintVisible] = useState(slot.status === "hidden");
+  const { status } = slot;
 
   useEffect(() => {
-    if (previousStatus.current === "hidden" && slot.status !== "hidden") {
+    const wasHidden = previousStatus.current === "hidden";
+    if (wasHidden && status !== "hidden") {
+      setHintVisible(true);
       reveal.setValue(0);
       Animated.sequence([
         Animated.delay((slot.rank - 1) * 35),
@@ -40,13 +44,22 @@ function AnswerRow({ prompt, slot }: RowProps) {
           easing: Easing.out(Easing.cubic),
           useNativeDriver: Platform.OS !== "web",
         }),
-      ]).start();
+      ]).start(({ finished }) => {
+        if (finished) setHintVisible(false);
+      });
+    } else {
+      setHintVisible(status === "hidden");
     }
-    previousStatus.current = slot.status;
-  }, [reveal, slot.rank, slot.status]);
+    previousStatus.current = status;
+  }, [reveal, slot.rank, status]);
 
   const isFound = slot.status === "found";
   const isRevealed = slot.status === "revealed";
+  const maxHintWidth = width < 600 ? Math.min(width * 0.52, 180) : 250;
+  const hintWidth = Math.min(
+    maxHintWidth,
+    Math.max(58, (slot.answer_length ?? 8) * 7.5 + 16),
+  );
   const animatedStyle = {
     opacity: reveal,
     transform: [
@@ -58,12 +71,26 @@ function AnswerRow({ prompt, slot }: RowProps) {
       },
     ],
   };
+  const hintAnimatedStyle = {
+    opacity: reveal.interpolate({
+      inputRange: [0, 1],
+      outputRange: [1, 0],
+    }),
+    transform: [
+      {
+        scaleX: reveal.interpolate({
+          inputRange: [0, 1],
+          outputRange: [1, 0.2],
+        }),
+      },
+    ],
+  };
 
   return (
     <View
       accessibilityLabel={
-        slot.status === "hidden"
-          ? `Respuesta ${slot.rank}, oculta, ${formatPoints(slot.points)} puntos`
+        status === "hidden"
+          ? `Respuesta ${slot.rank}, longitud aproximada ${slot.answer_length ?? 0} caracteres, ${formatPoints(slot.points)} puntos`
           : `Respuesta ${slot.rank}: ${prompt} ${slot.completion}, ${formatPoints(slot.points)} puntos`
       }
       style={[
@@ -78,9 +105,17 @@ function AnswerRow({ prompt, slot }: RowProps) {
         <View style={styles.rowSearchHandle} />
       </View>
       <View style={styles.answer}>
-        {slot.status === "hidden" ? (
-          <Text style={styles.hiddenText}>Respuesta oculta</Text>
-        ) : (
+        {(status === "hidden" || hintVisible) && (
+          <Animated.View
+            accessibilityElementsHidden
+            style={[
+              styles.lengthHint,
+              { width: hintWidth },
+              status !== "hidden" && hintAnimatedStyle,
+            ]}
+          />
+        )}
+        {status !== "hidden" && (
           <Animated.View
             style={[
               styles.answerChip,
@@ -184,11 +219,11 @@ const createStyles = (colors: ThemeColors, viewportWidth = 768) =>
       gap: viewportWidth < 600 ? 7 : viewportWidth >= 1200 ? 9 : 12,
       overflow: "hidden",
     },
-    hiddenText: {
-      color: colors.textFaint,
-      fontSize: viewportWidth < 600 ? 13 : 14,
-      fontWeight: "600",
-      fontStyle: "italic",
+    lengthHint: {
+      height: viewportWidth < 600 ? 18 : 22,
+      borderRadius: 4,
+      backgroundColor: "#185ABC",
+      flexShrink: 0,
     },
     answerChip: {
       alignSelf: "flex-start",
