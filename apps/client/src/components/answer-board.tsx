@@ -119,8 +119,6 @@ function AnswerRow({ prompt, slot }: RowProps) {
           <Animated.View
             style={[
               styles.answerChip,
-              isFound && styles.answerChipFound,
-              isRevealed && styles.answerChipRevealed,
               animatedStyle,
             ]}
           >
@@ -228,16 +226,13 @@ const createStyles = (colors: ThemeColors, viewportWidth = 768) =>
     answerChip: {
       alignSelf: "flex-start",
       maxWidth: "100%",
-      borderRadius: 4,
       paddingHorizontal: 10,
       paddingVertical: 5,
-      backgroundColor: "#185ABC",
+      backgroundColor: "transparent",
     },
-    answerChipFound: { backgroundColor: "#185ABC" },
-    answerChipRevealed: { backgroundColor: "#185ABC" },
     completion: {
       flexShrink: 1,
-      color: colors.white,
+      color: colors.text,
       fontSize: viewportWidth < 600 ? 13 : viewportWidth >= 1200 ? 13 : 16,
       fontWeight: "800",
     },
