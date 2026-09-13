@@ -27,8 +27,8 @@ La web se abre en `http://localhost:8081` y la API en `http://localhost:8000`. P
 
 Para publicar la web, ejecuta `pnpm client:build` y sirve únicamente el contenido
 de `apps/client/web-build`. Define `EXPO_PUBLIC_API_URL` con la URL pública de la
-API antes de compilar; `apps/client/dist` no es el directorio de publicación de
-este proyecto.
+API y `EXPO_PUBLIC_APP_URL` con la URL pública del juego antes de compilar;
+`apps/client/dist` no es el directorio de publicación de este proyecto.
 
 ## Estructura
 
