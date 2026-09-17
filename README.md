@@ -2,6 +2,13 @@
 
 Juego independiente de búsquedas autocompletadas en español, construido con Expo/React Native Web y FastAPI.
 
+> Google Autocompleta es un proyecto independiente y no está afiliado, patrocinado
+> ni aprobado por Google LLC. Las respuestas son predicciones capturadas para el
+> juego y no representan directamente las búsquedas más populares de Google.
+
+Consulta la [guía para contribuir](CONTRIBUTING.md), la [política de seguridad](SECURITY.md)
+y la [licencia MIT](LICENSE) para obtener más información sobre el proyecto.
+
 ## Requisitos
 
 - Node.js 22 o posterior y pnpm 11.
@@ -77,5 +84,3 @@ curadas, inspiradas en el formato de los juegos de autocompletado y revisadas
 para ser familiares y aptas para todos los públicos. La partida nunca consulta
 sugerencias en directo: cada resultado procede de un snapshot capturado y
 congelado para el juego.
-
-Google Autocompleta es un juego independiente y no está afiliado, patrocinado ni aprobado por Google LLC. Las respuestas son predicciones capturadas para el juego; no representan directamente las búsquedas más populares de Google.

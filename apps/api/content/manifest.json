@@ -1,16 +1,16 @@
 {
   "content_version": "3",
-  "status": "reviewed-localized-pack",
+  "status": "applied-v5-audit-first-ten",
   "target_board_count": 210,
   "random_target_per_category": 25,
   "daily_reserve_per_category": 5,
   "daily_schedule_start": "2026-09-14",
   "daily_schedule_end": "2026-10-18",
   "source": {
-    "kind": "google-feud-localized",
-    "url": "https://googlefeud.com/answers/",
-    "captured_at": "2026-09-13",
-    "note": "Prompt formats and concepts are localized adaptations, not live Google results or literal copies."
+    "kind": "google-autocomplete-audit-v5-first-ten",
+    "url": "https://suggestqueries.google.com/complete/search",
+    "captured_at": "2026-09-16",
+    "note": "English autocomplete frames translated into natural Spanish; first ten family-safe audited candidates selected automatically per board."
   },
   "editorial_rules": {
     "answers_per_board": 10,

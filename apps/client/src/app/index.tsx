@@ -50,6 +50,13 @@ const mainLandmarkProps =
     ? ({ role: "main" } as unknown as { role?: never })
     : {};
 
+type StreakLoadState = {
+  status: "loading" | "ready" | "error";
+  value: StreakStats | null;
+  source: "server" | "fallback" | null;
+  error: string | null;
+};
+
 function formatArchiveDate(value: string): string {
   return new Intl.DateTimeFormat("es-ES", {
     day: "numeric",
@@ -67,7 +74,12 @@ export default function HomeScreen() {
     () => initialRoute !== "daily",
   );
   const [mode, setMode] = useState<UiMode>("daily");
-  const [streak, setStreak] = useState<StreakStats>({ current: 0, played: 0 });
+  const [streakState, setStreakState] = useState<StreakLoadState>({
+    status: "loading",
+    value: null,
+    source: null,
+    error: null,
+  });
   const [categories, setCategories] = useState<Category[]>([]);
   const [categoriesLoading, setCategoriesLoading] = useState(false);
   const [categoriesError, setCategoriesError] = useState<string | null>(null);
@@ -82,6 +94,7 @@ export default function HomeScreen() {
   const [confirmGiveUp, setConfirmGiveUp] = useState(false);
   const [shareMessage, setShareMessage] = useState<string | null>(null);
   const modeRequest = useRef(0);
+  const streakRequest = useRef(0);
   const changeModeRef = useRef<(nextMode: UiMode) => void>(() => undefined);
   const returnHomeRef = useRef<(updateUrl?: boolean) => void>(() => undefined);
   const webRouteInitialized = useRef(false);
@@ -105,16 +118,71 @@ export default function HomeScreen() {
     }
   }, []);
 
+  const refreshStreak = useCallback(async () => {
+    const requestId = ++streakRequest.current;
+    setStreakState((previous) => ({
+      ...previous,
+      status: "loading",
+      error: null,
+    }));
+
+    let current: { date: string; timezone: string };
+    try {
+      current = await getCurrentDaily();
+    } catch {
+      // The API is the source of truth for the daily boundary. If it is
+      // unreachable, getStreakStats falls back to Europe/Madrid locally.
+      try {
+        const value = await getStreakStats();
+        if (requestId !== streakRequest.current) return;
+        setStreakState({
+          status: "ready",
+          value,
+          source: "fallback",
+          error: null,
+        });
+      } catch {
+        if (requestId !== streakRequest.current) return;
+        setStreakState((previous) => ({
+          ...previous,
+          status: "error",
+          error: "No se pudo leer el historial de racha.",
+        }));
+      }
+      return;
+    }
+
+    try {
+      const value = await getStreakStats(current.date, current.timezone);
+      if (requestId !== streakRequest.current) return;
+      setStreakState({
+        status: "ready",
+        value,
+        source: "server",
+        error: null,
+      });
+    } catch {
+      if (requestId !== streakRequest.current) return;
+      setStreakState((previous) => ({
+        ...previous,
+        status: "error",
+        error: "No se pudo leer el historial de racha.",
+      }));
+    }
+  }, []);
+
   useEffect(() => {
     const categoriesRequest = setTimeout(() => {
       loadCategories().catch(() => undefined);
     }, 0);
-    getCurrentDaily()
-      .then((current) => getStreakStats(current.date, current.timezone))
-      .then(setStreak)
-      .catch(() => getStreakStats().then(setStreak).catch(() => undefined));
-    return () => clearTimeout(categoriesRequest);
-  }, [loadCategories]);
+    const streakRequest = setTimeout(() => {
+      refreshStreak().catch(() => undefined);
+    }, 0);
+    return () => {
+      clearTimeout(categoriesRequest);
+      clearTimeout(streakRequest);
+    };
+  }, [loadCategories, refreshStreak]);
 
   const refreshArchive = async () => {
     setArchiveLoading(true);
@@ -179,9 +247,7 @@ export default function HomeScreen() {
     setArchiveDate(null);
     setShareMessage(null);
     session.resetView();
-    getStreakStats()
-      .then(setStreak)
-      .catch(() => undefined);
+    refreshStreak().catch(() => undefined);
   };
 
   const startRandomWithCategory = (selectedCategory: string) => {
@@ -304,8 +370,9 @@ export default function HomeScreen() {
                 categories={categories}
                 categoriesLoading={categoriesLoading}
                 categoriesError={categoriesError}
-                played={streak.played}
-                streak={streak.current}
+                played={streakState.value?.played ?? null}
+                streak={streakState.value?.current ?? null}
+                streakStatus={streakState.status}
                 onDaily={() => changeMode("daily")}
                 onArchive={() => changeMode("archive")}
                 onRandom={startRandomWithCategory}

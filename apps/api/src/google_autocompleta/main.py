@@ -7,7 +7,7 @@ from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
-from google_autocompleta.api import categories, daily, games
+from google_autocompleta.api import audit, categories, daily, games
 from google_autocompleta.config import Settings, get_settings
 from google_autocompleta.database import build_engine, build_session_factory, create_schema
 from google_autocompleta.providers import GoogleSuggestProvider
@@ -87,6 +87,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     app.include_router(categories.router, prefix="/api/v1")
     app.include_router(daily.router, prefix="/api/v1")
     app.include_router(games.router, prefix="/api/v1")
+    app.include_router(audit.router, prefix="/api/v1")
     return app
 
 

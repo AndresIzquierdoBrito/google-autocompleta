@@ -4,570 +4,907 @@
  */
 
 export interface paths {
-  "/health": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/health": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Health */
+        get: operations["health_health_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    /** Health */
-    get: operations["health_health_get"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/categories": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/api/v1/categories": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List Categories */
+        get: operations["list_categories_api_v1_categories_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    /** List Categories */
-    get: operations["list_categories_api_v1_categories_get"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/daily/archive": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/api/v1/daily/current": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Current Daily */
+        get: operations["current_daily_api_v1_daily_current_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    /** List Archive */
-    get: operations["list_archive_api_v1_daily_archive_get"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/daily/current": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/api/v1/daily/archive": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List Archive */
+        get: operations["list_archive_api_v1_daily_archive_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    get: operations["current_daily_api_v1_daily_current_get"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/games": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/api/v1/games": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Create Game */
+        post: operations["create_game_api_v1_games_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    get?: never;
-    put?: never;
-    /** Create Game */
-    post: operations["create_game_api_v1_games_post"];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/games/{game_id}": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/api/v1/games/{game_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Game */
+        get: operations["get_game_api_v1_games__game_id__get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    /** Get Game */
-    get: operations["get_game_api_v1_games__game_id__get"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/games/{game_id}/guesses": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/api/v1/games/{game_id}/guesses": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Submit Guess */
+        post: operations["submit_guess_api_v1_games__game_id__guesses_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    get?: never;
-    put?: never;
-    /** Submit Guess */
-    post: operations["submit_guess_api_v1_games__game_id__guesses_post"];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/games/{game_id}/give-up": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/api/v1/games/{game_id}/give-up": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Give Up */
+        post: operations["give_up_api_v1_games__game_id__give_up_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    get?: never;
-    put?: never;
-    /** Give Up */
-    post: operations["give_up_api_v1_games__game_id__give_up_post"];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/games/{game_id}/next-round": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/api/v1/games/{game_id}/next-round": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Next Round */
+        post: operations["next_round_api_v1_games__game_id__next_round_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    get?: never;
-    put?: never;
-    /** Next Round */
-    post: operations["next_round_api_v1_games__game_id__next_round_post"];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
+    "/api/v1/audit/prompt-variants": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Audit Prompt Variants */
+        post: operations["audit_prompt_variants_api_v1_audit_prompt_variants_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/audit/boards": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List Audit Boards */
+        get: operations["list_audit_boards_api_v1_audit_boards_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/audit/suggestions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Audit Suggestions */
+        post: operations["audit_suggestions_api_v1_audit_suggestions_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/audit/boards/{board_id}/suggestions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Audit Board Suggestions */
+        post: operations["audit_board_suggestions_api_v1_audit_boards__board_id__suggestions_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
-  schemas: {
-    /** AnswerSlot */
-    AnswerSlot: {
-      /** Rank */
-      rank: number;
-      /** Points */
-      points: number;
-      status: components["schemas"]["SlotStatus"];
-      /** Completion */
-      completion?: string | null;
-      /** Answer Length */
-      answer_length?: number;
+    schemas: {
+        /** AnswerSlot */
+        AnswerSlot: {
+            /** Rank */
+            rank: number;
+            /** Points */
+            points: number;
+            status: components["schemas"]["SlotStatus"];
+            /** Completion */
+            completion?: string | null;
+            /**
+             * Answer Length
+             * @default 0
+             */
+            answer_length: number;
+        };
+        /** ArchivePuzzleOut */
+        ArchivePuzzleOut: {
+            /**
+             * Date
+             * Format: date
+             */
+            date: string;
+            /** Number */
+            number: number;
+            category: components["schemas"]["CategoryOut"];
+            /** Prompt */
+            prompt: string;
+        };
+        /** AuditBoard */
+        AuditBoard: {
+            /** Id */
+            id: string;
+            /** Category */
+            category: string;
+            /** Category Name */
+            category_name: string;
+            /** Prompt */
+            prompt: string;
+            /** English Prompt */
+            english_prompt?: string | null;
+            /** Completions */
+            completions: string[];
+            /** Aliases */
+            aliases: {
+                [key: string]: number[];
+            };
+            /** Eligibility */
+            eligibility: string;
+            /** Source */
+            source: {
+                [key: string]: unknown;
+            };
+            /** Review */
+            review: {
+                [key: string]: unknown;
+            };
+            audit?: components["schemas"]["AuditSnapshot"] | null;
+        };
+        /** AuditCandidate */
+        AuditCandidate: {
+            /** Text */
+            text: string;
+            /** Ending */
+            ending: string;
+            /** Source Query */
+            source_query: string;
+            /** Source Rank */
+            source_rank: number;
+            /** Exact Prompt Query */
+            exact_prompt_query: boolean;
+        };
+        /** AuditPack */
+        AuditPack: {
+            /** Content Version */
+            content_version: string;
+            /** Status */
+            status: string;
+            /** Generated At */
+            generated_at?: string | null;
+            /** Audited At */
+            audited_at?: string | null;
+            /** Boards */
+            boards: components["schemas"]["AuditBoard"][];
+        };
+        /** AuditSnapshot */
+        AuditSnapshot: {
+            /** Google Suggestions */
+            google_suggestions?: string[];
+            /** Current Answer Matches */
+            current_answer_matches?: string[];
+            /** Error */
+            error?: string | null;
+        };
+        /** AuditSuggestionRequest */
+        AuditSuggestionRequest: {
+            /** Query Suffixes */
+            query_suffixes?: string[];
+            /**
+             * Max Candidates
+             * @default 30
+             */
+            max_candidates: number;
+        };
+        /** AuditSuggestionResponse */
+        AuditSuggestionResponse: {
+            /** Prompt */
+            prompt: string;
+            /** Queries Run */
+            queries_run: number;
+            /** Failed Queries */
+            failed_queries: number;
+            /** Candidates */
+            candidates: components["schemas"]["AuditCandidate"][];
+        };
+        /** CategoryOut */
+        CategoryOut: {
+            /** Slug */
+            slug: string;
+            /** Name */
+            name: string;
+        };
+        /** CreateGameRequest */
+        CreateGameRequest: {
+            mode: components["schemas"]["GameMode"];
+            /** Date */
+            date?: string | null;
+            /** Category */
+            category?: string | null;
+            /** Recent Puzzle Ids */
+            recent_puzzle_ids?: string[];
+        };
+        /** DailyCurrentOut */
+        DailyCurrentOut: {
+            /**
+             * Date
+             * Format: date
+             */
+            date: string;
+            /** Number */
+            number: number;
+            /** Timezone */
+            timezone: string;
+        };
+        /** FreeAuditSuggestionRequest */
+        FreeAuditSuggestionRequest: {
+            /** Query Suffixes */
+            query_suffixes?: string[];
+            /**
+             * Max Candidates
+             * @default 30
+             */
+            max_candidates: number;
+            /** Prompt */
+            prompt: string;
+        };
+        /**
+         * GameMode
+         * @enum {string}
+         */
+        GameMode: "daily" | "archive" | "random";
+        /** GameState */
+        GameState: {
+            /** Id */
+            id: string;
+            mode: components["schemas"]["GameMode"];
+            /** Puzzle Date */
+            puzzle_date: string | null;
+            /** Puzzle Number */
+            puzzle_number: number | null;
+            /** Round Number */
+            round_number: number;
+            /** Total Rounds */
+            total_rounds: number;
+            category: components["schemas"]["CategoryOut"];
+            /** Prompt */
+            prompt: string;
+            /** Content Id */
+            content_id: string;
+            /** Content Version */
+            content_version: string;
+            /** Snapshot Source */
+            snapshot_source: string;
+            /** Captured At */
+            captured_at?: string | null;
+            /** Score */
+            score: number;
+            /** Round Score */
+            round_score: number;
+            /** Misses */
+            misses: number;
+            /** Misses Remaining */
+            misses_remaining: number;
+            status: components["schemas"]["GameStatus"];
+            /** Slots */
+            slots: components["schemas"]["AnswerSlot"][];
+            /** Round Summaries */
+            round_summaries?: components["schemas"]["RoundSummary"][];
+            last_result?: components["schemas"]["GuessResult"] | null;
+        };
+        /**
+         * GameStatus
+         * @enum {string}
+         */
+        GameStatus: "playing" | "round_complete" | "complete";
+        /**
+         * GuessOutcome
+         * @enum {string}
+         */
+        GuessOutcome: "correct" | "incorrect" | "duplicate" | "too_broad" | "gave_up";
+        /** GuessRequest */
+        GuessRequest: {
+            /** Guess */
+            guess: string;
+        };
+        /** GuessResult */
+        GuessResult: {
+            outcome: components["schemas"]["GuessOutcome"];
+            /** Matched Ranks */
+            matched_ranks?: number[];
+            /** Matched Rank */
+            matched_rank?: number | null;
+            /**
+             * Points Awarded
+             * @default 0
+             */
+            points_awarded: number;
+            /**
+             * Combo Count
+             * @default 0
+             */
+            combo_count: number;
+            match_kind?: components["schemas"]["MatchKind"] | null;
+            /** Message */
+            message: string;
+        };
+        /** HTTPValidationError */
+        HTTPValidationError: {
+            /** Detail */
+            detail?: components["schemas"]["ValidationError"][];
+        };
+        /**
+         * MatchKind
+         * @enum {string}
+         */
+        MatchKind: "exact" | "alias" | "concept";
+        /** PromptVariant */
+        PromptVariant: {
+            /** Prompt */
+            prompt: string;
+            /** Token Count */
+            token_count: number;
+            /** Suggestions */
+            suggestions: string[];
+            /** Error */
+            error?: string | null;
+        };
+        /** PromptVariantsRequest */
+        PromptVariantsRequest: {
+            /** Prompt */
+            prompt: string;
+            /**
+             * Max Variants
+             * @default 6
+             */
+            max_variants: number;
+        };
+        /** PromptVariantsResponse */
+        PromptVariantsResponse: {
+            /** Original Prompt */
+            original_prompt: string;
+            /** Variants */
+            variants: components["schemas"]["PromptVariant"][];
+        };
+        /** RoundSummary */
+        RoundSummary: {
+            /** Round Number */
+            round_number: number;
+            category: components["schemas"]["CategoryOut"];
+            /** Found */
+            found: number;
+            /** Score */
+            score: number;
+            /** Misses */
+            misses: number;
+            /** Puzzle Number */
+            puzzle_number?: number | null;
+        };
+        /**
+         * SlotStatus
+         * @enum {string}
+         */
+        SlotStatus: "hidden" | "found" | "revealed";
+        /** ValidationError */
+        ValidationError: {
+            /** Location */
+            loc: (string | number)[];
+            /** Message */
+            msg: string;
+            /** Error Type */
+            type: string;
+            /** Input */
+            input?: unknown;
+            /** Context */
+            ctx?: Record<string, never>;
+        };
     };
-    /** ArchivePuzzleOut */
-    ArchivePuzzleOut: {
-      /**
-       * Date
-       * Format: date
-       */
-      date: string;
-      /** Number */
-      number: number;
-      category: components["schemas"]["CategoryOut"];
-      /** Prompt */
-      prompt: string;
-    };
-    /** DailyCurrentOut */
-    DailyCurrentOut: {
-      /** Date */
-      date: string;
-      /** Number */
-      number: number;
-      /** Timezone */
-      timezone: string;
-    };
-    /** CategoryOut */
-    CategoryOut: {
-      /** Slug */
-      slug: string;
-      /** Name */
-      name: string;
-    };
-    /** CreateGameRequest */
-    CreateGameRequest: {
-      mode: components["schemas"]["GameMode"];
-      /** Date */
-      date?: string | null;
-      /** Category */
-      category?: string | null;
-      /** Recent Puzzle Ids */
-      recent_puzzle_ids?: string[];
-    };
-    /**
-     * GameMode
-     * @enum {string}
-     */
-    GameMode: "daily" | "archive" | "random";
-    /** GameState */
-    GameState: {
-      /** Id */
-      id: string;
-      mode: components["schemas"]["GameMode"];
-      /** Puzzle Date */
-      puzzle_date: string | null;
-      /** Puzzle Number */
-      puzzle_number: number | null;
-      /** Round Number */
-      round_number: number;
-      /** Total Rounds */
-      total_rounds: number;
-      category: components["schemas"]["CategoryOut"];
-      /** Prompt */
-      prompt: string;
-      /** Content Id */
-      content_id?: string;
-      /** Content Version */
-      content_version?: string;
-      /** Snapshot Source */
-      snapshot_source?: string;
-      /** Captured At */
-      captured_at?: string | null;
-      /** Score */
-      score: number;
-      /** Round Score */
-      round_score: number;
-      /** Misses */
-      misses: number;
-      /** Misses Remaining */
-      misses_remaining: number;
-      status: components["schemas"]["GameStatus"];
-      /** Slots */
-      slots: components["schemas"]["AnswerSlot"][];
-      /** Round Summaries */
-      round_summaries?: components["schemas"]["RoundSummary"][];
-      last_result?: components["schemas"]["GuessResult"] | null;
-    };
-    /**
-     * GameStatus
-     * @enum {string}
-     */
-    GameStatus: "playing" | "round_complete" | "complete";
-    /** GuessOutcome */
-    GuessOutcome: "correct" | "incorrect" | "duplicate" | "too_broad" | "gave_up";
-    /** MatchKind */
-    MatchKind: "exact" | "alias" | "concept";
-    /** GuessRequest */
-    GuessRequest: {
-      /** Guess */
-      guess: string;
-    };
-    /** GuessResult */
-    GuessResult: {
-      /** Outcome */
-      outcome: components["schemas"]["GuessOutcome"];
-      /** Matched Ranks */
-      matched_ranks: number[];
-      /** Matched Rank */
-      matched_rank?: number | null;
-      /** Points Awarded */
-      points_awarded: number;
-      /** Combo Count */
-      combo_count: number;
-      /** Match Kind */
-      match_kind?: components["schemas"]["MatchKind"] | null;
-      /** Message */
-      message: string;
-    };
-    /** RoundSummary */
-    RoundSummary: {
-      round_number: number;
-      category: components["schemas"]["CategoryOut"];
-      found: number;
-      score: number;
-      misses: number;
-      puzzle_number?: number | null;
-    };
-    /** HTTPValidationError */
-    HTTPValidationError: {
-      /** Detail */
-      detail?: components["schemas"]["ValidationError"][];
-    };
-    /**
-     * SlotStatus
-     * @enum {string}
-     */
-    SlotStatus: "hidden" | "found" | "revealed";
-    /** ValidationError */
-    ValidationError: {
-      /** Location */
-      loc: (string | number)[];
-      /** Message */
-      msg: string;
-      /** Error Type */
-      type: string;
-      /** Input */
-      input?: unknown;
-      /** Context */
-      ctx?: Record<string, never>;
-    };
-  };
-  responses: never;
-  parameters: never;
-  requestBodies: never;
-  headers: never;
-  pathItems: never;
+    responses: never;
+    parameters: never;
+    requestBodies: never;
+    headers: never;
+    pathItems: never;
 }
 export type $defs = Record<string, never>;
 export interface operations {
-  health_health_get: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    health_health_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        [key: string]: string;
+                    };
+                };
+            };
+        };
     };
-    requestBody?: never;
-    responses: {
-      /** @description Successful Response */
-      200: {
-        headers: {
-          [name: string]: unknown;
+    list_categories_api_v1_categories_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
         };
-        content: {
-          "application/json": {
-            [key: string]: string;
-          };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CategoryOut"][];
+                };
+            };
         };
-      };
     };
-  };
-  list_categories_api_v1_categories_get: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    current_daily_api_v1_daily_current_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DailyCurrentOut"];
+                };
+            };
+        };
     };
-    requestBody?: never;
-    responses: {
-      /** @description Successful Response */
-      200: {
-        headers: {
-          [name: string]: unknown;
+    list_archive_api_v1_daily_archive_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
         };
-        content: {
-          "application/json": components["schemas"]["CategoryOut"][];
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ArchivePuzzleOut"][];
+                };
+            };
         };
-      };
     };
-  };
-  list_archive_api_v1_daily_archive_get: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    create_game_api_v1_games_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateGameRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GameState"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
     };
-    requestBody?: never;
-    responses: {
-      /** @description Successful Response */
-      200: {
-        headers: {
-          [name: string]: unknown;
+    get_game_api_v1_games__game_id__get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                game_id: string;
+            };
+            cookie?: never;
         };
-        content: {
-          "application/json": components["schemas"]["ArchivePuzzleOut"][];
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GameState"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
         };
-      };
     };
-  };
-  current_daily_api_v1_daily_current_get: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    submit_guess_api_v1_games__game_id__guesses_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                game_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["GuessRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GameState"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
     };
-    requestBody?: never;
-    responses: {
-      /** @description Successful Response */
-      200: {
-        headers: {
-          [name: string]: unknown;
+    give_up_api_v1_games__game_id__give_up_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                game_id: string;
+            };
+            cookie?: never;
         };
-        content: {
-          "application/json": components["schemas"]["DailyCurrentOut"];
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GameState"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
         };
-      };
     };
-  };
-  create_game_api_v1_games_post: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    next_round_api_v1_games__game_id__next_round_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                game_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GameState"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
     };
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["CreateGameRequest"];
-      };
+    audit_prompt_variants_api_v1_audit_prompt_variants_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PromptVariantsRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PromptVariantsResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
     };
-    responses: {
-      /** @description Successful Response */
-      201: {
-        headers: {
-          [name: string]: unknown;
+    list_audit_boards_api_v1_audit_boards_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
         };
-        content: {
-          "application/json": components["schemas"]["GameState"];
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AuditPack"];
+                };
+            };
         };
-      };
-      /** @description Validation Error */
-      422: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["HTTPValidationError"];
-        };
-      };
     };
-  };
-  get_game_api_v1_games__game_id__get: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        game_id: string;
-      };
-      cookie?: never;
+    audit_suggestions_api_v1_audit_suggestions_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["FreeAuditSuggestionRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AuditSuggestionResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
     };
-    requestBody?: never;
-    responses: {
-      /** @description Successful Response */
-      200: {
-        headers: {
-          [name: string]: unknown;
+    audit_board_suggestions_api_v1_audit_boards__board_id__suggestions_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                board_id: string;
+            };
+            cookie?: never;
         };
-        content: {
-          "application/json": components["schemas"]["GameState"];
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AuditSuggestionRequest"];
+            };
         };
-      };
-      /** @description Validation Error */
-      422: {
-        headers: {
-          [name: string]: unknown;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AuditSuggestionResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
         };
-        content: {
-          "application/json": components["schemas"]["HTTPValidationError"];
-        };
-      };
     };
-  };
-  submit_guess_api_v1_games__game_id__guesses_post: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        game_id: string;
-      };
-      cookie?: never;
-    };
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["GuessRequest"];
-      };
-    };
-    responses: {
-      /** @description Successful Response */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["GameState"];
-        };
-      };
-      /** @description Validation Error */
-      422: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["HTTPValidationError"];
-        };
-      };
-    };
-  };
-  give_up_api_v1_games__game_id__give_up_post: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        game_id: string;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description Successful Response */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["GameState"];
-        };
-      };
-      /** @description Validation Error */
-      422: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["HTTPValidationError"];
-        };
-      };
-    };
-  };
-  next_round_api_v1_games__game_id__next_round_post: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        game_id: string;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description Successful Response */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["GameState"];
-        };
-      };
-      /** @description Validation Error */
-      422: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["HTTPValidationError"];
-        };
-      };
-    };
-  };
 }

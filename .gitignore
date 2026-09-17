@@ -1,18 +1,63 @@
-.DS_Store
+# Local-only agent notes, drafts, and audit reports
+.agents/
+apps/api/content/audit-*.json
+apps/api/content/overhaul-*.json
+
+# Environment and local configuration
 .env
-.env.local
-.expo/
-.pnpm-store/
+.env.*
+!.env.example
+!**/.env.example
+
+# Dependencies and package-manager state
 node_modules/
-dist/
-web-build/
-coverage/
+.pnpm-store/
+
+# Python environments, caches, and build metadata
 .venv/
+venv/
 __pycache__/
+*.py[cod]
+*.egg-info/
 .pytest_cache/
 .mypy_cache/
 .ruff_cache/
-*.py[cod]
-*.sqlite3
-*.db
+
+# JavaScript, Expo, and generated build output
+.expo/
+dist/
+web-build/
+coverage/
 htmlcov/
+*.tsbuildinfo
+expo-env.d.ts
+.eslintcache
+.turbo/
+
+# Test and coverage reports
+.coverage
+.coverage.*
+coverage.xml
+
+# Databases and local application state
+*.db
+*.sqlite
+*.sqlite3
+
+# Logs and temporary files
+*.log
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.tmp
+*.temp
+*.bak
+
+# Operating-system and editor files
+.DS_Store
+Thumbs.db
+/.idea/
+/.vscode/
+*.swp
+*.swo

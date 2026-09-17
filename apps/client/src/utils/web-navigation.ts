@@ -1,10 +1,11 @@
 import type { UiMode } from "@/components/mode-tabs";
 
-export type WebRoute = "home" | "daily" | "play";
+export type WebRoute = "home" | "daily" | "play" | "audit";
 
 export function getRouteForPathname(pathname: string): WebRoute {
   if (pathname === "/daily") return "daily";
   if (pathname === "/play") return "play";
+  if (pathname === "/audit") return "audit";
   return "home";
 }
 

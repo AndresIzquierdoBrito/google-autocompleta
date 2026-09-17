@@ -1,10 +1,14 @@
 from datetime import datetime
 from pathlib import Path
 
-from sqlalchemy import inspect, text
+import pytest
+from sqlalchemy import inspect, select, text
 from sqlalchemy.ext.asyncio import AsyncEngine
 
-from google_autocompleta.database import build_engine, create_schema
+from google_autocompleta.data import CURRENT_CONTENT_VERSION, PROMPT_SEEDS
+from google_autocompleta.database import build_engine, build_session_factory, create_schema
+from google_autocompleta.models import Prompt, Puzzle
+from google_autocompleta.seed import seed_database
 
 
 async def _legacy_schema(engine: AsyncEngine) -> None:
@@ -102,6 +106,7 @@ async def _legacy_schema(engine: AsyncEngine) -> None:
         )
 
 
+@pytest.mark.asyncio
 async def test_create_schema_migrates_legacy_sqlite(tmp_path: Path) -> None:
     engine = build_engine(f"sqlite+aiosqlite:///{tmp_path / 'legacy.sqlite3'}")
     try:
@@ -130,5 +135,55 @@ async def test_create_schema_migrates_legacy_sqlite(tmp_path: Path) -> None:
             )
             values = backfilled.one()
             assert values == ("{}", "{}", "legacy", "[]", 1, None)
+    finally:
+        await engine.dispose()
+
+
+@pytest.mark.asyncio
+async def test_seed_updates_existing_current_content(tmp_path: Path) -> None:
+    engine = build_engine(f"sqlite+aiosqlite:///{tmp_path / 'seed.sqlite3'}")
+    try:
+        await create_schema(engine)
+        factory = build_session_factory(engine)
+        prompt_seed = PROMPT_SEEDS[0]
+
+        async with factory() as session:
+            await seed_database(session)
+            prompt = await session.get(Prompt, prompt_seed.id)
+            puzzle = await session.scalar(
+                select(Puzzle).where(
+                    Puzzle.prompt_id == prompt_seed.id,
+                    Puzzle.puzzle_date.is_(None),
+                    Puzzle.content_version == CURRENT_CONTENT_VERSION,
+                )
+            )
+            assert prompt is not None
+            assert puzzle is not None
+            prompt.text = "texto antiguo"
+            prompt.fallback_answers = ["texto antiguo respuesta"]
+            prompt.match_config = {"aliases": {"antiguo": [1]}}
+            puzzle.prompt_text = "texto antiguo"
+            puzzle.answers = ["texto antiguo respuesta"]
+            puzzle.aliases = {"antiguo": [1]}
+            await session.commit()
+
+        async with factory() as session:
+            await seed_database(session)
+            prompt = await session.get(Prompt, prompt_seed.id)
+            puzzle = await session.scalar(
+                select(Puzzle).where(
+                    Puzzle.prompt_id == prompt_seed.id,
+                    Puzzle.puzzle_date.is_(None),
+                    Puzzle.content_version == CURRENT_CONTENT_VERSION,
+                )
+            )
+            assert prompt is not None
+            assert puzzle is not None
+            assert prompt.text == prompt_seed.text
+            assert prompt.fallback_answers == prompt_seed.answers
+            assert prompt.match_config == {}
+            assert puzzle.prompt_text == prompt_seed.text
+            assert puzzle.answers == prompt_seed.answers
+            assert puzzle.aliases == {}
     finally:
         await engine.dispose()

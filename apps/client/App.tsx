@@ -5,8 +5,10 @@ import { StyleSheet, View } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
 import HomeScreen from "@/app/index";
+import AuditScreen from "@/app/audit";
 import { ThemeProvider, useAppTheme } from "@/theme/theme-context";
 import type { ThemeColors } from "@/theme/tokens";
+import { getCurrentWebRoute } from "@/utils/web-navigation";
 
 export default function App() {
   return (
@@ -21,9 +23,10 @@ export default function App() {
 function RootApp() {
   const { colors, mode } = useAppTheme();
   const styles = createStyles(colors);
+  const route = getCurrentWebRoute();
   return (
     <View style={styles.root}>
-      <HomeScreen />
+      {route === "audit" ? <AuditScreen /> : <HomeScreen />}
       <StatusBar style={mode === "light" ? "dark" : "light"} />
     </View>
   );

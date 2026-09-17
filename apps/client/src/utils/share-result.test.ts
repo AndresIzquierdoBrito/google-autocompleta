@@ -16,6 +16,9 @@ function makeGame(): GameState {
     total_rounds: 1,
     category: { slug: "comida", name: "Comida" },
     prompt: "se puede congelar",
+    content_id: "test-puzzle",
+    content_version: "3",
+    snapshot_source: "snapshot",
     score: 19_000,
     round_score: 19_000,
     misses: 2,
@@ -26,6 +29,7 @@ function makeGame(): GameState {
       points: (10 - index) * 1_000,
       status: index < 2 ? ("found" as const) : ("revealed" as const),
       completion: index < 2 ? `respuesta ${index + 1}` : "oculta",
+      answer_length: index < 2 ? `respuesta ${index + 1}`.length : 5,
     })),
     last_result: null,
   };
@@ -41,6 +45,9 @@ function makeRandomGame(): GameState {
     total_rounds: 3,
     category: { slug: "todas", name: "Todas" },
     prompt: "mi pareja no sabe que",
+    content_id: "test-puzzle",
+    content_version: "3",
+    snapshot_source: "snapshot",
     score: 42_000,
     round_score: 10_000,
     misses: 1,
@@ -51,6 +58,7 @@ function makeRandomGame(): GameState {
       points: (10 - index) * 1_000,
       status: "revealed" as const,
       completion: `respuesta secreta ${index + 1}`,
+      answer_length: `respuesta secreta ${index + 1}`.length,
     })),
     round_summaries: [
       {

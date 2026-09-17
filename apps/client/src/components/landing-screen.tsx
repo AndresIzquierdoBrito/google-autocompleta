@@ -25,8 +25,9 @@ type Props = {
   categories: Category[];
   categoriesLoading: boolean;
   categoriesError: string | null;
-  played: number;
-  streak: number;
+  played: number | null;
+  streak: number | null;
+  streakStatus: "loading" | "ready" | "error";
   onDaily: () => void;
   onArchive: () => void;
   onRandom: (category: string) => void;
@@ -41,6 +42,7 @@ export function LandingScreen({
   categoriesError,
   played,
   streak,
+  streakStatus,
   onDaily,
   onArchive,
   onRandom,
@@ -53,6 +55,13 @@ export function LandingScreen({
   const { height, width } = useWindowDimensions();
   const styles = createStyles(colors);
   const titleStyle = width < 420 ? styles.titleSmall : undefined;
+  const streakText = streak === null ? "—" : String(streak);
+  const streakDetail =
+    played === null
+      ? streakStatus === "loading"
+        ? "Cargando historial…"
+        : "Historial no disponible"
+      : `${played} ${played === 1 ? "reto jugado" : "retos jugados"}`;
   return (
     <View style={[styles.screen, { minHeight: Math.max(560, height - 18) }]}>
       <View style={styles.topActions}>
@@ -98,15 +107,17 @@ export function LandingScreen({
         </View>
 
         <View
-          accessibilityLabel={`${streak} días de racha, ${played} retos jugados`}
+          accessibilityLabel={
+            played === null
+              ? "Historial de racha no disponible"
+              : `${streakText} días de racha, ${played} retos jugados`
+          }
           style={styles.streak}
         >
-          <Text style={styles.streakValue}>{streak}</Text>
+          <Text style={styles.streakValue}>{streakText}</Text>
           <View>
             <Text style={styles.streakLabel}>DÍAS DE RACHA</Text>
-            <Text style={styles.streakDetail}>
-              {played} {played === 1 ? "reto jugado" : "retos jugados"}
-            </Text>
+            <Text style={styles.streakDetail}>{streakDetail}</Text>
           </View>
         </View>
       </View>

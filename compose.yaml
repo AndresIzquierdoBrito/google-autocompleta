@@ -12,6 +12,7 @@ services:
       ALLOWED_ORIGINS: ""
       DATABASE_URL: sqlite+aiosqlite:////data/google_autocompleta.db
       DAILY_TIMEZONE: Europe/Madrid
+      AUDIT_ENABLED: "false"
     expose:
       - "8000"
     restart: unless-stopped

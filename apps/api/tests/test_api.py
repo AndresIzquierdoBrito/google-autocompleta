@@ -1,9 +1,13 @@
+import json
+from pathlib import Path
+
 from fastapi.testclient import TestClient
 
+from google_autocompleta.api import audit as audit_api
 from google_autocompleta.services.games import GameService
 
 
-def start_archive(client: TestClient, puzzle_date: str = "2026-08-03") -> dict:
+def start_archive(client: TestClient, puzzle_date: str = "2026-09-14") -> dict:
     response = client.post("/api/v1/games", json={"mode": "archive", "date": puzzle_date})
     assert response.status_code == 201
     return response.json()
@@ -31,6 +35,62 @@ def test_categories_and_seeded_archive(api_client: TestClient) -> None:
     assert archive.json()[0]["date"] < current.json()["date"]
 
 
+def test_local_audit_pack_exposes_v5_prompt_draft(
+    api_client: TestClient, tmp_path: Path, monkeypatch
+) -> None:
+    draft_path = tmp_path / "overhaul-v5-prompts.json"
+    draft_path.write_text(
+        json.dumps(
+            {
+                "content_version": "5-draft",
+                "status": "english-source-translation-draft",
+                "prompts": {"cultura": ["algo español es"]},
+                "english_source_prompts": {"cultura": ["Spain"]},
+            }
+        ),
+        encoding="utf-8",
+    )
+    monkeypatch.setattr(audit_api, "PROMPT_DRAFT_PATH", draft_path)
+    monkeypatch.setattr(audit_api, "PROMPT_AUDIT_PATH", tmp_path / "missing-audit.json")
+
+    response = api_client.get("/api/v1/audit/boards")
+    assert response.status_code == 200
+    payload = response.json()
+    assert payload["content_version"] == "5-draft"
+    assert len(payload["boards"]) == 1
+    assert payload["status"] == "english-source-translation-draft"
+    assert payload["boards"][0]["completions"] == []
+    assert payload["boards"][0]["id"].startswith("v5-draft-")
+    assert payload["boards"][0]["english_prompt"] == "Spain"
+    assert payload["boards"][0]["audit"] is None
+
+
+def test_local_audit_pack_exposes_captured_v5_suggestions(api_client: TestClient) -> None:
+    response = api_client.get("/api/v1/audit/boards")
+    assert response.status_code == 200
+    payload = response.json()
+    assert len(payload["boards"]) == 210
+    assert all(board["audit"] is not None for board in payload["boards"])
+    assert all(board["audit"]["google_suggestions"] for board in payload["boards"])
+
+
+def test_local_audit_pack_falls_back_to_public_content_without_private_draft(
+    api_client: TestClient, tmp_path: Path, monkeypatch
+) -> None:
+    missing = tmp_path / "missing.json"
+    monkeypatch.setattr(audit_api, "PROMPT_DRAFT_PATH", missing)
+    monkeypatch.setattr(audit_api, "PROMPT_AUDIT_PATH", missing)
+    monkeypatch.setattr(audit_api, "AUDIT_PATH", missing)
+
+    response = api_client.get("/api/v1/audit/boards")
+    assert response.status_code == 200
+    payload = response.json()
+    assert payload["content_version"] == "3"
+    assert payload["status"] == "applied-v5-audit-first-ten"
+    assert len(payload["boards"]) == 210
+    assert payload["boards"][0]["completions"]
+
+
 def test_loopback_web_origin_can_start_game(api_client: TestClient) -> None:
     preflight = api_client.options(
         "/api/v1/games",
@@ -51,18 +111,18 @@ def test_hidden_answers_guess_normalization_and_duplicate(api_client: TestClient
 
     correct = api_client.post(
         f"/api/v1/games/{game['id']}/guesses",
-        json={"guess": "llegar tarde"},
+        json={"guess": "mundial"},
     )
     assert correct.status_code == 200
     state = correct.json()
     assert state["last_result"]["outcome"] == "correct"
     assert state["score"] == 10_000
-    assert state["slots"][0]["completion"] == "llegar tarde y decir «ya estoy»"
+    assert state["slots"][0]["completion"] == "mundial"
     assert state["slots"][1]["completion"] is None
 
     duplicate = api_client.post(
         f"/api/v1/games/{game['id']}/guesses",
-        json={"guess": "lo más español es llegar tarde y decir ya estoy"},
+        json={"guess": "España mundial"},
     )
     assert duplicate.json()["last_result"]["outcome"] == "duplicate"
     assert duplicate.json()["misses"] == 0

@@ -3,6 +3,9 @@ import { Platform } from "react-native";
 
 import type {
   ArchivePuzzle,
+  AuditPack,
+  AuditSuggestionResponse,
+  PromptVariantsResponse,
   Category,
   CreateGamePayload,
   GameState,
@@ -68,10 +71,14 @@ export class ApiError extends Error {
 
 type ErrorPayload = { error?: { code?: string; message?: string } };
 
-async function request<T>(path: string, init?: RequestInit): Promise<T> {
+async function request<T>(
+  path: string,
+  init?: RequestInit,
+  timeoutMs = 10000,
+): Promise<T> {
   let response: Response;
   const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), 10000);
+  const timeout = setTimeout(() => controller.abort(), timeoutMs);
   try {
     response = await fetch(`${resolveApiUrl()}${path}`, {
       ...init,
@@ -147,5 +154,39 @@ export async function nextRound(gameId: string): Promise<GameState> {
   return request<GameState>(
     `/api/v1/games/${encodeURIComponent(gameId)}/next-round`,
     { method: "POST" },
+  );
+}
+
+export async function listAuditBoards(): Promise<AuditPack> {
+  return request<AuditPack>("/api/v1/audit/boards");
+}
+
+export async function fetchAuditSuggestions(
+  boardId: string,
+): Promise<AuditSuggestionResponse> {
+  return request<AuditSuggestionResponse>(
+    `/api/v1/audit/boards/${encodeURIComponent(boardId)}/suggestions`,
+    { method: "POST", body: JSON.stringify({}) },
+    30000,
+  );
+}
+
+export async function fetchFreeAuditSuggestions(
+  prompt: string,
+): Promise<AuditSuggestionResponse> {
+  return request<AuditSuggestionResponse>(
+    "/api/v1/audit/suggestions",
+    { method: "POST", body: JSON.stringify({ prompt }) },
+    30000,
+  );
+}
+
+export async function fetchPromptVariants(
+  prompt: string,
+): Promise<PromptVariantsResponse> {
+  return request<PromptVariantsResponse>(
+    "/api/v1/audit/prompt-variants",
+    { method: "POST", body: JSON.stringify({ prompt }) },
+    30000,
   );
 }
