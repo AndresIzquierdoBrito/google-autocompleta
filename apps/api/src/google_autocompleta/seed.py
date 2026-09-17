@@ -19,6 +19,7 @@ from google_autocompleta.models import Prompt, Puzzle
 
 async def seed_database(session: AsyncSession) -> None:
     current_prompt_ids = {item.id for item in PROMPT_SEEDS}
+    prompt_by_id = {item.id: item for item in PROMPT_SEEDS}
     await session.execute(
         update(Prompt).where(Prompt.id.not_in(current_prompt_ids)).values(is_active=False)
     )
@@ -36,6 +37,10 @@ async def seed_database(session: AsyncSession) -> None:
                 )
             )
         else:
+            existing.category = item.category
+            existing.text = item.text
+            existing.fallback_answers = list(item.answers)
+            existing.match_config = {}
             existing.is_active = True
 
     existing_dates = set(
@@ -44,6 +49,22 @@ async def seed_database(session: AsyncSession) -> None:
         ).all()
     )
     captured_at = datetime.now(UTC)
+    current_puzzles = (
+        await session.scalars(
+            select(Puzzle).where(
+                Puzzle.prompt_id.in_(current_prompt_ids),
+                Puzzle.content_version == CURRENT_CONTENT_VERSION,
+            )
+        )
+    ).all()
+    for puzzle in current_puzzles:
+        item = prompt_by_id[puzzle.prompt_id]
+        puzzle.answers = list(item.answers)
+        puzzle.prompt_text = item.text
+        puzzle.aliases = item.aliases or {}
+        puzzle.source = "snapshot"
+        puzzle.captured_at = captured_at
+
     await session.execute(
         update(Puzzle)
         .where(

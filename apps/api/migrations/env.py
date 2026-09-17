@@ -12,7 +12,11 @@ from google_autocompleta.database import Base
 config = context.config
 if config.config_file_name is not None:
     fileConfig(config.config_file_name)
-config.set_main_option("sqlalchemy.url", get_settings().database_url)
+configured_url = config.get_main_option("sqlalchemy.url")
+default_url = "sqlite+aiosqlite:///./google_autocompleta.db"
+if configured_url == default_url:
+    configured_url = get_settings().database_url
+config.set_main_option("sqlalchemy.url", configured_url)
 target_metadata = Base.metadata
 
 

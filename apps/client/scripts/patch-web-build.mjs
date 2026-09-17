@@ -15,6 +15,7 @@ const SITE_NAME = "Google Autocompleta";
 const TITLE = "Google Autocompleta | Adivina lo que España busca";
 const DESCRIPTION =
   "Adivina cómo se completan búsquedas en español con retos diarios, históricos y aleatorios. Juego gratuito e independiente.";
+const FAVICON_HREF = "/favicon.png?v=1";
 const SEO_MARKER = /<!-- google-autocompleta-seo:start -->[\s\S]*?<!-- google-autocompleta-seo:end -->/g;
 
 function getCanonicalUrl() {
@@ -116,8 +117,7 @@ function buildSeoHead(canonicalUrl) {
     <link rel="canonical" href="${safeCanonicalUrl}" />
     <link rel="alternate" hreflang="es-ES" href="${safeCanonicalUrl}" />
     <link rel="alternate" hreflang="x-default" href="${safeCanonicalUrl}" />
-    <link rel="icon" href="/favicon.ico" sizes="any" />
-    <link rel="icon" type="image/png" sizes="512x512" href="/favicon.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="${FAVICON_HREF}" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
     <meta property="og:type" content="website" />

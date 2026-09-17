@@ -15,6 +15,7 @@ class Settings(BaseSettings):
     google_suggest_url: str = "https://suggestqueries.google.com/complete/search"
     google_timeout_seconds: float = Field(default=3.0, ge=0.5, le=15)
     suggestion_cache_seconds: int = Field(default=21_600, ge=60)
+    audit_enabled: bool = True
     session_ttl_hours: int = Field(default=24, ge=1, le=168)
     daily_timezone: str = "Europe/Madrid"
 

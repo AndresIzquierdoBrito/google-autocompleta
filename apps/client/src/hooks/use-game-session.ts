@@ -18,6 +18,7 @@ import {
   saveSession,
   updateRandomBest,
   recordRandomPuzzle,
+  recordDailyCompletion,
 } from "@/storage/game-storage";
 
 export function useGameSession() {
@@ -38,6 +39,13 @@ export function useGameSession() {
   }, []);
 
   const persist = useCallback(async (next: GameState) => {
+    if (
+      next.mode === "daily" &&
+      next.status === "complete" &&
+      next.puzzle_date
+    ) {
+      await recordDailyCompletion(next.puzzle_date);
+    }
     if (storageKey.current) await saveSession(storageKey.current, next);
     if (next.mode === "random") {
       if (next.content_id) await recordRandomPuzzle(next.category.slug, next.content_id);
