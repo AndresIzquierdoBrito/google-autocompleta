@@ -16,7 +16,12 @@ router = APIRouter(prefix="/audit", tags=["audit"])
 
 API_PATH = Path(__file__).resolve().parents[3]
 CONTENT_PATH = API_PATH / "content" / "boards-v3.json"
-EDITORIAL_PATH = API_PATH.parents[1] / ".agents" / "editorial"
+# In the repository, ``API_PATH`` is ``.../apps/api`` and the editorial files
+# live under the repository root. In the API image, ``API_PATH`` is ``/app``;
+# walking parents by index would raise during module import because ``/`` has
+# no second parent. The parent traversal is valid in both layouts, and the
+# files remain optional when the production audit console is disabled.
+EDITORIAL_PATH = API_PATH.parent.parent / ".agents" / "editorial"
 PROMPT_DRAFT_PATH = EDITORIAL_PATH / "overhaul-v5-prompts.json"
 PROMPT_AUDIT_PATH = EDITORIAL_PATH / "audit-v5-prompts-latest.json"
 AUDIT_PATH = EDITORIAL_PATH / "audit-v3-latest.json"
